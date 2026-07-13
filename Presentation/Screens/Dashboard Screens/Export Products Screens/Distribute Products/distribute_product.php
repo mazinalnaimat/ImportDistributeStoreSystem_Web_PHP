@@ -5,10 +5,6 @@ require_once __DIR__ . "/../../../../../Business/Business_Utils.php";
 
 
 
-if (session_status() === PHP_SESSION_NONE) 
-
-
-
 if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF']) 
 {
     foreach ($_SESSION as $key => $value)
@@ -27,7 +23,6 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
 
 $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_product_action.php";
 
-//  var_dump(value: $_SESSION['DistributeProductPageVars']);
 
 ?>
 <!DOCTYPE html>
@@ -163,8 +158,8 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                         $Branch = $_SESSION['DistributeProductPageVars']['SelectedBranch'];
                         $BranchId = $Branch['BranchId'];
                         $BranchName = ($Branch['BranchName'] ?? '-');
-                        $ImgPath =  (!empty($Branch['BranchImgName'])) ? "../../../../uploads/branches/" . $Branch['BranchImgName']
-                                        : "../../../assests/imgs/no-image-available.png"
+                        $ImgPath =  (!empty($Branch['BranchImgName'])) ? "../../../../../uploads/branches/" . $Branch['BranchImgName']
+                                        : "../../../../assests/imgs/no-image-available.png"
                                     ;
                     ?>
                     <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
@@ -258,7 +253,9 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
 
 
                         // Image fallback
-                        $ImgPath = (!empty($Product['ProductImgName'])) ? "../../../../uploads/products/" . $Product['ProductImgName'] : "../../../assests/imgs/no-image-available.png";
+                        $ImgPath = (!empty($Product['ProductImgName'])) 
+                                    ? "../../../../../uploads/products/" . $Product['ProductImgName'] 
+                                    : "../../../../assests/imgs/no-image-available.png";
                     ?>
 
                     <div class="modal fade show d-block" id="productModal" tabindex="-1" aria-modal="true" role="dialog" style="background: rgba(0,0,0,0.5);">
