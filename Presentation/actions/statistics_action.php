@@ -4,20 +4,23 @@ require_once __DIR__ . "/../includes/auth.php";
 require_once __DIR__ ."/../includes/Presentation_Utils.php";
 
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
+function  GoBack()
 {
-   
-    // Go back
-    if (isset($_POST['go_back']))
-    {
-        GoBackPage();
-        unset($_SESSION["PageVars"]);
-        exit;
-    }
-    $redirect = $_SERVER['HTTP_REFERER'] ?? "/Project%20Files/Basic%20Version/Presentation/Screens/Dashboard Screens/statistics.php";
-    header("Location: " . $redirect);
+    unset($_SESSION["PageVars"]);
+    header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard Screens/dashboard.php");
     exit;
+
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET')
+{
+    // Go back
+    if (isset($_GET['go_back']))
+    {   
+        GoBack();  
+   
+    }
+
 }
 
 ?>
