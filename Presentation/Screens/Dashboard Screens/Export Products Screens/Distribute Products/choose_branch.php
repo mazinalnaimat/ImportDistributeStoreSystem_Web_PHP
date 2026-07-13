@@ -21,9 +21,10 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
     require_once __DIR__ . "/../../../../actions/Distribute Products Actions/choose_branch_init_action.php";
 }
 
+
 $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch_action.php";
 
-// var_dump( $_SESSION['BranchesPageVars']['EditBranchInfo'] );
+//  var_dump( $_SESSION['BranchesPageVars'] );
 // var_dump( $_SESSION['BranchesPageVars']['EditBranchInfo'] );
 
 
@@ -50,87 +51,22 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
         <div class="d-flex align-items-center justify-content-center mb-4">
             <i class="bi bi-building display-4 mb-3 text-danger"></i>
             <h2 class="page-title mb-0 mx-3">
-                <?php 
-                $Text = isset($_SESSION['DistributeProductPageVars']['ChooseBranch']) ? 
-                "اختيار الفرع":
-                "فروعنا"; 
-                echo($Text);
-                ?>
+                اختيار الفرع
 
             </h2>
         </div>
 
-        <!-- Show Add New Branch Status -->
-        <?php if(isset($_SESSION['BranchesPageVars']['AddNewBranchStatus'])): ?>
-            <?php if($_SESSION['BranchesPageVars']['AddNewBranchStatus'] == true): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    ✅ تم إضافة  الفرع بنجاح
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    ❌ فشل في إضافة  الفرع
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            <?php unset($_SESSION['BranchesPageVars']['AddNewBranchStatus']); ?>
-        <?php endif; ?>
 
-        <!-- Show Edit Branch Status -->
-        <?php if(isset($_SESSION['BranchesPageVars']['UpdatedBranchStatus'])): ?>
-            <?php if($_SESSION['BranchesPageVars']['UpdatedBranchStatus'] == 1): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    ✅ تم التعديل على  الفرع بنجاح
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php elseif ($_SESSION['BranchesPageVars']['UpdatedBranchStatus'] == 0): ?>
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    ⚠️ لم يتم إجراء أي تغيير على بيانات الفرع
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    ❌ فشل في تعديل الفرع
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            <?php unset($_SESSION['BranchesPageVars']['UpdatedBranchStatus']); ?>
-        <?php endif; ?>
 
-        <!-- Show Delete Branch Status -->
-        <?php if(isset($_SESSION['BranchesPageVars']['DeleteBranchStatus'])): ?>
-            <?php if($_SESSION['BranchesPageVars']['DeleteBranchStatus'] == 1): ?>
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    ✅ تم حذف الفرع بنجاح
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    ❌ فشل في حذف الفرع
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            <?php endif; ?>
-            <?php unset($_SESSION['BranchesPageVars']['DeleteBranchStatus']); ?>
-        <?php endif; ?>
-
-        <!-- Back Button + Toggle View Mode + Add New Branch -->
+        <!-- Back Button + Toggle View Mode -->
         <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center">
             <!-- Back Button -->
-            <form action="<?=$ActionFilePath?>" method="POST" class="d-inline">
+            <form action="<?=$ActionFilePath?>" method="GET" class="d-inline">
                 <button type="submit" name="back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </button>
             </form>
 
-        <?php if(!isset($_SESSION['DistributeProductPageVars']['ChooseBranch'])):?>
-            <!-- Add New Branch Button -->
-            <form action="<?=$ActionFilePath?>" method="POST" class="d-inline">
-                <button type="submit" name="show_add_new_branch_modal" 
-                    class="btn btn-gradient btn-danger rounded-pill px-5 py-2 fw-bold d-flex align-items-center gap-2">
-                    <i class="bi bi-plus-lg"></i> إضافة فرع جديد
-                </button>
-            </form>
-        <?php endif;?>
 
             <!-- Toggle View Button -->
             <?php $ViewMode = $_SESSION["BranchesPageVars"]['ViewMode'] ?? 'Cards';?>
@@ -145,99 +81,6 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
             </form>
         </div>
 
-        <!-- Add New Branch Modal -->
-        <?php if(isset($_SESSION['BranchesPageVars']['AddNewBranchInfo']['ShowAddNewBranchModal'])): ?>
-
-            <?php 
-                $TempName  = $_SESSION['BranchesPageVars']['AddNewBranchInfo']['BranchName']  ?? '';
-                $TempImage = $_SESSION['BranchesPageVars']['AddNewBranchInfo']['TempBranchImg']   ?? null;
-
-                $ImgPath = $TempImage
-                    ? "../../../../../uploads/temp/" . $TempImage
-                    : "../../../../assests/imgs/no-image-available.png";
-            ?>
-                
-            <div class="modal show" tabindex="-1" style="display:block; background:rgba(0,0,0,0.6);">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content bg-dark text-light border-danger">
-
-                        <div class="modal-header border-danger">
-                            <h5 class="modal-title text-danger fw-bold">
-                                إضافة فرع جديد
-                            </h5>
-                        </div>
-
-                        <div class="modal-body">
-                            <form method="POST" action="<?= $ActionFilePath?>" enctype="multipart/form-data">
-
-                                <input name="add_new_branch_input" value="1" hidden><!-- we use this input with add img in this modal  -->
-
-                                <div class="mb-3">
-                                    <label class="form-label text-white-50">صورة الفرع</label>
-                                    <?php if (isset($_SESSION['BranchesPageVars']['AddNewBranchInfo']['BranchImgUploadError'])): ?>
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            <strong>حدث خطأ في رفع الصورة:</strong>
-                                            <br>
-                                            <?= $_SESSION['BranchesPageVars']['AddNewBranchInfo']['BranchImgUploadError'] ?>
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                        </div>
-                                        <?php unset($_SESSION['BranchesPageVars']['AddNewBranchInfo']['BranchImgUploadError']);?>
-                                    <?php endif; ?>
-
-                                    <div class="image-upload-wrapper">
-                                        <?php if (isset($_SESSION['BranchesPageVars']['AddNewBranchInfo']['TempBranchImg'])): ?>
-                                            <div class="preview-container">
-                                                <img src="<?=$ImgPath?>" 
-                                                    alt="Img Of Branch" 
-                                                    class="preview-circle">
-                                            </div>
-                                            
-                                            <input type="hidden" name="existing_temp_img" value="<?= $_SESSION['BranchesPageVars']['AddNewBranchInfo']['TempBranchImg'] ?>">
-                                            
-                                            <label for="BranchImgInput" class="btn btn-sm btn-outline-danger rounded-pill">
-                                                <i class="bi bi-image-fill me-1"></i> تغيير الصورة
-                                            </label>
-                                        <?php else: ?>
-                                            <div class="preview-container">
-                                                <i class="bi bi-cloud-arrow-up text-secondary" style="font-size: 3rem;"></i>
-                                            </div>
-                                            <label for="BranchImgInput" class="custom-file-label">
-                                                اضغط هنا لاختيار صورة
-                                            </label>
-                                        <?php endif; ?>
-                                        <input type="file" id="BranchImgInput" name="temp_branch_image" 
-                                            class="hidden-file-input" accept=".jpg,.jpeg,.png,.webp"
-                                            onchange="this.form.submit()"> 
-                                            </div>
-                                </div>
-
-                                <!-- Branch Name -->
-                                <label class="form-label">اسم الفرع</label>
-                                <input type="text" class="form-control bg-dark text-light border-secondary"
-                                    name="new_branch_name"
-                                    value="<?= htmlspecialchars($TempName) ?>"
-                                    required>
-
-                                <!-- Footer -->
-                                <div class="modal-footer border-danger">
-                                    <button type="submit" name="close_add_new_branch_modal" 
-                                            class="btn btn-outline-danger" formnovalidate>
-                                        إلغاء
-                                    </button>
-                                    <button type="submit" name="add_new_branch" 
-                                            class="btn btn-danger">
-                                        حفظ الفرع
-                                    </button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-        <?php endif; ?>
 
 
 
@@ -248,7 +91,7 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
                 <!-- Search Card -->
                 <div class="flex-grow-1" style="min-width: 250px;">
                     <div class="card bg-dark border-secondary text-light shadow-sm p-3" style="border-radius: 14px;">
-                        <form method="POST" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
+                        <form method="GET" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
 
                             <div class="flex-grow-1">
                                 <label class="form-label small text-light">اسم الفرع</label>
@@ -279,7 +122,7 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
 
                     <!-- Items per page -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">عدد العناصر</label>
                             <select name="number_items_per_page"
                                     class="form-select bg-dark text-light border-secondary"
@@ -295,7 +138,7 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
 
                     <!-- Order Direction -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">الترتيب</label>
                             <select name="order_dir" class="form-select bg-dark text-light border-secondary"
                                     onchange="this.form.submit()">
@@ -315,140 +158,6 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
 
         <?php $Branches = $_SESSION['BranchesPageVars']['Branches'] ?? [];?>
 
-        <!-- Edit Branch Modal -->
-        <?php if(isset($_SESSION['BranchesPageVars']['EditBranchInfo'])): ?>
-            <?php 
-
-                $Branch = $_SESSION['BranchesPageVars']['EditBranchInfo'];
-                $BranchId = $Branch['BranchId'];
-                $BranchName = ($Branch['BranchName'] ?? '-');
-                $TempBranchImg = $_SESSION['BranchesPageVars']['EditBranchInfo']['TempBranchImg']?? null;
-                $ImgPath = (!empty($TempBranchImg))? "../../../../../uploads/temp/" . $TempBranchImg :
-                            ( 
-                                (!empty($Branch['BranchImgName'])) ? "../../../../../uploads/branches/" . $Branch['BranchImgName']
-                                : "../../../../assests/imgs/no-image-available.png"
-                            );
-            ?>
-            <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content bg-dark text-light border-danger">
-                        <div class="modal-header">
-                            <h5 class="modal-title">تعديل الفرع: <strong><?=$Branch['BranchName']?></strong></h5>
-                        </div>
-
-                        <div class="modal-body">
-
-
-
-                            <!-- IMAGE PREVIEW -->
-                            <div class="mb-3 text-center">
-                                <img src="<?= $ImgPath ?>" class="w-100 mb-3" style="height:400px; object-fit:cover;">
-                            </div>
-
-                            <?php if (isset($_SESSION['BranchesPageVars']['EditBranchInfo']['BranchImgUploadError'])): ?>
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>حدث خطأ في رفع الصورة:</strong>
-                                        <br>
-                                        <?= $_SESSION['BranchesPageVars']['EditBranchInfo']['BranchImgUploadError'] ?>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                    <?php unset($_SESSION['BranchesPageVars']['EditBranchInfo']['BranchImgUploadError']);?>
-                            <?php endif; ?>
-
-                            <form method="POST" action="<?=$ActionFilePath?>" enctype="multipart/form-data" class="mb-3">
-                                
-                                <input name="edit_branch_input" value="1" hidden><!-- we use this input with change the img in this modal -->
-                                <div class="d-flex justify-content-center">
-                                    <input type="hidden" name="branch_id" value="<?= (int) ($_SESSION['BranchesPageVars']['SelectedBranch']['BranchId'] ?? 0) ?>">
-
-                                    <label class="btn btn-outline-danger">
-                                        تغيير الصورة
-                                        <input type="file" name="temp_branch_image" accept=".jpg,.jpeg,.png,.webp" hidden onchange="this.form.submit()">
-                                    </label>
-                                </div>
-
-
-                                <div class="mt-3 mb-3">
-                                    <label class="form-label">اسم الفرع</label>
-                                    <input type="text" name="updated_branch_name" class="form-control" 
-                                        value="<?= $BranchName ?>"
-                                        required
-                                    >
-                                </div>
-
-
-                                <!-- hidden to ensure action knows which branch we edit -->
-                                <input type="hidden" name="branch_id" value="<?=$BranchId?>">
-
-                                <div class="modal-footer border-danger">
-                                    <button type="submit" name="close_edit_branch_modal" class="btn btn-danger" formnovalidate>إلغاء</button>
-                                    <button type="submit" name="save_edit_branch" class="btn btn-danger">حفظ التعديل</button>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
-
-       <!-- Delete Branch Modal  -->
-        <?php if(isset($_SESSION['BranchesPageVars']['DeleteBranch'])): ?>
-            <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.6);">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content bg-dark text-light border border-2 border-danger rounded-3 shadow-lg">
-
-                        <!-- HEADER -->
-                        <div class="modal-header border-danger">
-                            <h5 class="modal-title text-danger fw-bold">
-                                ⚠️ تأكيد حذف الفرع
-                            </h5>
-                        </div>
-
-                        <!-- BODY -->
-                        <div class="modal-body text-center">
-
-                            <div class="py-3">
-                                <div class="fs-5 mb-3">
-                                    هل أنت متأكد أنك تريد حذف الفرع:
-                                </div>
-
-                                <div class="fs-4 fw-bold text-danger">
-                                    <?= $_SESSION['BranchesPageVars']['DeleteBranch']['BranchName'] ?>
-                                </div>
-                            </div>
-
-                            <div class="alert alert-danger text-center fw-bold">
-                                ⚠️ هذا الإجراء لا يمكن التراجع عنه!
-                            </div>
-
-                        </div>
-
-                        <!-- FOOTER -->
-                        <div class="modal-footer justify-content-between border-danger">
-
-                            <form method="POST" action="<?= $ActionFilePath ?>" class="m-0">
-                                <button type="submit" name="close_delete_branch_modal" 
-                                        class="btn btn-outline-danger px-4">
-                                    إلغاء
-                                </button>
-                            </form>
-
-                            <form method="POST" action="<?= $ActionFilePath ?>" class="m-0">
-                                <input type="hidden" name="branch_id" 
-                                    value="<?= $_SESSION['BranchesPageVars']['DeleteBranch']['BranchId'] ?>">
-                                <button type="submit" name="delete_branch" 
-                                        class="btn btn-danger px-4">
-                                    حذف الفرع
-                                </button>
-                            </form>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        <?php endif; ?>
 
         <?php if ($ViewMode === 'Cards'): ?>
             <!-- Cards View -->
@@ -470,28 +179,12 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
 
                                     <div class="d-flex gap-2 w-100 mt-auto">
 
-                                        <?php if(!isset($_SESSION['DistributeProductPageVars']['ChooseBranch'])):?>
-                                            <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
-                                                <input type="hidden" name="branch_id" value="<?=$BranchId?>">
-                                                <button type="submit" name="show_edit_branch_modal" class="btn btn-outline-warning w-100 fw-bold">
-                                                    تعديل
-                                                </button>
-                                            </form>
-
-                                            <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
-                                                <input type="hidden" name="branch_id" value="<?=$BranchId?>">
-                                                <button type="submit" name="show_delete_branch_modal" class="btn btn-outline-danger w-100 fw-bold">
-                                                    حذف
-                                                </button>
-                                            </form>
-                                        <?php else:?>
-                                            <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
-                                                <input type="hidden" name="branch_id" value="<?=$BranchId?>">
-                                                <button type="submit" name="choose_branch" class="btn btn-outline-danger w-100 fw-bold">
-                                                    اختيار
-                                                </button>
-                                            </form>
-                                        <?php endif;?>
+                                        <form method="GET" action="<?=$ActionFilePath?>" class="flex-fill">
+                                            <input type="hidden" name="branch_id" value="<?=$BranchId?>">
+                                            <button type="submit" name="choose_branch" class="btn btn-outline-danger w-100 fw-bold">
+                                                اختيار
+                                            </button>
+                                        </form>
 
                                     </div>
 
@@ -540,34 +233,14 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
                                     <td><?= $BranchName; ?></td>
 
 
-                                    <?php if(!isset($_SESSION['DistributeProductPageVars']['ChooseBranch'])):?>
-                                        <td>
-                                            <form method="POST" action="<?=$ActionFilePath?>">
-                                                <input name="branch_id" value="<?=$BranchId?>" hidden>
-                                                <button type="submit" name="show_edit_branch_modal" class="btn btn-outline-warning w-100 fw-bold">
-                                                    تعديل
-                                                </button>
-                                            </form>
-                                        </td>
-
-                                        <td>
-                                            <form method="POST" action="<?=$ActionFilePath?>">
-                                                <input name="branch_id" value="<?=$BranchId?>" hidden>
-                                                <button type="submit" name="show_delete_branch_modal" class="btn btn-outline-danger w-100 fw-bold">
-                                                    حذف
-                                                </button>
-                                            </form>
-                                        </td>
-                                    <?php else:?>
-                                        <td>
-                                            <form method="POST" action="<?=$ActionFilePath?>">
-                                                <input name="branch_id" value="<?=$BranchId?>" hidden>
-                                                <button type="submit" name="choose_branch" class="btn btn-outline-danger w-100 fw-bold">
-                                                    اختيار
-                                                </button>
-                                            </form>
-                                        </td>
-                                    <?php endif;?>
+                                    <td>
+                                        <form method="GET" action="<?=$ActionFilePath?>">
+                                            <input name="branch_id" value="<?=$BranchId?>" hidden>
+                                            <button type="submit" name="choose_branch" class="btn btn-outline-danger w-100 fw-bold">
+                                                اختيار
+                                            </button>
+                                        </form>
+                                    </td>
 
                                 </tr>
                             <?php endforeach; ?>
@@ -587,7 +260,7 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
                 <ul class="pagination justify-content-center gap-1">
                     
                     <li class="page-item <?= ($PageNumber<= 1) ? 'disabled' : '' ?>">
-                        <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                        <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                             <input type="hidden" name="branches_page_number" value="<?= max(1, $PageNumber- 1) ?>">
                             <button type="submit" class="page-link btn shadow-none <?= ($PageNumber<= 1) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber<= 1) ? 'disabled' : '' ?>>
                                 السابق
@@ -597,7 +270,7 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
 
                     <?php for ($p = 1; $p <= $TotalPages; $p++): ?>
                         <li class="page-item <?= ($p == $PageNumber) ? 'active' : '' ?>">
-                            <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                            <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                                 <input type="hidden" name="branches_page_number" value="<?= $p ?>">
                                 <button type="submit" class="page-link btn shadow-none <?= ($p == $PageNumber) ? 'bg-light text-danger fw-bold border-danger' : 'bg-danger text-white border-danger' ?>">
                                     <?= $p ?>
@@ -607,7 +280,7 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
                     <?php endfor; ?>
 
                     <li class="page-item <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>">
-                        <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                        <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                             <input type="hidden" name="branches_page_number" value="<?= min($TotalPages, $PageNumber+ 1) ?>">
                             <button type="submit" class="page-link btn shadow-none <?= ($PageNumber>= $TotalPages) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>>
                                 التالي
