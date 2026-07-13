@@ -25,7 +25,7 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
     $_SESSION['PrePage'] = $_SERVER['PHP_SELF'];
 }
 
-$ActionFilePath= "../../../../actions/distribute_product_action.php";
+$ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_product_action.php";
 
 //  var_dump(value: $_SESSION['DistributeProductPageVars']);
 

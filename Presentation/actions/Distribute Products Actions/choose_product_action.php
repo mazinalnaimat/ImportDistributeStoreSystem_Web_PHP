@@ -1,12 +1,15 @@
 <?php
-require_once __DIR__ . "/../includes/auth.php";
-require_once __DIR__ . "/../../Business/PurchasedProduct.php";
+require_once __DIR__ . "/../../includes/auth.php";
+require_once __DIR__ . "/../../../Business/PurchasedProduct.php";
+
+
+
 
 
 function GoBack()
 {
     unset($_SESSION["PageVars"]);
-    header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/export_products.php?");
+    header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/Export%20Products%20Screens/Distribute%20Products/distribute_product.php");
 
     exit;
 
@@ -175,9 +178,15 @@ function SetAvailableProductFilter(string $AvailableProductFilter)
     SearchBranchesByBranchName($_SESSION["PageVars"]['SearchText']??'');
 }
 
+function ChoosePurchasedProduct()
+{
+    $_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct'] = GetPurchasedProductByPurchasedProductId_Business($_GET['product_id']);
+    GoBack();
+}
+
 function Redirect()
 {
-    header('Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/Export%20Products%20Screens/Show%20Products/products.php');
+    header('Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/Export%20Products%20Screens/Distribute%20Products/choose_product.php');
     exit;
 }
 
@@ -237,6 +246,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
         SetAvailableProductFilter($_GET["available_product_filter"]);
     }
 
+    else if (isset($_GET["choose_product"]))
+    {
+        ChoosePurchasedProduct();
+    }
 
    Redirect();
 

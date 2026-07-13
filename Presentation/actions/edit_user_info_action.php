@@ -5,8 +5,7 @@ require_once __DIR__ . "/../../Business/Business_Utils.php";
 require_once __DIR__ . "/../../Business/User.php";
 require_once __DIR__ ."/../includes/Presentation_Utils.php";
 
-if (session_status() === PHP_SESSION_NONE)
- session_start();
+
 
 
 function GoBack()

@@ -78,6 +78,7 @@ require_once __DIR__ . "/Settings.php";
         
         if($User  != false && $User['Password'] ==  hash('sha256', $Password)) 
         {
+            unset($User['Password']);
             return $User;
         }
         return false;

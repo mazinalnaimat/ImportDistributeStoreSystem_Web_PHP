@@ -1,16 +1,17 @@
 <?php
 
-require_once __DIR__ ."/../../includes/Presentation_Utils.php";
-
+if (session_status() === PHP_SESSION_NONE) 
+{
+    session_start();
+}
 
 if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF']) 
 {
     unset($_SESSION['PageVars']);
+    unset($_SESSION['CurrentUser']);
     $_SESSION['PrePage'] = $_SERVER['PHP_SELF'];
 }
 
-// Reset user and person on login page
-$_SESSION['CurrentUser'] = null;
 
 $ShowConnectYourAdmin = $_SESSION['ShowConnectYourAdmin'] ?? null;
 $ShowYourInfoWrong    = $_SESSION['ShowYourInfoWrong'] ?? null;
@@ -19,6 +20,10 @@ unset($_SESSION['ShowConnectYourAdmin']);
 unset($_SESSION['ShowYourInfoWrong']);
 
 $User = false;
+
+$ActionPath = "/Project%20Files/Basic%20Version/Presentation/actions/login_action.php";
+
+
 ?>
 <!DOCTYPE html>
 <html lang="ar">
@@ -47,8 +52,8 @@ $User = false;
                     <p class="text-secondary mb-0">تسجيل الدخول إلى حسابك</p>
                 </div>
 
-                <form method="POST" action="/Project%20Files/Basic%20Version/Presentation/actions/login_action.php">
-
+                <form method="GET" action=<?=$ActionPath?>>
+                    <input type="hidden" name="login">
                     <?php if ($ShowYourInfoWrong): ?>
                         <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -88,8 +93,8 @@ $User = false;
 
                 <!-- Forgot / Reset -->
                 <div class="text-center auth-links mt-3">
-                    <form method="POST" action="/Project%20Files/Basic%20Version/Presentation/actions/login_action.php" class="d-inline auth-links">
-                        <input type="hidden" name="action" value="forgot">
+                    <form method="GET" action=<?=$ActionPath?> class="d-inline auth-links">
+                        <input type="hidden" name="forgot">
                         <button type="submit" class="align-baseline">
                             <i class="bi bi-question-circle"></i> نسيت كلمة المرور
                         </button>

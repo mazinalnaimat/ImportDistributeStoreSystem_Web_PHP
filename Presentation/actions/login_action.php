@@ -1,22 +1,12 @@
 <?php
 
 require_once __DIR__ . "/../../Business/User.php";
-
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") 
+if (session_status() === PHP_SESSION_NONE)
 {
-    // Forgot password
-    if (isset($_POST['action']) && $_POST['action'] === 'forgot') 
-    {
-        $_SESSION['ShowConnectYourAdmin'] = true;
-        header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Login%20Screens/login.php");
-        exit;
-    }
-
-    // Normal login
-    $UserName = $_POST["UserName"] ?? '';
-    $Password = $_POST["Password"] ?? '';
-
+    session_start();
+}
+function Login($UserName, $Password)
+{
     $User = GetUserByUserNameAndPass_DataAccess($UserName, $Password);
 
     if ($User) 
@@ -32,9 +22,42 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/dashboard.php");
         exit;
     }
+    else
+    {
+        // Wrong login
+        $_SESSION['ShowYourInfoWrong'] = true;
+        header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Login%20Screens/login.php");
+        exit;
+    }
 
-    // Wrong login
-    $_SESSION['ShowYourInfoWrong'] = true;
+}
+function ForgotPassword()
+{
+    $_SESSION['ShowConnectYourAdmin'] = true;
+    header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Login%20Screens/login.php");
+    exit;
+}
+
+
+
+
+if ($_SERVER["REQUEST_METHOD"] === "GET") 
+{
+    if(isset($_GET['login']))
+    {
+        $UserName = $_GET["UserName"] ?? '';
+        $Password = $_GET["Password"] ?? '';
+        login($UserName, $Password);
+
+    }
+
+    // Forgot password
+    else if (isset($_GET['forgot'])) 
+    {
+        ForgotPassword();
+    }
+
+
     header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Login%20Screens/login.php");
     exit;
 }

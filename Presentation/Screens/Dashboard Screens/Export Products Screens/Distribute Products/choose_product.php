@@ -16,10 +16,10 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
             unset($_SESSION[$key]);
         }
     }  
-    require_once __DIR__ . "/../../../../actions/products_init_action.php";
+    require_once __DIR__ . "/../../../../actions/Distribute Products Actions/choose_product_init_action.php";
 }
 
-$ActionFilePath = "../../../../actions/choose_products_action.php";
+$ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_product_action.php";
 
 
 
@@ -497,8 +497,10 @@ $ActionFilePath = "../../../../actions/choose_products_action.php";
                     <?php endfor; ?>
 
                     <li class="page-item <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>">
-                        <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
-                            <input type="hidden" name="purchased_products_page_number" value="<?= min($TotalPages, $PageNumber+ 1) ?>">
+
+                        <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                           <input type="hidden" name="purchased_products_page_number" value="<?= min($TotalPages, $PageNumber+ 1) ?>">
+
                             <button type="submit" class="page-link btn shadow-none <?= ($PageNumber>= $TotalPages) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>>
                                 التالي
                             </button>

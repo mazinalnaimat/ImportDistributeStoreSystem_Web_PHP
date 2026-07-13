@@ -2,18 +2,29 @@
 require_once __DIR__ . "/../../includes/auth.php";
 require_once __DIR__ . "/../../../Business/Business_Utils.php";
 
+
+
 if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF']) 
 {
-    unset($_SESSION['PageVars']);
+    foreach ($_SESSION as $key => $value)
+    {
+        if (str_ends_with($key, 'PageVars')) 
+        {
+            if (str_starts_with($key,'DistributeProduct'))
+            {
+                continue;
+            }
+            unset($_SESSION[$key]);
+        }
+    }
     $_SESSION['PrePage'] = $_SERVER['PHP_SELF'];
     require_once __DIR__ . "/../../actions/branches_init_action.php";
-
 }
-
-
 
 $ActionFilePath = "../../actions/branches_action.php";
 
+// var_dump( $_SESSION['PageVars']['EditBranchInfo'] );
+// var_dump( $_SESSION['PageVars']['EditBranchInfo'] );
 
 
 ?>
@@ -39,13 +50,7 @@ $ActionFilePath = "../../actions/branches_action.php";
         <div class="d-flex align-items-center justify-content-center mb-4">
             <i class="bi bi-building display-4 mb-3 text-danger"></i>
             <h2 class="page-title mb-0 mx-3">
-                <?php 
-                $Text = isset($_SESSION['DistributeProductPageVars']['ChooseBranch']) ? 
-                "اختيار الفرع":
-                "فروعنا"; 
-                echo($Text);
-                ?>
-
+             فروعنا 
             </h2>
         </div>
 
@@ -111,7 +116,6 @@ $ActionFilePath = "../../actions/branches_action.php";
                 </button>
             </form>
 
-        <?php if(!isset($_SESSION['DistributeProductPageVars']['ChooseBranch'])):?>
             <!-- Add New Branch Button -->
             <form action="<?=$ActionFilePath?>" method="POST" class="d-inline">
                 <button type="submit" name="show_add_new_branch_modal" 
@@ -119,7 +123,6 @@ $ActionFilePath = "../../actions/branches_action.php";
                     <i class="bi bi-plus-lg"></i> إضافة فرع جديد
                 </button>
             </form>
-        <?php endif;?>
 
             <!-- Toggle View Button -->
             <?php $ViewMode = $_SESSION["PageVars"]['ViewMode'] ?? 'Cards';?>
@@ -459,7 +462,6 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                                     <div class="d-flex gap-2 w-100 mt-auto">
 
-                                        <?php if(!isset($_SESSION['DistributeProductPageVars']['ChooseBranch'])):?>
                                             <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
                                                 <input type="hidden" name="branch_id" value="<?=$BranchId?>">
                                                 <button type="submit" name="show_edit_branch_modal" class="btn btn-outline-warning w-100 fw-bold">
@@ -473,14 +475,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                                                     حذف
                                                 </button>
                                             </form>
-                                        <?php else:?>
-                                            <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
-                                                <input type="hidden" name="branch_id" value="<?=$BranchId?>">
-                                                <button type="submit" name="choose_branch" class="btn btn-outline-danger w-100 fw-bold">
-                                                    اختيار
-                                                </button>
-                                            </form>
-                                        <?php endif;?>
+
 
                                     </div>
 
@@ -529,7 +524,6 @@ $ActionFilePath = "../../actions/branches_action.php";
                                     <td><?= $BranchName; ?></td>
 
 
-                                    <?php if(!isset($_SESSION['DistributeProductPageVars']['ChooseBranch'])):?>
                                         <td>
                                             <form method="POST" action="<?=$ActionFilePath?>">
                                                 <input name="branch_id" value="<?=$BranchId?>" hidden>
@@ -547,16 +541,6 @@ $ActionFilePath = "../../actions/branches_action.php";
                                                 </button>
                                             </form>
                                         </td>
-                                    <?php else:?>
-                                        <td>
-                                            <form method="POST" action="<?=$ActionFilePath?>">
-                                                <input name="branch_id" value="<?=$BranchId?>" hidden>
-                                                <button type="submit" name="choose_branch" class="btn btn-outline-danger w-100 fw-bold">
-                                                    اختيار
-                                                </button>
-                                            </form>
-                                        </td>
-                                    <?php endif;?>
 
                                 </tr>
                             <?php endforeach; ?>

@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . "/../../includes/auth.php";
-require_once __DIR__ . "/../../../Business/Business_Utils.php";
+require_once __DIR__ . "/../../../../includes/auth.php";
+require_once __DIR__ . "/../../../../../Business/Business_Utils.php";
 
 
 
@@ -18,10 +18,10 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
         }
     }
     $_SESSION['PrePage'] = $_SERVER['PHP_SELF'];
-    require_once __DIR__ . "/../../actions/branches_init_action.php";
+    require_once __DIR__ . "/../../../../actions/Distribute Products Actions/choose_branch_init_action.php";
 }
 
-$ActionFilePath = "../../actions/branches_action.php";
+$ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch_action.php";
 
 // var_dump( $_SESSION['BranchesPageVars']['EditBranchInfo'] );
 // var_dump( $_SESSION['BranchesPageVars']['EditBranchInfo'] );
@@ -34,15 +34,15 @@ $ActionFilePath = "../../actions/branches_action.php";
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>فروعنا</title>
-        <link rel="icon" type="image/png" href="../../assests/imgs/ALOFOQ logo without text.png">
+        <link rel="icon" type="image/png" href="../../../../assests/imgs/ALOFOQ logo without text.png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="stylesheet" href="../../assests/css/share_style.css">
-        <link rel="stylesheet" href="../../assests/css/branches_screen_style.css">
+        <link rel="stylesheet" href="../../../../assests/css/share_style.css">
+        <link rel="stylesheet" href="../../../../assests/css/branches_screen_style.css">
 
     </head>
     <body>
-    <?php include_once __DIR__ . "/../../includes/header.php"; ?>
+    <?php include_once __DIR__ . "/../../../../includes/header.php"; ?>
 
     <main class="container">
 
@@ -153,8 +153,8 @@ $ActionFilePath = "../../actions/branches_action.php";
                 $TempImage = $_SESSION['BranchesPageVars']['AddNewBranchInfo']['TempBranchImg']   ?? null;
 
                 $ImgPath = $TempImage
-                    ? "../../../uploads/temp/" . $TempImage
-                    : "../../assests/imgs/no-image-available.png";
+                    ? "../../../../../uploads/temp/" . $TempImage
+                    : "../../../../assests/imgs/no-image-available.png";
             ?>
                 
             <div class="modal show" tabindex="-1" style="display:block; background:rgba(0,0,0,0.6);">
@@ -323,10 +323,10 @@ $ActionFilePath = "../../actions/branches_action.php";
                 $BranchId = $Branch['BranchId'];
                 $BranchName = ($Branch['BranchName'] ?? '-');
                 $TempBranchImg = $_SESSION['BranchesPageVars']['EditBranchInfo']['TempBranchImg']?? null;
-                $ImgPath = (!empty($TempBranchImg))? "../../../uploads/temp/" . $TempBranchImg :
+                $ImgPath = (!empty($TempBranchImg))? "../../../../../uploads/temp/" . $TempBranchImg :
                             ( 
-                                (!empty($Branch['BranchImgName'])) ? "../../../uploads/branches/" . $Branch['BranchImgName']
-                                : "../../assests/imgs/no-image-available.png"
+                                (!empty($Branch['BranchImgName'])) ? "../../../../../uploads/branches/" . $Branch['BranchImgName']
+                                : "../../../../assests/imgs/no-image-available.png"
                             );
             ?>
             <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
@@ -457,7 +457,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                     <?php foreach ($Branches as $Branch): 
                         $BranchId = ($Branch['BranchId'] ?? '');
                         $BranchName = ($Branch['BranchName'] ?? '-');
-                        $ImgPath = (!empty($Branch['BranchImgName'])) ? "../../../uploads/branches/" . $Branch['BranchImgName'] : "../../assests/imgs/no-image-available.png";
+                        $ImgPath = (!empty($Branch['BranchImgName'])) ? "../../../../../uploads/branches/" . $Branch['BranchImgName'] : "../../../../assests/imgs/no-image-available.png";
 
                     ?>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -525,9 +525,9 @@ $ActionFilePath = "../../actions/branches_action.php";
                                 $BranchId = ($Branch['BranchId'] ?? '');
                                 $BranchName = ($Branch['BranchName'] ?? '-');
                                 $ImgName = $Branch['BranchImgName'] ?? '';
-                                $ImgPath = $ImgName && file_exists(__DIR__ . "/../../../uploads/branches/" . $ImgName)
-                                            ? "../../../uploads/branches/" . $ImgName
-                                            : "../../assests/imgs/no-image-available.png";
+                                $ImgPath = $ImgName && file_exists(__DIR__ . "/../../../../../uploads/branches/" . $ImgName)
+                                            ? "../../../../../uploads/branches/" . $ImgName
+                                            : "../../../../assests/imgs/no-image-available.png";
                             ?>
                                 <tr>
                                     <td><?= $RowIndex; ?></td>
@@ -621,7 +621,7 @@ $ActionFilePath = "../../actions/branches_action.php";
 
     </main>
 
-    <?php include_once __DIR__ . "/../../includes/footer.php"; ?>
+    <?php include_once __DIR__ . "/../../../../includes/footer.php"; ?>
 
     </body>
 </html>

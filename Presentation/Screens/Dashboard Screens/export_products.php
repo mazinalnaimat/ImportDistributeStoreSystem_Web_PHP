@@ -60,7 +60,7 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
 
                 <!-- Card 2: Distribution place -->
                 <div class="col-md-4">
-                    <a href="Export Products Screens/Export Products/distribute_product.php" class="text-decoration-none">
+                    <a href="Export Products Screens/Distribute Products/distribute_product.php" class="text-decoration-none">
                         <div class="card text-center h-100 shadow-sm hover-scale">
                             <div class="card-body">
                                 <i class="bi bi-truck text-danger display-4 mb-3"></i>
