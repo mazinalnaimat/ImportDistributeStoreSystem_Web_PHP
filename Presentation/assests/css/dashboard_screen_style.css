@@ -1,0 +1,28 @@
+
+.dashboard-card .card 
+{
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 2px solid #ff1a1a;
+    border-radius: 12px;
+}
+
+.dashboard-card .card:hover 
+{
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(255, 26, 26, 0.5);
+}
+
+.dashboard-card .card-title 
+{
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+@media (max-width: 768px) 
+{
+    main
+    {
+        margin-top: 100px;
+    }
+}

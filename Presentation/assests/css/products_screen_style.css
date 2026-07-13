@@ -1,0 +1,119 @@
+.page-title 
+{
+    color: #ff4d4d;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.card 
+{
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control, .form-select 
+{
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #fff;
+}
+
+.form-control:focus, .form-select:focus 
+{
+    background-color: #2a2a2a;
+    border-color: #ff4d4d;
+    color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(255, 77, 77, 0.25);
+}
+
+.form-control::placeholder 
+{
+    color: #999;
+}
+
+.form-label 
+{
+    color: #fff;
+    font-weight: 500;
+}
+
+.card-title 
+{
+    font-weight: bold;
+}
+
+.table-dark th, .table-dark td 
+{
+    vertical-align: middle;
+}
+
+.product-card-img
+{ 
+    height: 180px; object-fit: contain; 
+}
+
+.table-product-img
+{ 
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px; 
+}
+
+.profit-positive 
+{ 
+    color: #28a745 !important;
+     font-weight: 700; 
+}
+.profit-negative 
+{
+    color: #dc3545 !important;
+    font-weight: 700;
+}
+.profit-zero 
+{ 
+    color: #adb5bd !important;
+     font-weight: 700;
+}
+.modal-img 
+{ 
+    width: 100%;
+    max-height: 350px;
+    object-fit: contain;
+}
+
+.product-img-container 
+{
+    position: relative;
+    display: inline-block;
+}
+
+.product-img-container img.unavailable 
+{
+    opacity: 0.5; 
+}
+
+.unavailable-label 
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(128, 128, 128, 0.85); 
+    color: #fff;
+    font-weight: bold;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-align: center;
+    z-index: 10;
+}
+
+.not-available-row td 
+{
+    background-color: #6c757d !important; 
+    color: #fff !important;               
+}

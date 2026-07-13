@@ -1,0 +1,209 @@
+
+body 
+{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #121212;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding-top: clamp(60px, 6vw, 80px);
+}
+
+header.fixed-top 
+{   
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #222326;
+    color: #ff4d4d;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    z-index: 999;
+
+}
+
+.custom-header 
+{
+    direction: ltr;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: clamp(40px, 6vw, 80px);
+    padding: 0 clamp(5px, 1vw, 20px);
+}
+
+.title,
+.user-options 
+{
+    direction: rtl;
+}
+
+.alofoq-logo img 
+{
+    height: 100%;
+    max-height: clamp(16px, 6vw, 80px);
+    object-fit: contain;
+}
+
+
+.title a 
+{
+    color: #ff1a1a;
+    text-decoration: none;
+    font-size: clamp(10px, 3vw, 32px);
+    font-weight: bold;
+    transition: font-size 0.3s, color 0.3s; /* animate font-size and color */
+}
+
+.title a:hover 
+{
+    color: #ff4d4d;
+    font-size: clamp(12px, 3.6vw, 38px); /* slightly larger on hover */
+}
+
+
+.user-options 
+{
+    text-align: right;
+}
+
+.user-options img 
+{
+    width: clamp(16px, 4vw, 72px);
+    height: clamp(16px, 4vw, 72px);
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #dc3545;
+}
+
+.user-options a
+{
+    color: #ff1a1a;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: clamp(6px, 1.6vw, 24px);
+}
+
+.user-options a:hover 
+{
+    color: #ff4d4d;
+}
+
+
+.dropdown-menu 
+{
+    background-color: #2f2f2f;
+    color: #ffccc7;
+    min-width: clamp(40px, 15vw, 180px);
+    border: none;
+    font-size: clamp(5px, 1.2vw, 14px);
+}
+
+.dropdown-menu a.dropdown-item 
+{
+    color: #ffccc7;
+}
+
+.dropdown-menu a.dropdown-item:hover 
+{
+    background-color: rgba(220, 53, 69, 0.2); /* soft red */
+    color: #fff;
+}
+
+
+
+
+
+
+.top-nav 
+{
+    background-color: #222326;
+    border-bottom: 1px solid #dc3545;
+    margin-top: clamp(2px, 1vw, 12px);
+}
+
+.nav-container 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-nav .nav-list 
+{
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: clamp(4px, 1.8vw, 20px);
+}
+
+.top-nav .nav-item 
+{
+    transition: 0.5s;
+    padding: 0 clamp(6px, 2vw, 20px);
+}
+
+.top-nav .nav-item:hover 
+{
+    background-color: #2e2f31;
+    border-top: 2px solid #dc3545;
+}
+
+.top-nav .nav-item .nav-item-content 
+{
+    color: #ddd;
+    text-decoration: none;
+    font-size: clamp(6px, 1.6vw, 22px);
+
+    padding: 0 clamp(4px, 1.5vw, 20px);
+
+    /* Correct single transition */
+    transition: font-size 0.3s ease, color 0.3s ease;
+}
+
+.top-nav .nav-item .nav-item-content i 
+{
+    color: #dc3545;
+    margin-left: clamp(2px, 0.8vw, 5px);
+    font-size: clamp(10px, 1.4vw, 18px);
+}
+
+.top-nav .nav-item .nav-item-content:hover 
+{
+    color: #dc3545;
+    font-size: clamp(10px, 2vw, 38px); 
+}
+
+
+/* for screens that contain main tag */
+main 
+{
+    margin-top: clamp(40px, 8vw, 100px);
+    margin-bottom: clamp(30px, 5vw, 50px);
+}
+
+/* for branches and statistics screens   */
+.hover-card:hover 
+{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(220, 53, 69, 0.4);
+    z-index: 10;
+}
+
+
+footer 
+{
+    background-color: #222326;
+    color: #bbb;
+    height: clamp(45px, 6vw, 60px);
+    line-height: clamp(45px, 6vw, 60px);
+    text-align: center;
+    font-size: clamp(10px, 1.2vw, 14px);
+    margin-top: auto;
+}

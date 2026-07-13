@@ -1,0 +1,94 @@
+
+body 
+{ 
+    background: #121212; 
+    color: #e1e1e1; 
+    font-family: Arial, sans-serif; 
+}
+
+.profile-card
+{ 
+    background: #1e1e1e;
+    border: 1px solid #333; 
+    border-radius: 24px; 
+    overflow: hidden;
+}
+
+.sidebar-section 
+{ 
+    background: #181818; 
+    border-left: 1px solid #333; 
+    padding: 3rem; 
+}
+
+
+.info-block 
+{ 
+    background: #2a2a2a !important; 
+    border: 1px solid #444 !important; 
+    color: #ffffff !important; 
+    border-radius: 12px !important; 
+    padding: 15px; 
+    transition: 0.3s; 
+}
+
+.info-block:hover 
+{ 
+    border-color: #ff4d4d !important; 
+    background: #333 !important;
+    box-shadow: 0 0 0 3px rgba(255, 77, 77, 0.1) !important; 
+}
+
+.input-label 
+{ 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    color: #ffccc7; 
+    margin-bottom: 8px; 
+    display: block; 
+    margin-right: 5px; 
+}
+
+.btn-main 
+{ 
+    background: linear-gradient(45deg, #ff4d4d, #dc3545); 
+    border: none; 
+    font-weight: bold; 
+    letter-spacing: 0.5px; 
+    transition: 0.4s; 
+    color: white;
+}
+
+.btn-main:hover 
+{ 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 20px rgba(255, 77, 77, 0.3); 
+    opacity: 0.9; 
+    color: white;
+}
+
+.title-underline 
+{ 
+    width: 40px; 
+    height: 4px; 
+    background: #ff4d4d; 
+    border-radius: 10px; 
+    margin: 10px auto;
+}
+
+.icon-box 
+{
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.sidebar-section img 
+{
+    border: 2px solid #ff4d4d;
+}

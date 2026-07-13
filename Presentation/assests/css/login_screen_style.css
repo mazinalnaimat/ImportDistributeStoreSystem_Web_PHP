@@ -1,0 +1,72 @@
+
+
+
+/* Vertically center content */
+.card-body 
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Better spacing */
+.card .mb-4
+{
+    margin-bottom: 1.8rem !important;
+}
+
+
+/* Card Inputs */
+.card input.form-control 
+{
+   background-color: #1e1e1e;
+    color: #fff;
+    border: 1px solid #333;
+}
+.card input.form-control::placeholder 
+{
+    color: #bbb;
+}
+.card input.form-control:focus 
+{
+    border-color: #ff4d4d;
+    box-shadow: none;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+
+
+/* Apply same styles to <a> and <button> inside .auth-links */
+.auth-links a,
+.auth-links button 
+{
+    font-weight: 600;
+    color: #ff4d4d;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    background: none;   /* remove button background */
+    border: none;       /* remove button border */
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-family: inherit; /* match surrounding text */
+}
+
+.auth-links a:hover,
+.auth-links button:hover 
+{
+    color: #ff1a1a;
+}
+
+/* Alert animation */
+.alert 
+{
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown 
+{
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
