@@ -5,9 +5,10 @@ require_once __DIR__ . "/../../../../../Business/Business_Utils.php";
 
 if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF']) 
 {
-     foreach ($_SESSION as $key => $value)
+
+    foreach ($_SESSION as $key => $value)
     {
-        if (str_ends_with($key, 'ProductsPageVars')) 
+        if (str_ends_with($key, 'PageVars')) 
         {
             if (str_starts_with($key,'DistributeProduct'))
             {
@@ -16,6 +17,7 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
             unset($_SESSION[$key]);
         }
     }  
+    $_SESSION['PrePage'] = $_SERVER['PHP_SELF'];
     require_once __DIR__ . "/../../../../actions/Distribute Products Actions/choose_product_init_action.php";
 }
 
@@ -55,7 +57,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
         <!-- Back Button + Toggle View Mode-->
         <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center">
-            <form action="<?=$ActionFilePath?>" method="POST" class="d-inline">
+            <form action="<?=$ActionFilePath?>" method="GET" class="d-inline">
                 <button type="submit" name="back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </button>
@@ -82,7 +84,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
                 <!-- Search Card -->
                 <div class="flex-grow-1" style="min-width: 250px;">
                     <div class="card bg-dark border-secondary text-light shadow-sm p-3" style="border-radius: 14px;">
-                        <form method="POST" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
+                        <form method="GET" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
 
                             <div class="flex-grow-1">
                                 <label class="form-label small text-light">اسم المنتج</label>
@@ -113,7 +115,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                     <!-- Items per page -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">عدد العناصر</label>
                             <select name="number_items_per_page"
                                     class="form-select bg-dark text-light border-secondary"
@@ -129,7 +131,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                     <!-- Order By Column -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">ترتيب حسب</label>
                             <select name="order_by" class="form-select bg-dark text-light border-secondary"
                                     onchange="this.form.submit()">
@@ -147,7 +149,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                     <!-- Order Direction -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">الترتيب</label>
                             <select name="order_dir" class="form-select bg-dark text-light border-secondary"
                                     onchange="this.form.submit()">
@@ -160,7 +162,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                     <!-- Available Product Filter -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">حالة المنتج</label>
 
                             <select name="available_product_filter" class="form-select bg-dark text-light border-secondary"
@@ -300,7 +302,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                     <!-- FOOTER -->
                     <div class="modal-footer border-0">
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <button type="submit" name="close_product_details_modal" 
                                     class="btn btn-outline-danger w-100 fw-bold">
                                 إغلاق
@@ -365,7 +367,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                                     <div class="d-grid gap-2 w-100 mt-auto">
                                         <!-- Modal trigger -->
-                                        <form method="POST" action="<?=$ActionFilePath?>">
+                                        <form method="GET" action="<?=$ActionFilePath?>">
                                             <input name="product_id" name="product_id" value="<?=$PurchasedProductId?>" hidden>
                                             <button type="submit" name="show_product_details_modal" class="btn btn-outline-danger w-100 fw-bold">
                                                  التفاصيل
@@ -452,7 +454,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
                                     <td class="<?= $ProfitClass ?>"><?= $Profit * $Quantity; ?></td>
                                     <td>
                                         <!-- modal trigger -->
-                                        <form method="POST" action="<?=$ActionFilePath?>">
+                                        <form method="GET" action="<?=$ActionFilePath?>">
                                             <input name="product_id" value="<?=$PurchasedProductId?>" hidden>
                                             <button type="submit" name="show_product_details_modal" class="btn btn-outline-light w-100 fw-bold">
                                                  التفاصيل
@@ -477,7 +479,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
                 <ul class="pagination justify-content-center gap-1">
                     
                     <li class="page-item <?= ($PageNumber<= 1) ? 'disabled' : '' ?>">
-                        <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                        <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                             <input type="hidden" name="purchased_products_page_number" value="<?= max(1, $PageNumber- 1) ?>">
                             <button type="submit" class="page-link btn shadow-none <?= ($PageNumber<= 1) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber<= 1) ? 'disabled' : '' ?>>
                                 السابق
@@ -487,7 +489,7 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
 
                     <?php for ($p = 1; $p <= $TotalPages; $p++): ?>
                         <li class="page-item <?= ($p == $PageNumber) ? 'active' : '' ?>">
-                            <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                            <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                                 <input type="hidden" name="purchased_products_page_number" value="<?= $p ?>">
                                 <button type="submit" class="page-link btn shadow-none <?= ($p == $PageNumber) ? 'bg-light text-danger fw-bold border-danger' : 'bg-danger text-white border-danger' ?>">
                                     <?= $p ?>
