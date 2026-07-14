@@ -122,42 +122,42 @@ $ActionFilePath = "/Project%20Files/Basic%20Version/Presentation/actions/import_
                                 <?php endif;?>
 
                                 <div class="col-12 col-md-6">
-                                    <label class="form-label text-light">اسم المنتج</label>
-                                    <input type="text" name="product_name" class="form-control dark-input" value="<?=$ProductInfo['Name']?? ''?>" required>
+                                    <label for="product_name" class="form-label text-light">اسم المنتج</label>
+                                    <input type="text" id="product_name" name="product_name" class="form-control dark-input" value="<?=$ProductInfo['Name']?? ''?>" required>
                                 </div>
 
                                 <div class="col-12 col-md-6">
-                                    <label class="form-label text-light">الكمية</label>
-                                    <input type="number"  name="product_quantity" class="form-control dark-input" 
+                                    <label for="product_quantity" class="form-label text-light">الكمية</label>
+                                    <input type="number" id="product_quantity"  name="product_quantity" class="form-control dark-input" 
                                     value="<?=$ProductInfo['Quantity']??''?>"
                                     required>
                                 </div>
 
                                 <div class="col-12 col-md-6">
-                                    <label class="form-label text-light">تاريخ الاستيراد</label>
-                                    <input type="date" name="product_import_date" class="form-control dark-input" value="<?=$ProductInfo['ImportArrivalDate']??''?>" required>
+                                    <label for="product_import_date_time" class="form-label text-light">تاريخ ووقت الاستيراد</label>
+                                    <input type="datetime-local" id="product_import_date_time" name="product_import_date_time" class="form-control dark-input" value="<?=$ProductInfo['ImportArrivalDateTime']??''?>" required>
                                 </div>
 
 
                                 <div class="col-12 col-md-6">
-                                    <label class="form-label text-light">اسم المزود</label>
-                                    <input type="text" name="supplier_name" class="form-control dark-input" value="<?=$ProductInfo['SupplierName']??''?>" required>
+                                    <label for="supplier_name" class="form-label text-light">اسم المزود</label>
+                                    <input type="text" id="supplier_name"name="supplier_name" class="form-control dark-input" value="<?=$ProductInfo['SupplierName']??''?>" required>
                                 </div>
 
                                 <div class="col-12 col-md-6">
-                                    <label class="form-label text-light">سعر الشراء</label>
-                                    <input type="number" name="product_purchase_price" step ="0.01" class="form-control dark-input" value="<?= $ProductInfo['PurchasePrice']??'' ?>"
+                                    <label for="product_purchase_price" class="form-label text-light">سعر الشراء</label>
+                                    <input type="number" id="product_purchase_price" name="product_purchase_price" step ="0.01" class="form-control dark-input" value="<?= $ProductInfo['PurchasePrice']??'' ?>"
                                     required>
                                 </div>
 
                                 <div class="col-12 col-md-6">
-                                    <label class="form-label text-light">سعر البيع الأساسي</label>
-                                    <input type="number" name="product_base_selling_price" step ="0.01" class="form-control dark-input" value="<?=$ProductInfo['BaseSellingPrice']??''?>" required>
+                                    <label for="product_base_selling_price" class="form-label text-light">سعر البيع الأساسي</label>
+                                    <input type="number" id="product_base_selling_price" name="product_base_selling_price" step ="0.01" class="form-control dark-input" value="<?=$ProductInfo['BaseSellingPrice']??''?>" required>
                                 </div>
 
                                 <div class="col-12">
-                                    <label class="form-label text-light">تفاصيل</label>
-                                    <textarea class="form-control dark-input" name="product_details" rows="4" required><?=$ProductInfo['Details']?? ''?></textarea>
+                                    <label for="product_details" class="form-label text-light">تفاصيل</label>
+                                    <textarea id="product_details" class="form-control dark-input" name="product_details" rows="4" required><?=$ProductInfo['Details']?? ''?></textarea>
                                 </div>
 
 

@@ -101,7 +101,7 @@ function ProcessPostFormSubmission()
         //to save input tags in HTML value when change the img 
         $_SESSION['PageVars']['AddNewProductInfo']['Name'] = $_POST['product_name'];
         $_SESSION['PageVars']['AddNewProductInfo']['Quantity'] = !empty($_POST['product_quantity'])? (int)$_POST['product_quantity'] :null;
-        $_SESSION['PageVars']['AddNewProductInfo']['ImportArrivalDate'] = $_POST['product_import_date'];
+        $_SESSION['PageVars']['AddNewProductInfo']['ImportArrivalDateTime'] = $_POST['product_import_date_time'];
         $_SESSION['PageVars']['AddNewProductInfo']['PurchasePrice'] = !empty($_POST['product_purchase_price'])? (float)$_POST['product_purchase_price'] :null;
         $_SESSION['PageVars']['AddNewProductInfo']['BaseSellingPrice'] = !empty($_POST['product_base_selling_price'])? (float)$_POST['product_base_selling_price'] :null;
         $_SESSION['PageVars']['AddNewProductInfo']['Details'] = trim($_POST['product_details']);
@@ -116,7 +116,7 @@ function ProcessPostFormSubmission()
         //to save input tags in HTML value when the save operation has error 
         $_SESSION['PageVars']['AddNewProductInfo']['Name'] = $_POST['product_name'];
         $_SESSION['PageVars']['AddNewProductInfo']['Quantity'] = !empty($_POST['product_quantity'])? (int)$_POST['product_quantity'] :null;
-        $_SESSION['PageVars']['AddNewProductInfo']['ImportArrivalDate'] = $_POST['product_import_date'];
+        $_SESSION['PageVars']['AddNewProductInfo']['ImportArrivalDateTime'] = $_POST['product_import_date_time'];
         $_SESSION['PageVars']['AddNewProductInfo']['PurchasePrice'] = !empty($_POST['product_purchase_price'])? (float)$_POST['product_purchase_price'] :null;
         $_SESSION['PageVars']['AddNewProductInfo']['BaseSellingPrice'] = !empty($_POST['product_base_selling_price'])? (float)$_POST['product_base_selling_price'] :null;
         $_SESSION['PageVars']['AddNewProductInfo']['Details'] = trim($_POST['product_details']);

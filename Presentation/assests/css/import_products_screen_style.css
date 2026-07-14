@@ -42,44 +42,6 @@
     font-weight: 500;
 }
 
-input[type="date"] 
-{
-    direction: rtl;      
-    text-align: right;   
-    padding-left: 35px;  
-    padding-right: 10px;
-    position: relative;
-}
-
-input[type="date"]::-webkit-calendar-picker-indicator 
-{
-    position: absolute;
-    left: 8px;          
-    right: auto;
-    cursor: pointer;
-    background-color: transparent;
-}
-
-
-
-.image-upload-wrapper 
-{
-    position: relative;
-    text-align: center;
-    padding: 20px;
-    margin: 25px auto;   
-    background: #1a1a1a;
-    border: 2px dashed #444;
-    border-radius: 15px;
-    transition: all 0.3s ease;
-    width:70%;
-}
-
-.image-upload-wrapper:hover 
-{
-    border-color: #ff4d4d;
-}
-
 
 .preview-img 
 {

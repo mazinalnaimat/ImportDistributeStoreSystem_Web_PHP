@@ -16,7 +16,7 @@ require_once __DIR__ . "/Settings.php";
             "PurchasedProductName",
             "Quantity",
             "RemainingQuantity",
-            "ImportArrivalDate",
+            "ImportArrivalDateTime",
             "PurchasePrice",
             "BaseSellingPrice",
             "SupplierName"
@@ -102,7 +102,7 @@ require_once __DIR__ . "/Settings.php";
             "PurchasedProductName",
             "Quantity",
             "RemainingQuantity",
-            "ImportArrivalDate",
+            "ImportArrivalDateTime",
             "PurchasePrice",
             "BaseSellingPrice",
             "SupplierName"
@@ -257,13 +257,14 @@ require_once __DIR__ . "/Settings.php";
             $Stmt = $Connection->prepare
             (
                 "INSERT INTO purchased_products
-                            (PurchasedProductName, Quantity, RemainingQuantity, ImportArrivalDate, PurchasePrice, BaseSellingPrice, Details, SupplierName,ProductImgName)
+                            (PurchasedProductName, Quantity, RemainingQuantity, CreatedDateTime, ImportArrivalDateTime, PurchasePrice, BaseSellingPrice, Details, SupplierName,ProductImgName)
                         VALUES
                         (
                             :PurchasedProductName,
                             :Quantity,
                             :RemainingQuantity,
-                            :ImportArrivalDate,
+                            :CreatedDateTime,
+                            :ImportArrivalDateTime,
                             :PurchasePrice,
                             :BaseSellingPrice,
                             :Details,
@@ -275,7 +276,11 @@ require_once __DIR__ . "/Settings.php";
             $Stmt->bindValue(":PurchasedProductName", $PurchasedProductInfo["Name"]);
             $Stmt->bindValue(":Quantity", $PurchasedProductInfo["Quantity"]);
             $Stmt->bindValue(":RemainingQuantity", $PurchasedProductInfo["Quantity"]);
-            $Stmt->bindValue(":ImportArrivalDate", $PurchasedProductInfo["ImportArrivalDate"]);
+            
+            date_default_timezone_set('Asia/Amman');
+            $Stmt->bindValue(":CreatedDateTime", date("Y-m-d H:i:s"));
+            
+            $Stmt->bindValue(":ImportArrivalDateTime", $PurchasedProductInfo["ImportArrivalDateTime"]);
             $Stmt->bindValue(":PurchasePrice", $PurchasedProductInfo["PurchasePrice"]);
             $Stmt->bindValue(":BaseSellingPrice", $PurchasedProductInfo["BaseSellingPrice"]);
             $Stmt->bindValue(":Details", $PurchasedProductInfo["Details"]);
