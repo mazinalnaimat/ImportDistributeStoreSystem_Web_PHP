@@ -2,6 +2,22 @@
 declare(strict_types=1);
 require_once __DIR__ . "/Settings.php";
 
+    function CheckColName(string $ColName)
+    {
+        $ColNames = 
+                array(
+                        "BranchId", "BranchName", "UserName",
+                        "Phone", "Email", "Address"
+                     );
+        if(in_array($ColName, $ColNames))
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
 
     function GetAllBranches_DataAccess(string $Order = "ASC", int $Limit = -1, int $Offset = -1)
     {
@@ -114,6 +130,94 @@ require_once __DIR__ . "/Settings.php";
         }
     }
 
+    function SearchBranchesByColumnAndValue_DataAccess(string $SearchText, string $ColName, string $Order = "ASC", int $Limit = -1, int $Offset = -1)
+    {
+        if(!CheckColName($ColName))
+        {
+            return null;
+        }
+
+        if(strtoupper($Order) != 'ASC' && strtoupper($Order) != 'DESC')
+        {
+            return null;
+        }
+
+        $Connection = null;
+        $Results = [];
+
+        try
+        {
+            $Connection = Get_PDO_Connection();
+            if($Connection === null)
+            {
+                return [];
+            }
+
+            $SearchText = trim($SearchText);
+            $SearchTerm = "%$SearchText%";
+
+            if($SearchText == "")
+            {
+                $Sql = "SELECT branches.*, users.UserName
+                        FROM branches
+                        LEFT JOIN users
+                        ON branches.CreatedUserId = users.UserId
+                        ORDER BY branches.$ColName $Order";
+
+                $CountSql = "SELECT COUNT(*) AS TotalBranchesNum
+                            FROM branches";
+            }
+            else
+            {
+                $Sql = "SELECT branches.*, users.UserName
+                        FROM branches
+                        LEFT JOIN users
+                        ON branches.CreatedUserId = users.UserId
+                        WHERE branches.$ColName LIKE :SearchTerm
+                        ORDER BY branches.$ColName $Order";
+
+                $CountSql = "SELECT COUNT(*) AS TotalBranchesNum
+                            FROM branches
+                            WHERE $ColName LIKE :SearchTerm";
+            }
+
+            if($Limit != -1 && $Offset != -1)
+            {
+                $Sql .= " LIMIT " . intval($Limit) . " OFFSET " . intval($Offset);
+            }
+
+            $Stmt = $Connection->prepare($Sql);
+
+            if($SearchText != "")
+            {
+                $Stmt->bindParam(":SearchTerm", $SearchTerm);
+            }
+
+            $Stmt->execute();
+            $Results['Branches'] = $Stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $Stmt2 = $Connection->prepare($CountSql);
+
+            if($SearchText != "")
+            {
+                $Stmt2->bindParam(":SearchTerm", $SearchTerm);
+            }
+
+            $Stmt2->execute();
+            $Results['TotalBranchesNum'] = $Stmt2->fetch(PDO::FETCH_ASSOC)['TotalBranchesNum'];
+
+            return $Results;
+        }
+        catch(PDOException $e)
+        {
+            var_dump($e);
+            return [];
+        }
+        finally
+        {
+            $Connection = null;
+        }
+    }
 
     /**
      * 
@@ -178,16 +282,29 @@ require_once __DIR__ . "/Settings.php";
 
             $Stmt = $Connection->prepare
             (
-                "INSERT INTO branches
-                            (BranchName, BranchImgName)
-                        VALUES
-                        (
-                            :BranchName,
-                            :BranchImgName
-                        )
-                        "
+                "INSERT INTO 
+                            branches( BranchName, CreatedUserId, CreatedDateTime, Phone, Email, Address, BranchImgName)
+                            VALUES 
+                            (
+                                :BranchName,
+                                :CreatedUserId,
+                                :CreatedDateTime,
+                                :Phone,
+                                :Email,
+                                :Address,
+                                :BranchImgName
+                            )
+                "
             );
             $Stmt->bindValue(":BranchName", $BranchInfo["BranchName"]);
+            $Stmt->bindValue(":CreatedUserId", $BranchInfo["CreatedUserId"]);
+
+            date_default_timezone_set('Asia/Amman');
+            $Stmt->bindValue(":CreatedDateTime", date('Y-m-d H:i:s'));
+
+            $Stmt->bindValue(":Phone", $BranchInfo["Phone"]);
+            $Stmt->bindValue(":Email", $BranchInfo["Email"]);
+            $Stmt->bindValue(":Address", $BranchInfo["Address"]);
             $Stmt->bindValue(":BranchImgName", $BranchInfo["BranchImgName"]);
             $Stmt->execute();
 
@@ -223,14 +340,20 @@ require_once __DIR__ . "/Settings.php";
             (
             "    UPDATE  branches
                         SET
-                            BranchName= :BranchName,
-                            BranchImgName=:BranchImgName
+                            BranchName = :UpdatedBranchName,
+                            Phone= :UpdatedPhone,
+                            Email= :UpdatedEmail,
+                            Address= :UpdatedAddress,
+                            BranchImgName= :UpdatedBranchImgName
                         WHERE BranchId = :BranchId
-                    "
+            "
             );
             $Stmt->bindValue(":BranchId", $BranchId);
-            $Stmt->bindValue(":BranchName", $UpdatedBranchInfo["BranchName"]);
-            $Stmt->bindValue(":BranchImgName", $UpdatedBranchInfo["BranchImgName"]);
+            $Stmt->bindValue(":UpdatedBranchName", $UpdatedBranchInfo["BranchName"]);
+            $Stmt->bindValue(":UpdatedPhone", $UpdatedBranchInfo["Phone"]);
+            $Stmt->bindValue(":UpdatedEmail", $UpdatedBranchInfo["Email"]);
+            $Stmt->bindValue(":UpdatedAddress", $UpdatedBranchInfo["Address"]);
+            $Stmt->bindValue(":UpdatedBranchImgName", $UpdatedBranchInfo["BranchImgName"]);
             $Stmt->execute();
 
 

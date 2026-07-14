@@ -7,7 +7,6 @@ require_once __DIR__ . "/../../Business/Branch.php";
 
 function GoBack()
 {  
-
     header(header: "Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/dashboard.php");  
     exit;
 }
@@ -15,11 +14,9 @@ function ShowAddNewBranchModal()
 {
     $_SESSION['PageVars']['AddNewBranchInfo']['ShowAddNewBranchModal'] = true; 
 }
-function AddNewBranch($BranchName, $BranchImgName)
+function AddNewBranch($Branch)
 {
-    $BranchInfo['BranchName']   = $BranchName;
-    $BranchInfo['BranchImgName']=$BranchImgName;
-    if(AddNewBranch_Business($BranchInfo) !=0)
+    if(AddNewBranch_Business($Branch) !=0)
     {
         $_SESSION['PageVars']['AddNewBranchStatus'] = true;
     }
@@ -93,9 +90,7 @@ function SetBranchesNumPerPage(int $NumberOfItemsPerPage)
     }
 }
 
-
-
-function SetOrderDirOfPurchasedProdcuts(string $OrderDir)
+function SetOrderDirOfBranches(string $OrderDir)
 {    
     $NumberOfItemsPerPage= $_SESSION['PageVars']['NumberOfItemsPerPage']??8;    
     $_SESSION['PageVars']['BranchesPageNumber']  = 1;
@@ -137,6 +132,15 @@ function  SetBranchesPageNumber(int $PageNumber)
         $_SESSION["PageVars"]['TotalSearchResultNumber'] = $Branches['TotalBranchesNum'];
     }
 
+}
+
+function ShowBranchDetailsModal(int $BranchId)
+{
+    $_SESSION['PageVars']['BranchDetails'] = GetBranchByBranchId_Business($BranchId);
+}
+function CloseBranchDetailsModal()
+{
+    unset($_SESSION['PageVars']['BranchDetails']);
 }
 
 function ShowEditBranchModal(int $BranchId)
@@ -194,18 +198,17 @@ function UploadBranchImgToTempFolder($InputNameInForm, &$ImgName, &$ImgUploadErr
 }
 
 
-function SaveEditBranchInfo(int $BranchId, string $BranchName)
+function SaveEditBranchInfo(int $BranchId,  $UpdatedBranchInfo)
 { 
-    $UpdatedBranchInfo = 
-    [
-        'BranchName' => $BranchName,
-        'BranchImgName'  => $_SESSION['PageVars']['EditBranchInfo']['BranchImgName'] ?? null,
 
-    ];
-
+    $LastBranchInfo = $_SESSION['PageVars']['EditBranchInfo'];
     if
     (
-        $_SESSION['PageVars']['EditBranchInfo']['BranchName'] == $BranchName &&
+
+        $LastBranchInfo['BranchName'] == $UpdatedBranchInfo['BranchName'] &&
+        $LastBranchInfo['Phone'] == $UpdatedBranchInfo['Phone'] &&
+        $LastBranchInfo['Email'] == $UpdatedBranchInfo['Email'] &&
+        $LastBranchInfo['Address'] == $UpdatedBranchInfo['Address'] &&
         !isset($_SESSION['PageVars']['EditBranchInfo']['TempBranchImg'])
     )
     {
@@ -218,6 +221,8 @@ function SaveEditBranchInfo(int $BranchId, string $BranchName)
     {
         $UpdatedBranchInfo['BranchImgName'] = $_SESSION['PageVars']['EditBranchInfo']['TempBranchImg'];
         MoveImgToAnotherFolder_Business($_SESSION['PageVars']['EditBranchInfo']['TempBranchImg'], "temp", "branches");
+        DeleteImageFromFolder_Business($_SESSION['PageVars']['EditBranchInfo']['BranchImgName'], "branches");
+
     }
 
     // perform database update
@@ -245,9 +250,11 @@ function ShowDeleteBranchModal(int $BranchId)
 }
 function DeleteBranch(int $BranchId)
 {
+    $Branch = GetBranchByBranchId_Business($BranchId);
     if(DeleteBranchByBranchId_Business($BranchId) != null)
     {
         $_SESSION['PageVars']['DeleteBranchStatus'] = 1;
+        DeleteImageFromFolder_Business($Branch['BranchImgName'], "branches");
     }
 
     else
@@ -272,20 +279,14 @@ function Redirect()
 if ($_SERVER["REQUEST_METHOD"] === "POST") 
 {
 
-    if(isset($_POST["back"]))
-    {
-        GoBack();
-    }
 
-    else if (isset($_POST["show_add_new_branch_modal"]))
-    {
-        ShowAddNewBranchModal();
-    }
-
-    else if(!empty($_FILES["temp_branch_image"]["name"]) && isset($_POST['add_new_branch_input']))
+    if(!empty($_FILES["temp_branch_image"]["name"]) && isset($_POST['add_new_branch_input']))
     {
         //to save input tags in HTML value when change the img 
         $_SESSION['PageVars']['AddNewBranchInfo']['BranchName'] = trim($_POST['new_branch_name']);
+        $_SESSION['PageVars']['AddNewBranchInfo']['Phone'] = trim($_POST['new_branch_phone']);
+        $_SESSION['PageVars']['AddNewBranchInfo']['Email'] = trim($_POST['new_branch_Email']);
+        $_SESSION['PageVars']['AddNewBranchInfo']['Address'] = trim($_POST['new_branch_address']);
 
         $InputName = "temp_branch_image";
         $ImgName = $_SESSION['PageVars']['AddNewBranchInfo']['TempBranchImg']?? null;
@@ -295,10 +296,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         $_SESSION['PageVars']['AddNewBranchInfo']['BranchImgUploadError']=  $ImgUploadError;
 
     }
-
+     
     else if (isset($_POST["add_new_branch"]))
     {
         $BranchName = $_POST["new_branch_name"];
+        $BranchPhone = $_POST["new_branch_phone"];
+        $BranchEmail = $_POST["new_branch_email"];
+        $BranchAddress = $_POST["new_branch_address"];
+
         if(!isset($_SESSION['PageVars']['AddNewBranchInfo']['TempBranchImg']))
         {
             $_SESSION['PageVars']['AddNewBranchInfo']['BranchImgUploadError'] = 'الرجاء اختيار صورة للفرع!!!';
@@ -307,9 +312,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         else
         {
             $BranchImgName = $_SESSION['PageVars']['AddNewBranchInfo']['TempBranchImg'];        
-
             MoveImgToAnotherFolder_Business($BranchImgName, "temp", "branches");
-            AddNewBranch( $BranchName, $BranchImgName);
+
+            $Branch['CreatedUserId'] = $_SESSION['CurrentUser']['UserId'];
+            $Branch['BranchName'] = $BranchName;
+            $Branch['Phone'] = $BranchPhone;
+            $Branch['Email'] = $BranchEmail;
+            $Branch['Address'] = $BranchAddress;
+            $Branch['BranchImgName'] = $BranchImgName;
+
+            AddNewBranch($Branch);
             SearchBranchesByBranchName('');
             unset( $_SESSION['PageVars']['AddNewBranchInfo']['TempBranchImg']);
             CloseAddNewBranchModal(TempImgBranchName: null);
@@ -322,36 +334,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         CloseAddNewBranchModal($_SESSION['PageVars']['AddNewBranchInfo']['TempBranchImg']?? null);
     }
 
-    else if(isset($_POST['search_branch_name']))
-    {
-        $SearchText = trim($_POST['search_text']);
-        SearchBranchesByBranchName( $SearchText);
-    }
-
-    else if(isset($_POST['number_items_per_page']))
-    {
-        SetBranchesNumPerPage((int)$_POST['number_items_per_page']);
-    } 
-
-    else if(isset($_POST['branches_page_number']))
-    {
-        SetBranchesPageNumber((int) $_POST['branches_page_number']);
-    }
-
-    else if(isset($_POST['order_dir']))
-    {
-        SetOrderDirOfPurchasedProdcuts($_POST['order_dir']);
-    }   
-
-    else if(isset($_POST['show_edit_branch_modal']))
-    {
-        ShowEditBranchModal((int)$_POST['branch_id']);
-    }   
-
     else if (!empty($_FILES['temp_branch_image']['name']) && isset($_POST['edit_branch_input']))
     {
         //to save input tags in HTML value when change the img 
         $_SESSION['PageVars']['EditBranchInfo']['BranchName'] = trim($_POST['updated_branch_name']);
+        $_SESSION['PageVars']['EditBranchInfo']['Phone'] = trim($_POST['updated_branch_phone']);
+        $_SESSION['PageVars']['EditBranchInfo']['Email'] = trim($_POST['updated_branch_email']);
+        $_SESSION['PageVars']['EditBranchInfo']['Address'] = trim($_POST['updated_branch_address']);
 
         $InputName = "temp_branch_image";
         $ImgName = $_SESSION['PageVars']['EditBranchInfo']['TempBranchImg']?? null;
@@ -360,13 +349,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         $_SESSION['PageVars']['EditBranchInfo']['TempBranchImg'] = $ImgName;
         $_SESSION['PageVars']['EditBranchInfo']['BranchImgUploadError']=  $ImgUploadError;
     }
-
+    
     else if (isset($_POST['save_edit_branch']))
     {
-        $Branch = $_SESSION['PageVars']['EditBranchInfo'];
-        $BranchId = $Branch['BranchId'];
-        $BranchName = $_POST['updated_branch_name'];
-        SaveEditBranchInfo($BranchId, $BranchName);
+        $BranchId = $_SESSION['PageVars']['EditBranchInfo']['BranchId'];
+        $Branch['BranchName'] = $_POST['updated_branch_name'];
+        $Branch['Phone'] = $_POST['updated_branch_phone'];
+        $Branch['Email'] = $_POST['updated_branch_email'];
+        $Branch['Address'] = $_POST['updated_branch_address'];
+        SaveEditBranchInfo($BranchId, $Branch);
         CloseEditBranchModal();
     }
 
@@ -375,35 +366,86 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         CloseEditBranchModal();
     }   
 
-    else if(isset($_POST['show_delete_branch_modal']))
-    {
-        ShowDeleteBranchModal((int)$_POST['branch_id']);
-    }   
-
     else if(isset($_POST['delete_branch']))
     {
         DeleteBranch($_SESSION["PageVars"]['DeleteBranch']['BranchId']);
     }   
 
-    else if(isset($_POST['close_delete_branch_modal']))
-    {
-        CloseDeleteBranchModal();
-    }  
 
-    else if (isset($_POST['choose_branch']))
-    {
-        $_SESSION['PageVars']['SelectedBranch']= GetBranchByBranchId_Business($_POST['branch_id']);
-        GoBack();
-    }
+
     Redirect();
 }
 
 else if ($_SERVER["REQUEST_METHOD"] === "GET") 
 {
-    if(isset($_GET['view_mode']))
+    if(isset($_GET["back"]))
+    {
+        GoBack();
+    }
+
+    else if(isset($_GET['view_mode']))
     {
         SetViewMode($_GET['view_mode']);
     }
+
+    else if (isset($_GET["show_add_new_branch_modal"]))
+    {
+        ShowAddNewBranchModal();
+    }
+    
+
+
+    else if(isset($_GET['search_branch_name']))
+    {
+        $SearchText = trim($_GET['search_text']);
+        SearchBranchesByBranchName( $SearchText);
+    }
+
+
+    else if(isset($_GET['show_branch_details_modal']))
+    {
+        $BranchId = (int)$_GET['branch_id'];
+        ShowBranchDetailsModal($BranchId);
+    }
+    
+    else if(isset($_GET['close_branch_details_modal']))
+    {
+        CloseBranchDetailsModal();
+    }
+
+    else if(isset($_GET['show_edit_branch_modal']))
+    {
+        ShowEditBranchModal((int)$_GET['branch_id']);
+    }  
+
+    else if(isset($_GET['show_delete_branch_modal']))
+    {
+        ShowDeleteBranchModal((int)$_GET['branch_id']);
+    }   
+
+    else if(isset($_GET['close_delete_branch_modal']))
+    {
+        CloseDeleteBranchModal();
+    }  
+
+
+
+    else if(isset($_GET['number_items_per_page']))
+    {
+        SetBranchesNumPerPage((int)$_GET['number_items_per_page']);
+    } 
+
+    else if(isset($_GET['branches_page_number']))
+    {
+        SetBranchesPageNumber((int) $_GET['branches_page_number']);
+    }
+
+    else if(isset($_GET['order_dir']))
+    {
+        SetOrderDirOfBranches($_GET['order_dir']);
+    }   
+
+
     Redirect();
 }
 

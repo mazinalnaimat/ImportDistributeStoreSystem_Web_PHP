@@ -6,25 +6,13 @@ require_once __DIR__ . "/../../../Business/Business_Utils.php";
 
 if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF']) 
 {
-    foreach ($_SESSION as $key => $value)
-    {
-        if (str_ends_with($key, 'PageVars')) 
-        {
-            if (str_starts_with($key,'DistributeProduct'))
-            {
-                continue;
-            }
-            unset($_SESSION[$key]);
-        }
-    }
+    unset($_SESSION['PageVars']);
     $_SESSION['PrePage'] = $_SERVER['PHP_SELF'];
     require_once __DIR__ . "/../../actions/branches_init_action.php";
 }
 
 $ActionFilePath = "../../actions/branches_action.php";
 
-// var_dump( $_SESSION['PageVars']['EditBranchInfo'] );
-// var_dump( $_SESSION['PageVars']['EditBranchInfo'] );
 
 
 ?>
@@ -70,6 +58,7 @@ $ActionFilePath = "../../actions/branches_action.php";
             <?php unset($_SESSION['PageVars']['AddNewBranchStatus']); ?>
         <?php endif; ?>
 
+
         <!-- Show Edit Branch Status -->
         <?php if(isset($_SESSION['PageVars']['UpdatedBranchStatus'])): ?>
             <?php if($_SESSION['PageVars']['UpdatedBranchStatus'] == 1): ?>
@@ -110,14 +99,14 @@ $ActionFilePath = "../../actions/branches_action.php";
         <!-- Back Button + Toggle View Mode + Add New Branch -->
         <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center">
             <!-- Back Button -->
-            <form action="<?=$ActionFilePath?>" method="POST" class="d-inline">
+            <form method="GET" action="<?=$ActionFilePath?>"  class="d-inline">
                 <button type="submit" name="back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </button>
             </form>
 
             <!-- Add New Branch Button -->
-            <form action="<?=$ActionFilePath?>" method="POST" class="d-inline">
+            <form method="GET" action="<?=$ActionFilePath?>"  class="d-inline">
                 <button type="submit" name="show_add_new_branch_modal" 
                     class="btn btn-gradient btn-danger rounded-pill px-5 py-2 fw-bold d-flex align-items-center gap-2">
                     <i class="bi bi-plus-lg"></i> إضافة فرع جديد
@@ -141,8 +130,11 @@ $ActionFilePath = "../../actions/branches_action.php";
         <?php if(isset($_SESSION['PageVars']['AddNewBranchInfo']['ShowAddNewBranchModal'])): ?>
 
             <?php 
-                $TempName  = $_SESSION['PageVars']['AddNewBranchInfo']['BranchName']  ?? '';
                 $TempImage = $_SESSION['PageVars']['AddNewBranchInfo']['TempBranchImg']   ?? null;
+                $TempBranchName  = $_SESSION['PageVars']['AddNewBranchInfo']['BranchName']  ?? '';
+                $TempBranchPhone = $_SESSION['PageVars']['AddNewBranchInfo']['Phone']  ?? '';
+                $TempBranchEmail = $_SESSION['PageVars']['AddNewBranchInfo']['Email']  ?? '';
+                $TempBranchAddress = $_SESSION['PageVars']['AddNewBranchInfo']['Address']  ?? '';
 
                 $ImgPath = $TempImage
                     ? "../../../uploads/temp/" . $TempImage
@@ -207,8 +199,30 @@ $ActionFilePath = "../../actions/branches_action.php";
                                 <label class="form-label">اسم الفرع</label>
                                 <input type="text" class="form-control bg-dark text-light border-secondary"
                                     name="new_branch_name"
-                                    value="<?= htmlspecialchars($TempName) ?>"
+                                    value="<?= htmlspecialchars($TempBranchName) ?>"
                                     required>
+
+                                <!-- Branch Phone -->
+                                <label class="form-label">رقم الهاتف</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary"
+                                    name="new_branch_phone"
+                                    value="<?= htmlspecialchars($TempBranchPhone) ?>"
+                                    required>
+
+                                <!-- Branch Email -->
+                                <label class="form-label">البريد الإلكتروني</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary"
+                                    name="new_branch_email"
+                                    value="<?= htmlspecialchars($TempBranchEmail) ?>"
+                                    required>
+
+                                 <!-- Branch Address -->
+                                <label class="form-label">العنوان</label>
+                                <textarea class="form-control bg-dark text-light border-secondary"
+                                        name="new_branch_address"
+                                        rows="3"
+                                        required><?= htmlspecialchars($TempBranchAddress ?? '') ?></textarea>
+
 
                                 <!-- Footer -->
                                 <div class="modal-footer border-danger">
@@ -240,7 +254,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                 <!-- Search Card -->
                 <div class="flex-grow-1" style="min-width: 250px;">
                     <div class="card bg-dark border-secondary text-light shadow-sm p-3" style="border-radius: 14px;">
-                        <form method="POST" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
+                        <form method="GET" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
 
                             <div class="flex-grow-1">
                                 <label class="form-label small text-light">اسم الفرع</label>
@@ -271,7 +285,7 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                     <!-- Items per page -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">عدد العناصر</label>
                             <select name="number_items_per_page"
                                     class="form-select bg-dark text-light border-secondary"
@@ -287,7 +301,7 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                     <!-- Order Direction -->
                     <div>
-                        <form method="POST" action="<?= $ActionFilePath ?>">
+                        <form method="GET" action="<?= $ActionFilePath ?>">
                             <label class="form-label small text-light">الترتيب</label>
                             <select name="order_dir" class="form-select bg-dark text-light border-secondary"
                                     onchange="this.form.submit()">
@@ -307,14 +321,91 @@ $ActionFilePath = "../../actions/branches_action.php";
 
         <?php $Branches = $_SESSION['PageVars']['Branches'] ?? [];?>
 
+        <!-- Branch Details Modal -->
+        <?php if(isset($_SESSION['PageVars']['BranchDetails'])): ?>
+            <?php 
+
+                $Branch = $_SESSION['PageVars']['BranchDetails'];
+                $BranchId = $Branch['BranchId'];
+                $BranchImg = $Branch['BranchImgName']?? null;
+                $ImgPath = (!empty($Branch['BranchImgName'])) ? "../../../uploads/branches/" . $Branch['BranchImgName']
+                                : "../../assests/imgs/no-image-available.png"
+                            ;
+            ?>
+            <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bg-dark text-light border-danger">
+                        <div class="modal-header">
+                            <h5 class="modal-title">تفاصيل الفرع: <strong><?=$Branch['BranchName']?></strong></h5>
+                        </div>
+
+                            <div class="modal-body">
+
+                                <!-- IMAGE PREVIEW -->
+                                <div class="mb-4 text-center">
+                                    <img src="<?= $ImgPath ?>" class="img-fluid rounded border border-danger" style="max-height:350px; object-fit:cover;">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">اسم الفرع</label>
+                                    <div class="form-control branch-detail">
+                                        <?= $Branch['BranchName'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">رقم الهاتف</label>
+                                    <div class="form-control branch-detail">
+                                        <?= $Branch['Phone'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">البريد الإلكتروني</label>
+                                    <div class="form-control branch-detail">
+                                        <?= $Branch['Email'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">العنوان</label>
+                                    <div class="form-control branch-detail address-detail">
+                                        <?= $Branch['Address'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+
+                                <input type="hidden" name="branch_id" value="<?= $BranchId ?>">
+
+                                <div class="modal-footer border-danger">
+                                <form method="GET" action="<?= $ActionFilePath ?>">
+                                    <button type="submit"
+                                            name="close_branch_details_modal"
+                                            class="btn btn-danger"
+                                            formnovalidate>
+                                        إغلاق
+                                    </button>
+                                </form>
+                            </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
+
         <!-- Edit Branch Modal -->
         <?php if(isset($_SESSION['PageVars']['EditBranchInfo'])): ?>
             <?php 
 
                 $Branch = $_SESSION['PageVars']['EditBranchInfo'];
                 $BranchId = $Branch['BranchId'];
-                $BranchName = ($Branch['BranchName'] ?? '-');
+                $TempBranchName = ($Branch['BranchName'] ?? '-');
+                $TempBranchPhone = ($Branch['Phone'] ?? '-');
+                $TempBranchEmail = ($Branch['Email'] ?? '-');
+                $TempBranchAddress = ($Branch['Address'] ?? '-');
                 $TempBranchImg = $_SESSION['PageVars']['EditBranchInfo']['TempBranchImg']?? null;
+                var_dump($TempBranchImg);
                 $ImgPath = (!empty($TempBranchImg))? "../../../uploads/temp/" . $TempBranchImg :
                             ( 
                                 (!empty($Branch['BranchImgName'])) ? "../../../uploads/branches/" . $Branch['BranchImgName']
@@ -359,14 +450,37 @@ $ActionFilePath = "../../actions/branches_action.php";
                                     </label>
                                 </div>
 
-
+                                <!-- Branch Name -->
                                 <div class="mt-3 mb-3">
                                     <label class="form-label">اسم الفرع</label>
-                                    <input type="text" name="updated_branch_name" class="form-control" 
-                                        value="<?= $BranchName ?>"
+                                    <input type="text" class="form-control bg-dark text-light border-secondary"
+                                    name="updated_branch_name" 
+                                        value="<?= $TempBranchName ?>"
                                         required
                                     >
                                 </div>
+
+                                  <!-- Branch Phone -->
+                                <label class="form-label">رقم الهاتف</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary"
+                                    name="updated_branch_phone"
+                                    value="<?= htmlspecialchars($TempBranchPhone) ?>"
+                                    required>
+
+                                <!-- Branch Email -->
+                                <label class="form-label">البريد الإلكتروني</label>
+                                <input type="text" class="form-control bg-dark text-light border-secondary"
+                                    name="updated_branch_email"
+                                    value="<?= htmlspecialchars($TempBranchEmail) ?>"
+                                    required>
+
+                                 <!-- Branch Address -->
+                                <label class="form-label">العنوان</label>
+                                <textarea class="form-control bg-dark text-light border-secondary"
+                                        name="updated_branch_address"
+                                        rows="3"
+                                        required><?= htmlspecialchars($TempBranchAddress ?? '') ?></textarea>
+
 
 
                                 <!-- hidden to ensure action knows which branch we edit -->
@@ -419,7 +533,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                         <!-- FOOTER -->
                         <div class="modal-footer justify-content-between border-danger">
 
-                            <form method="POST" action="<?= $ActionFilePath ?>" class="m-0">
+                            <form method="GET" action="<?= $ActionFilePath ?>" class="m-0">
                                 <button type="submit" name="close_delete_branch_modal" 
                                         class="btn btn-outline-danger px-4">
                                     إلغاء
@@ -462,14 +576,20 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                                     <div class="d-flex gap-2 w-100 mt-auto">
 
-                                            <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
+                                            <form method="GET" action="<?=$ActionFilePath?>" class="flex-fill">
+                                                <input type="hidden" name="branch_id" value="<?=$BranchId?>">
+                                                <button type="submit" name="show_branch_details_modal" class="btn btn-outline-info w-100 fw-bold">
+                                                    تفاصيل
+                                                </button>
+                                            </form>
+                                            <form method="GET" action="<?=$ActionFilePath?>" class="flex-fill">
                                                 <input type="hidden" name="branch_id" value="<?=$BranchId?>">
                                                 <button type="submit" name="show_edit_branch_modal" class="btn btn-outline-warning w-100 fw-bold">
                                                     تعديل
                                                 </button>
                                             </form>
 
-                                            <form method="POST" action="<?=$ActionFilePath?>" class="flex-fill">
+                                            <form method="GET" action="<?=$ActionFilePath?>" class="flex-fill">
                                                 <input type="hidden" name="branch_id" value="<?=$BranchId?>">
                                                 <button type="submit" name="show_delete_branch_modal" class="btn btn-outline-danger w-100 fw-bold">
                                                     حذف
@@ -500,7 +620,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                                 <th>#</th>
                                 <th>صورة</th>
                                 <th>اسم الفرع</th>
-                                <th colspan="2">الخيارات</th>
+                                <th colspan="3">الخيارات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -525,7 +645,15 @@ $ActionFilePath = "../../actions/branches_action.php";
 
 
                                         <td>
-                                            <form method="POST" action="<?=$ActionFilePath?>">
+                                            <form method="GET" action="<?=$ActionFilePath?>">
+                                                <input name="branch_id" value="<?=$BranchId?>" hidden>
+                                                <button type="submit" name="show_branch_details_modal" class="btn btn-outline-info w-100 fw-bold">
+                                                     تفاصيل
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="GET" action="<?=$ActionFilePath?>">
                                                 <input name="branch_id" value="<?=$BranchId?>" hidden>
                                                 <button type="submit" name="show_edit_branch_modal" class="btn btn-outline-warning w-100 fw-bold">
                                                     تعديل
@@ -534,7 +662,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                                         </td>
 
                                         <td>
-                                            <form method="POST" action="<?=$ActionFilePath?>">
+                                            <form method="GET" action="<?=$ActionFilePath?>">
                                                 <input name="branch_id" value="<?=$BranchId?>" hidden>
                                                 <button type="submit" name="show_delete_branch_modal" class="btn btn-outline-danger w-100 fw-bold">
                                                     حذف
@@ -560,7 +688,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                 <ul class="pagination justify-content-center gap-1">
                     
                     <li class="page-item <?= ($PageNumber<= 1) ? 'disabled' : '' ?>">
-                        <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                        <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                             <input type="hidden" name="branches_page_number" value="<?= max(1, $PageNumber- 1) ?>">
                             <button type="submit" class="page-link btn shadow-none <?= ($PageNumber<= 1) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber<= 1) ? 'disabled' : '' ?>>
                                 السابق
@@ -570,7 +698,7 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                     <?php for ($p = 1; $p <= $TotalPages; $p++): ?>
                         <li class="page-item <?= ($p == $PageNumber) ? 'active' : '' ?>">
-                            <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                            <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                                 <input type="hidden" name="branches_page_number" value="<?= $p ?>">
                                 <button type="submit" class="page-link btn shadow-none <?= ($p == $PageNumber) ? 'bg-light text-danger fw-bold border-danger' : 'bg-danger text-white border-danger' ?>">
                                     <?= $p ?>
@@ -580,7 +708,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                     <?php endfor; ?>
 
                     <li class="page-item <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>">
-                        <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                        <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                             <input type="hidden" name="branches_page_number" value="<?= min($TotalPages, $PageNumber+ 1) ?>">
                             <button type="submit" class="page-link btn shadow-none <?= ($PageNumber>= $TotalPages) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>>
                                 التالي

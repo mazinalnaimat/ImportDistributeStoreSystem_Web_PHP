@@ -177,7 +177,7 @@ $ActionFilePath = "../../../../actions/products_action.php";
             $SupplierName         = $Product['SupplierName'];
             $Quantity             = $Product['Quantity'];
             $RemainingQuantity    = $Product['RemainingQuantity'];
-            $ArrivalDate          = $Product['ImportArrivalDate'];
+            $ArrivalDate          = $Product['ImportArrivalDateTime'];
             $PurchasePrice = number_format($Product['PurchasePrice'], 2);
             $BaseSellingPrice  = number_format($Product['BaseSellingPrice'],2);
             $Profit        = number_format($BaseSellingPrice - $PurchasePrice, 2);
@@ -245,7 +245,7 @@ $ActionFilePath = "../../../../actions/products_action.php";
                                     </li>
 
                                     <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">تاريخ الوصول:</span>
+                                        <span class="fw-bold ms-2"> تاريخ ووقت الوصول:</span>
                                         <span class="flex-fill text-start"><?= $ArrivalDate ?></span>
                                     </li>
 
@@ -382,7 +382,7 @@ $ActionFilePath = "../../../../actions/products_action.php";
                                 <th>المورد</th>
                                 <th>الكمية</th>
                                 <th>المتبقي</th>
-                                <th>تاريخ الوصول</th>
+                                <th> تاريخ ووقت الوصول</th>
                                 <th>سعر الشراء</th>
                                 <th>سعر البيع الأساسي</th>
                                 <th>الربح</th>
