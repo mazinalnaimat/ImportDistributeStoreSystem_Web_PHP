@@ -151,8 +151,42 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
 
                 <div class="card-body py-3">
 
-                    <!-- Branch Info Modal -->
-                    <?php if(isset($_SESSION['DistributeProductPageVars']['ShowBranchInfoModal'])): ?>
+
+                    <!-- Branch -->
+                    <div class="mb-4">
+                        <label class="form-label text-light">الفرع المختار</label>
+
+                        <div class="modern-select-box">
+                            <div class="selected-value">
+                                <?= $_SESSION['DistributeProductPageVars']['SelectedBranch']['BranchName'] ?? 'لم يتم اختيار فرع' ?>
+                            </div>
+
+                            <form method="GET" action="<?= $ActionFilePath ?>">
+                                <div class="d-flex gap-3">
+                                
+                                    <?php if(isset($_SESSION['DistributeProductPageVars']['SelectedBranch'])):?>
+                                    <button class="btn btn-info text-white d-flex align-items-center justify-content-center gap-2"
+                                            type="submit"
+                                            name="show_branch_details_modal">
+
+                                        <i class="bi bi-info-circle"></i>
+                                        <span>تفاصيل</span>
+
+                                    </button>
+                                    <?php endif;?>
+
+                                    <button class="btn btn-danger text-white d-flex align-items-center justify-content-center gap-2"
+                                    type="submit" name="choose_branch">
+                                        <i class="bi bi-arrow-left-right"></i>
+                                        <?=isset($_SESSION['DistributeProductPageVars']['SelectedBranch']) ? "تغيير الفرع" : "اختيار الفرع"?>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                                        <!-- Branch Details Modal -->
+                    <?php if(isset($_SESSION['DistributeProductPageVars']['ShowBranchDetailsModal'])): ?>
                     <?php 
 
                         $Branch = $_SESSION['DistributeProductPageVars']['SelectedBranch'];
@@ -176,24 +210,40 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                                         <img src="<?= $ImgPath ?>" class="w-100 mb-3" style="height:400px; object-fit:cover;">
                                     </div>
 
-
-
-                                    <form method="GET" action="<?=$ActionFilePath?>" enctype="multipart/form-data" class="mb-3">
-                                        
-
-
-                                        <div class="mt-3 mb-3">
-                                            <label class="form-label">اسم الفرع</label>
-                                            <input type="text" class="modern-input disabled-input" 
-                                                value="<?= $BranchName ?>"
-                                                readonly
-                                            >
+                                    <div class="mb-3">
+                                        <label class="branch-field-label">اسم الفرع</label>
+                                        <div class="form-control branch-field">
+                                            <?= $BranchName ?? '-' ?>
                                         </div>
+                                    </div>
 
-                                        <div class="modal-footer border-danger">
-                                            <button type="submit" name="close_branch_info_modal" class="btn btn-danger" formnovalidate>إغلاق</button>
+                                    <div class="mb-3">
+                                        <label class="branch-field-label">رقم الهاتف</label>
+                                        <div class="form-control branch-field">
+                                            <?= $Branch['Phone'] ?? '-' ?>
                                         </div>
-                                    </form>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="branch-field-label">البريد الإلكتروني</label>
+                                        <div class="form-control branch-field">
+                                            <?= $Branch['Email'] ?? '-' ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="branch-field-label">العنوان</label>
+                                        <div class="form-control branch-field">
+                                            <?= $Branch['Address'] ?? '-' ?>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer border-danger">
+                                        <form method="GET" action="<?=$ActionFilePath?>" enctype="multipart/form-data" class="mb-3">
+
+                                            <button type="submit" name="close_branch_details_modal" class="btn btn-danger" formnovalidate>إغلاق</button>
+                                        </form>
+
+                                    </div>
 
                                 </div>
                             </div>
@@ -201,40 +251,7 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                     </div>
                     <?php endif; ?>
 
-                    <!-- Branch -->
-                    <div class="mb-4">
-                        <label class="form-label text-light">الفرع المختار</label>
-
-                        <div class="modern-select-box">
-                            <div class="selected-value">
-                                <?= $_SESSION['DistributeProductPageVars']['SelectedBranch']['BranchName'] ?? 'لم يتم اختيار فرع' ?>
-                            </div>
-
-                            <form method="GET" action="<?= $ActionFilePath ?>">
-                                <div class="d-flex gap-3">
-                                
-                                    <?php if(isset($_SESSION['DistributeProductPageVars']['SelectedBranch'])):?>
-                                    <button class="btn btn-info text-white d-flex align-items-center justify-content-center gap-2"
-                                            type="submit"
-                                            name="show_branch_info_modal">
-
-                                        <i class="bi bi-info-circle"></i>
-                                        <span>تفاصيل</span>
-
-                                    </button>
-                                    <?php endif;?>
-
-                                    <button class="btn btn-danger text-white d-flex align-items-center justify-content-center gap-2"
-                                    type="submit" name="choose_branch">
-                                        <i class="bi bi-arrow-left-right"></i>
-                                        <?=isset($_SESSION['DistributeProductPageVars']['SelectedBranch']) ? "تغيير الفرع" : "اختيار الفرع"?>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Product Info Modal -->
+                    <!-- Product Details Modal -->
                     <?php if(isset($_SESSION['DistributeProductPageVars']['ShowProductDetailsModal'] )): ?>
 
                     <?php 

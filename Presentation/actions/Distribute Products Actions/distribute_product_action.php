@@ -25,15 +25,15 @@ function ChooseBranch()
     header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/Dashboard%20Screens/Export%20Products%20Screens/Distribute%20Products/choose_branch.php");
     exit;
 }
-function ShowBranchInfoModal()
+function ShowBranchDetailsModal()
 {
 
-    $_SESSION['DistributeProductPageVars']['ShowBranchInfoModal'] = true;
+    $_SESSION['DistributeProductPageVars']['ShowBranchDetailsModal'] = true;
 }
 
-function CloseBranchInfoModal()
+function CloseBranchDetailsModal()
 {
-    unset($_SESSION['DistributeProductPageVars']['ShowBranchInfoModal']);
+    unset($_SESSION['DistributeProductPageVars']['ShowBranchDetailsModal']);
 }
 function ChooseProduct()
 {
@@ -72,11 +72,11 @@ function DistributeProduct()
     }
     else 
     {
-        $DistributionProductInfo['PurchasedProductId'] = $_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct']['PurchasedProductId'];
-        $DistributionProductInfo['Quantity'] = (int)$_POST['ExportQuantity'];
-        $DistributionProductInfo['FinalSellingPrice'] = (int)$_POST['FinalSellingPrice'];
-        $DistributionProductInfo['BranchId'] = $_SESSION['DistributeProductPageVars']['SelectedBranch']['BranchId'];
-        if(($DistributionProductId =AddNewDistributionProduct_Business($DistributionProductInfo)) != null)
+        $DistributionProductDetails['PurchasedProductId'] = $_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct']['PurchasedProductId'];
+        $DistributionProductDetails['Quantity'] = (int)$_POST['ExportQuantity'];
+        $DistributionProductDetails['FinalSellingPrice'] = (int)$_POST['FinalSellingPrice'];
+        $DistributionProductDetails['BranchId'] = $_SESSION['DistributeProductPageVars']['SelectedBranch']['BranchId'];
+        if(($DistributionProductId =AddNewDistributionProduct_Business($DistributionProductDetails)) != null)
         {
             $_SESSION['DistributeProductPageVars']['AddNewDistributionProductStatus'] = true;
             $_SESSION['DistributeProductPageVars']['DistributionProductId'] = $DistributionProductId;
@@ -106,14 +106,14 @@ function ProcessGetFormSubmission()
         ChooseProduct();
     }
 
-    else if (isset($_GET['show_branch_info_modal']))
+    else if (isset($_GET['show_branch_details_modal']))
     {
-        ShowBranchInfoModal();
+        ShowBranchDetailsModal();
     }
 
-    else if (isset($_GET['close_branch_info_modal']))
+    else if (isset($_GET['close_branch_details_modal']))
     {
-        CloseBranchInfoModal();
+        CloseBranchDetailsModal();
     }
 
     else if (isset($_GET['show_product_details_modal']))
