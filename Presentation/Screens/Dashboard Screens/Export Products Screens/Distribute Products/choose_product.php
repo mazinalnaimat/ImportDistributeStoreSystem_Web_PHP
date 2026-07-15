@@ -372,7 +372,12 @@ $ActionFilePath = "../../../../actions/Distribute%20Products%20Actions/choose_pr
                                             <button type="submit" name="show_product_details_modal" class="btn btn-outline-danger w-100 fw-bold">
                                                  التفاصيل
                                             </button>
-                                            <button type="submit" name="choose_product" class="btn btn-outline-danger w-100 fw-bold mt-3">
+                                            <button
+                                                type="submit"
+                                                name="choose_product"
+                                                class="btn btn-outline-danger w-100 fw-bold mt-3"
+                                                <?= ($RemainingQuantity <= 0) ? 'disabled' : ''; ?>
+                                            >
                                                  اختيار
                                             </button>
                                         </form>
