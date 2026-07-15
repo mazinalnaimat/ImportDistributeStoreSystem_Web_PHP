@@ -1,166 +1,183 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . "/Settings.php";
-function CheckColNameDistributionProduct(string $ColName)
-{
-    $ColNames =
-            array(
-                    "DistributionProductId",
-                    "PurchasedProductId",
-                    "BranchId",
-                    "BranchName",
-                    "UserName",
-                    "Quantity",
-                    "PurchasePrice",
-                    "FinalSellingPrice",
-                    "Profit"
-                 );
-
-    if(in_array($ColName, $ColNames))
+    function CheckColNameDistributionProduct(string $ColName)
     {
-        return true;
+        $ColNames =
+                array(
+                        "DistributionProductId",
+                        "PurchasedProductId",
+                        "BranchId",
+                        "ProductName",
+                        "BranchName",
+                        "UserName",
+                        "CreatedDateTime",
+                        "ExportToBranchDateTime",
+                        "Quantity",
+                        "PurchasePrice",
+                        "FinalSellingPrice",
+                        "Profit",
+                        "TotalProfit"
+                    );
+
+        if(in_array($ColName, $ColNames))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
-    else
+    function SearchDistributionProductByColumnAndValue_DataAccess(string $SearchText, string $ColName, string $Order = "ASC", int $Limit = -1, int $Offset = -1)
     {
-        return false;
-    }
-}
+        if(!CheckColNameDistributionProduct($ColName))
+        {
+            return null;
+        }
 
-function SearchDistributionProductByColumnAndValue_DataAccess(string $SearchText, string $ColName, string $Order = "ASC", int $Limit = -1, int $Offset = -1)
-{
-    if(!CheckColNameDistributionProduct($ColName))
-    {
-        return null;
-    }
+        if(strtoupper($Order) != 'ASC' && strtoupper($Order) != 'DESC')
+        {
+            return null;
+        }
 
-    if(strtoupper($Order) != 'ASC' && strtoupper($Order) != 'DESC')
-    {
-        return null;
-    }
+        $Connection = null;
+        $Results = [];
 
-    $Connection = null;
-    $Results = [];
+        try
+        {
+            $Connection = Get_PDO_Connection();
+            if($Connection === null)
+            {
+                return [];
+            }
 
-    try
-    {
-        $Connection = Get_PDO_Connection();
-        if($Connection === null)
+            $SearchText = trim($SearchText);
+            $SearchTerm = "%$SearchText%";
+
+            if($ColName == "BranchName")
+            {
+                $Where = "branches.BranchName";
+                $OrderBy = "branches.BranchName";
+            }
+            elseif($ColName == "UserName")
+            {
+                $Where = "users.UserName";
+                $OrderBy = "users.UserName";
+            }
+            elseif($ColName == "ProductName")
+            {
+                $Where = "purchased_products.PurchasedProductName";
+                $OrderBy = "purchased_products.PurchasedProductName";
+            }
+            elseif($ColName == "PurchasePrice")
+            {
+                $Where = "purchased_products.PurchasePrice";
+                $OrderBy = "purchased_products.PurchasePrice";
+            }
+            elseif($ColName == "Profit")
+            {
+                $Where = "(distribution_products.FinalSellingPrice - purchased_products.PurchasePrice)";
+                $OrderBy = "(distribution_products.FinalSellingPrice - purchased_products.PurchasePrice)";
+            }
+            elseif($ColName == "TotalProfit")
+            {
+                $Where = "((distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) * distribution_products.Quantity)";
+                $OrderBy = "((distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) * distribution_products.Quantity)";
+            }
+            else
+            {
+                $Where = "distribution_products.$ColName";
+                $OrderBy = "distribution_products.$ColName";
+            }
+
+            if($SearchText == "")
+            {
+                $Sql = "SELECT distribution_products.*,
+                            (purchased_products.PurchasedProductName) AS ProductName,
+                            branches.BranchName,
+                            users.UserName,
+                            purchased_products.PurchasePrice,
+                            (distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) AS Profit,
+                            ((distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) *distribution_products.Quantity)  AS TotalProfit
+                        FROM distribution_products
+                        INNER JOIN branches
+                        ON distribution_products.BranchId = branches.BranchId
+                        LEFT JOIN users
+                        ON distribution_products.CreatedUserId = users.UserId
+                        INNER JOIN purchased_products
+                        ON distribution_products.PurchasedProductId = purchased_products.PurchasedProductId
+                        ORDER BY $OrderBy $Order";
+
+                $CountSql = "SELECT COUNT(*) AS TotalCount
+                            FROM distribution_products";
+            }
+            else
+            {
+                $Sql = "SELECT distribution_products.*,
+                            (purchased_products.PurchasedProductName) AS ProductName,
+                            branches.BranchName,
+                            users.UserName,
+                            purchased_products.PurchasePrice,
+                            (distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) AS Profit,
+                            ((distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) * distribution_products.Quantity)  AS TotalProfit
+                        FROM distribution_products
+                        INNER JOIN branches
+                        ON distribution_products.BranchId = branches.BranchId
+                        LEFT JOIN users
+                        ON distribution_products.CreatedUserId = users.UserId
+                        INNER JOIN purchased_products
+                        ON distribution_products.PurchasedProductId = purchased_products.PurchasedProductId
+                        WHERE $Where LIKE :SearchTerm
+                        ORDER BY $OrderBy $Order";
+
+                $CountSql = "SELECT COUNT(*) AS TotalCount
+                            FROM distribution_products
+                            INNER JOIN branches
+                            ON distribution_products.BranchId = branches.BranchId
+                            LEFT JOIN users
+                            ON distribution_products.CreatedUserId = users.UserId
+                            INNER JOIN purchased_products
+                            ON distribution_products.PurchasedProductId = purchased_products.PurchasedProductId
+                            WHERE $Where LIKE :SearchTerm";
+            }
+
+            if($Limit != -1 && $Offset != -1)
+            {
+                $Sql .= " LIMIT " . intval($Limit) . " OFFSET " . intval($Offset);
+            }
+
+            $Stmt = $Connection->prepare($Sql);
+
+            if($SearchText != "")
+            {
+                $Stmt->bindParam(":SearchTerm", $SearchTerm);
+            }
+
+            $Stmt->execute();
+            $Results['DistributionProducts'] = $Stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $Stmt2 = $Connection->prepare($CountSql);
+
+            if($SearchText != "")
+            {
+                $Stmt2->bindParam(":SearchTerm", $SearchTerm);
+            }
+
+            $Stmt2->execute();
+            $Results['TotalDistributionProductsNum'] = $Stmt2->fetch(PDO::FETCH_ASSOC)['TotalCount'];
+
+            return $Results;
+        }
+        catch(PDOException $e)
         {
             return [];
         }
-
-        $SearchText = trim($SearchText);
-        $SearchTerm = "%$SearchText%";
-
-        if($ColName == "BranchName")
+        finally
         {
-            $Where = "branches.BranchName";
-            $OrderBy = "branches.BranchName";
+            $Connection = null;
         }
-        elseif($ColName == "UserName")
-        {
-            $Where = "users.UserName";
-            $OrderBy = "users.UserName";
-        }
-        elseif($ColName == "PurchasePrice")
-        {
-            $Where = "purchased_products.PurchasePrice";
-            $OrderBy = "purchased_products.PurchasePrice";
-        }
-        elseif($ColName == "Profit")
-        {
-            $Where = "(distribution_products.FinalSellingPrice - purchased_products.PurchasePrice)";
-            $OrderBy = "(distribution_products.FinalSellingPrice - purchased_products.PurchasePrice)";
-        }
-        else
-        {
-            $Where = "distribution_products.$ColName";
-            $OrderBy = "distribution_products.$ColName";
-        }
-
-        if($SearchText == "")
-        {
-            $Sql = "SELECT distribution_products.*,
-                           branches.BranchName,
-                           users.UserName,
-                           purchased_products.PurchasePrice,
-                           (distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) AS Profit
-                    FROM distribution_products
-                    INNER JOIN branches
-                    ON distribution_products.BranchId = branches.BranchId
-                    LEFT JOIN users
-                    ON branches.CreatedUserId = users.UserId
-                    INNER JOIN purchased_products
-                    ON distribution_products.PurchasedProductId = purchased_products.PurchasedProductId
-                    ORDER BY $OrderBy $Order";
-
-            $CountSql = "SELECT COUNT(*) AS TotalCount
-                         FROM distribution_products";
-        }
-        else
-        {
-            $Sql = "SELECT distribution_products.*,
-                           branches.BranchName,
-                           users.UserName,
-                           purchased_products.PurchasePrice,
-                           (distribution_products.FinalSellingPrice - purchased_products.PurchasePrice) AS Profit
-                    FROM distribution_products
-                    INNER JOIN branches
-                    ON distribution_products.BranchId = branches.BranchId
-                    LEFT JOIN users
-                    ON branches.CreatedUserId = users.UserId
-                    INNER JOIN purchased_products
-                    ON distribution_products.PurchasedProductId = purchased_products.PurchasedProductId
-                    WHERE $Where LIKE :SearchTerm
-                    ORDER BY $OrderBy $Order";
-
-            $CountSql = "SELECT COUNT(*) AS TotalCount
-                         FROM distribution_products
-                         INNER JOIN branches
-                         ON distribution_products.BranchId = branches.BranchId
-                         LEFT JOIN users
-                         ON branches.CreatedUserId = users.UserId
-                         INNER JOIN purchased_products
-                         ON distribution_products.PurchasedProductId = purchased_products.PurchasedProductId
-                         WHERE $Where LIKE :SearchTerm";
-        }
-
-        if($Limit != -1 && $Offset != -1)
-        {
-            $Sql .= " LIMIT " . intval($Limit) . " OFFSET " . intval($Offset);
-        }
-
-        $Stmt = $Connection->prepare($Sql);
-
-        if($SearchText != "")
-        {
-            $Stmt->bindParam(":SearchTerm", $SearchTerm);
-        }
-
-        $Stmt->execute();
-        $Results['DistributionProducts'] = $Stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $Stmt2 = $Connection->prepare($CountSql);
-
-        if($SearchText != "")
-        {
-            $Stmt2->bindParam(":SearchTerm", $SearchTerm);
-        }
-
-        $Stmt2->execute();
-        $Results['TotalDistributionProductsNum'] = $Stmt2->fetch(PDO::FETCH_ASSOC)['TotalCount'];
-
-        return $Results;
     }
-    catch(PDOException $e)
-    {
-        return [];
-    }
-    finally
-    {
-        $Connection = null;
-    }
-}
     function AddNewDistributionProduct_DataAccess(array $DistributionProductInfo)
     {
         $Connection = null;
@@ -170,6 +187,7 @@ function SearchDistributionProductByColumnAndValue_DataAccess(string $SearchText
             if(!isset(
                 $DistributionProductInfo['PurchasedProductId'],
                 $DistributionProductInfo['BranchId'],
+                $DistributionProductInfo['CreatedUserId'],
                 $DistributionProductInfo['Quantity'],
                 $DistributionProductInfo['FinalSellingPrice'],
                 $DistributionProductInfo['ExportToBranchDateTime'],
@@ -224,12 +242,13 @@ function SearchDistributionProductByColumnAndValue_DataAccess(string $SearchText
             $InsertStmt = $Connection->prepare
             (
                 "INSERT INTO distribution_products
-                            (PurchasedProductId, BranchId, CreatedDateTime, ExportToBranchDateTime, Quantity, FinalSellingPrice)
+                            (PurchasedProductId, BranchId, CreatedUserId, CreatedDateTime, ExportToBranchDateTime, Quantity, FinalSellingPrice)
                         VALUES
-                            (:PurchasedProductId, :BranchId, :CreatedDateTime, :ExportToBranchDateTime,  :Quantity, :FinalSellingPrice)"
+                            (:PurchasedProductId, :BranchId, :CreatedUserId, :CreatedDateTime, :ExportToBranchDateTime,  :Quantity, :FinalSellingPrice)"
             );
             $InsertStmt->bindValue(":PurchasedProductId",  $DistributionProductInfo['PurchasedProductId']);
             $InsertStmt->bindValue(":BranchId", $DistributionProductInfo['BranchId']);
+            $InsertStmt->bindValue(":CreatedUserId", $DistributionProductInfo['CreatedUserId']);
 
             date_default_timezone_set('Asia/Amman');
 
@@ -252,4 +271,7 @@ function SearchDistributionProductByColumnAndValue_DataAccess(string $SearchText
             $Connection = null;
         }
     }
+
+
+
 ?>

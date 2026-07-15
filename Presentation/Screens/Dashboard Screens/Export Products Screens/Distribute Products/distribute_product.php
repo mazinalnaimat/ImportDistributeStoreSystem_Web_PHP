@@ -23,7 +23,7 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
 
 $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_product_action.php";
 
-
+var_dump($_SESSION['DistributeProductPageVars']);
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">

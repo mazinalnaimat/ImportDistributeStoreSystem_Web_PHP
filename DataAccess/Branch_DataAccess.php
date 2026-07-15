@@ -7,7 +7,7 @@ require_once __DIR__ . "/Settings.php";
         $ColNames = 
                 array(
                         "BranchId", "BranchName", "UserName",
-                        "Phone", "Email", "Address"
+                        "Phone", "Email", "Address", "CreatedDateTime"
                      );
         if(in_array($ColName, $ColNames))
         {
@@ -158,26 +158,28 @@ require_once __DIR__ . "/Settings.php";
 
             if($SearchText == "")
             {
-                $Sql = "SELECT branches.*, users.UserName
+                $Sql = "SELECT branches.*, users.UserName AS UserName
                         FROM branches
                         LEFT JOIN users
                         ON branches.CreatedUserId = users.UserId
-                        ORDER BY branches.$ColName $Order";
+                        ORDER BY $ColName $Order";
 
                 $CountSql = "SELECT COUNT(*) AS TotalBranchesNum
-                            FROM branches";
+                             FROM branches";
             }
             else
             {
-                $Sql = "SELECT branches.*, users.UserName
+                $Sql = "SELECT branches.*, users.UserName AS UserName
                         FROM branches
                         LEFT JOIN users
                         ON branches.CreatedUserId = users.UserId
-                        WHERE branches.$ColName LIKE :SearchTerm
-                        ORDER BY branches.$ColName $Order";
+                        WHERE $ColName LIKE :SearchTerm
+                        ORDER BY $ColName $Order";
 
                 $CountSql = "SELECT COUNT(*) AS TotalBranchesNum
-                            FROM branches
+                             FROM branches
+                             LEFT JOIN users
+                             ON branches.CreatedUserId = users.UserId
                             WHERE $ColName LIKE :SearchTerm";
             }
 

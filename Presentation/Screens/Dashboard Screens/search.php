@@ -12,6 +12,7 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
 
 $ActionFilePath = "../../actions/search_action.php";
 
+// var_dump($_SESSION['PageVars'] );
 ?>
 
 <!DOCTYPE html>
@@ -45,25 +46,23 @@ $ActionFilePath = "../../actions/search_action.php";
         <div class="row g-3 mb-4 align-items-center">
             <!--Back Button   -->
             <div class="col-auto">
-                <?php if (!empty($_SESSION['page_stack']) && count($_SESSION['page_stack']) > 1): ?>
-                    <form method="POST" action="<?= $ActionFilePath ?>">
-                        <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
-                            <i class="bi bi-arrow-right me-2"></i> رجوع
-                        </button>
-                    </form>
-                <?php endif; ?>
+                <form method="GET" action="<?= $ActionFilePath ?>">
+                    <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                        <i class="bi bi-arrow-right me-2"></i> رجوع
+                    </button>
+                </form>
             </div> 
             <!-- Change Search Mode  -->
             <?php if (isset($_SESSION['PageVars']['SearchMode'])): ?>
                 <div class="col-auto d-flex gap-2">
-                    <form method="POST" action="<?= $ActionFilePath ?>" class="d-flex gap-2">
+                    <form method="GET" action="<?= $ActionFilePath ?>" class="d-flex gap-2">
                         <button type="submit" name="set_search_mode" value="branches" 
                                 class="btn btn-sm <?= $_SESSION['PageVars']['SearchMode'] == 'branches' ? 'btn-danger' : 'btn-dark border-danger' ?> px-3">
                             <i class="bi bi-house-gear me-1"></i> الفروع
                         </button>
                         <button type="submit" name="set_search_mode" value="distributions" 
                                 class="btn btn-sm <?= $_SESSION['PageVars']['SearchMode'] == 'distributions' ? 'btn-danger' : 'btn-dark border-danger' ?> px-3">
-                            <i class="bi bi-truck me-1"></i> التوزيعات
+                            <i class="bi bi-truck me-1"></i> المنتجات المصدرة 
                         </button>
                     </form>
                 </div>
@@ -76,7 +75,7 @@ $ActionFilePath = "../../actions/search_action.php";
             <div class="row mt-5  g-4 justify-content-center align-items-center">
                 
                 <div class="col-11 col-sm-10 col-md-6 col-lg-4">
-                    <form method="POST" action="<?= $ActionFilePath ?>">
+                    <form method="GET" action="<?= $ActionFilePath ?>">
                         <button type="submit" name="set_search_mode" value="branches" 
                                 class="btn btn-dark border-danger w-100 shadow-lg big-card-responsive p-3">
                             
@@ -91,7 +90,7 @@ $ActionFilePath = "../../actions/search_action.php";
                 </div>
 
                 <div class="col-11 col-sm-10 col-md-6 col-lg-4">
-                    <form method="POST" action="<?= $ActionFilePath ?>">
+                    <form method="GET" action="<?= $ActionFilePath ?>">
                         <button type="submit" name="set_search_mode" value="distributions" 
                                 class="btn btn-dark border-danger w-100 shadow-lg big-card-responsive p-3">
                             
@@ -99,8 +98,8 @@ $ActionFilePath = "../../actions/search_action.php";
                                 <i class="bi bi-truck text-danger"></i>
                             </div>
 
-                            <h2 class="display-4 fw-bold text-light">التوزيعات</h2>
-                            <span class="fs-5 text-secondary mt-2 d-block">البحث في فواتير وحركات التوزيع</span>
+                            <h2 class="display-4 fw-bold text-light">المنتجات المصدرة </h2>
+                            <span class="fs-5 text-secondary mt-2 d-block"> البحث في فواتير وحركات التوزيع إلى الفروع</span>
                         </button>
                     </form>
                 </div>
@@ -121,7 +120,7 @@ $ActionFilePath = "../../actions/search_action.php";
 
             <!-- Search Bar -->
             <div class="card bg-dark text-light border-secondary p-3 mb-4 shadow-sm">
-                <form method="POST" action="<?= $ActionFilePath ?>" class="row g-2 align-items-end">
+                <form method="GET" action="<?= $ActionFilePath ?>" class="row g-2 align-items-end">
                     
                     <div class="col-md-4">
                         <label class="form-label small text-secondary">نص البحث</label>
@@ -139,10 +138,11 @@ $ActionFilePath = "../../actions/search_action.php";
                                 $cols = 
                                 [
                                     'BranchId' => 'معرف الفرع', 
-                                    'Name' => 'اسم الفرع', 
+                                    'BranchName' => 'اسم الفرع', 
                                     'Phone' => 'الهاتف', 
                                     'Address' => 'العنوان',  
                                     'Email' => 'البريد الإلكتروني', 
+                                    'CreatedDateTime' => 'تاريخ  الإنشاء', 
                                     'UserName' => 'منشئ الفرع'
                                 ];
                             } 
@@ -150,11 +150,19 @@ $ActionFilePath = "../../actions/search_action.php";
                             {
                                 $cols = 
                                 [
+                                    'DistributionProductId' => 'معرف التوزيع',
+                                    'ProductName' => 'اسم المنتج', 
+                                    'PurchasedProductId' => 'معرف المنتج', 
                                     'BranchName' => 'اسم الفرع المستلم', 
-                                    'DistributionId' => 'معرف التوزيع',
-                                    'CreatedBy' => 'بواسطة (المستخدم)',
-                                    'CreateDateTime' => 'تاريخ الإنشاء',
-                                    'DistributionDateTime' => 'تاريخ التوزيع'
+                                    'BranchId' => 'معرف الفرع', 
+                                    'UserName' => 'بواسطة (المستخدم)',
+                                    'Quantity' => 'الكمية',
+                                    'CreatedDateTime' => 'تاريخ الإنشاء',
+                                    'ExportToBranchDateTime' => 'تاريخ الوصول إلى الفرع',
+                                    'PurchasePrice' => 'شراء',
+                                    'FinalSellingPrice' => 'بيع',
+                                    'Profit' => 'ربح',
+                                    'TotalProfit' => 'الربح لكامل الكمية'
                                 ];
                             }
                             
@@ -204,17 +212,23 @@ $ActionFilePath = "../../actions/search_action.php";
                                 <th>الهاتف</th>
                                 <th>البريد الإلكتروني</th>
                                 <th>العنوان</th>
+                                <th>تاريخ  الإنشاء</th>
                                 <th>بواسطة</th>
                             <?php else: ?>
                                 <th>#</th>
+                                <th>المنتج</th>
+                                <th>معرف المنتج</th>
                                 <th>الفرع المستلم</th>
+                                <th>معرف الفرع المستلم</th>
                                 <th>معرف التوزيع</th>
                                 <th>بواسطة</th>
-                                <th>تاريخ الإنشاء</th>
-                                <th>تاريخ التوزيع</th>
+                                <th>الكمية</th>
+                                <th>تاريخ  الإنشاء</th>
+                                <th>تاريخ  الوصول الى الفرع</th>
                                 <th class="">شراء</th>
                                 <th class="t">بيع</th>
                                 <th class="text-success">ربح</th>
+                                <th class="text-success">الربح لكامل الكمية</th>
                             <?php endif; ?>
                         </tr>
                     </thead>
@@ -222,36 +236,58 @@ $ActionFilePath = "../../actions/search_action.php";
                         <?php 
                         $Results = $_SESSION['PageVars']['SearchResults'] ?? [];
                         if (empty($Results)): ?>
-                            <tr>
-                                <td colspan="8" class="text-center py-4 text-secondary">لا توجد نتائج لعرضها</td>
-                            </tr>
+                        <?php
+                        $colspan = 8;
+
+                        if ($_SESSION['PageVars']['SearchMode'] == 'distributions')
+                        {
+                            $colspan = 14;
+                        }
+                        elseif ($_SESSION['PageVars']['SearchMode'] == 'branches') 
+                        {
+                            $colspan = 8;
+                        }
+                        ?>
+
+                        <tr>
+                            <td colspan="<?= $colspan; ?>" class="text-center py-4 text-secondary">
+                                لا توجد نتائج لعرضها
+                            </td>
+                        </tr>
                         <?php else: ?>
                             <?php for ($i=0; $i<count($Results); $i++): ?>
                                 <tr>
                                     <td class="fw-bold text-light"><?=  ($PageNumber -1 ) * $NumberOfItemsPerPage + $i +1?></td>
                                     <?php if($_SESSION['PageVars']['SearchMode'] == 'branches'): ?>
-                                        <td class="fw-bold text-light"><?= $Results[$i]['Name'] ?></td>
+                                        <td class="fw-bold text-light"><?= $Results[$i]['BranchName'] ?></td>
                                         <td><?= $Results[$i]['BranchId'] ?></td>
                                         <td><?= $Results[$i]['Phone'] ?></td>
                                         <td><?= $Results[$i]['Email'] ?></td>
                                         <td><?= $Results[$i]['Address'] ?></td>
+                                        <td><?= $Results[$i]['CreatedDateTime'] ?></td>
                                         <td><span class="badge bg-secondary"><?= $Results[$i]['UserName'] ?></span></td>
                                     
                                     <?php else: ?>
+                                        <td><?= $Results[$i]['ProductName'] ?></td>
+                                        <td><?= $Results[$i]['PurchasedProductId'] ?></td>
                                         <td><?= $Results[$i]['BranchName'] ?></td>
-                                        <td><?= $Results[$i]['DistributionId'] ?></td>
-                                        <td><span class="badge bg-secondary"><?= $Results[$i]['CreatedBy'] ?></span></td>
-                                        <td dir="ltr" class="text-end"><?= date('Y-m-d H:i:s', strtotime($Results[$i]['CreateDateTime'])) ?></td>
-                                        <td dir="ltr" class="text-end"><?= date('Y-m-d H:i:s', strtotime($Results[$i]['DistributionDateTime'])) ?></td>
-                                        
+                                        <td><?= $Results[$i]['BranchId'] ?></td>
+                                        <td><?= $Results[$i]['DistributionProductId'] ?></td>
+                                        <td><span class="badge bg-secondary"><?= $Results[$i]['UserName'] ?></span></td>
+                                        <td><?= $Results[$i]['Quantity'] ?></td>
+                                        <td><?= $Results[$i]['CreatedDateTime'] ?></td>
+                                        <td><?= $Results[$i]['ExportToBranchDateTime'] ?></td>
                                         <td class="fw-bold">
-                                            <?= number_format($Results[$i]['TotalDistPurchasePrice'], 2) ?>
+                                            <?= number_format($Results[$i]['PurchasePrice'], 2) ?>
                                         </td>
                                         <td class="fw-bold">
-                                            <?= number_format($Results[$i]['TotalDistSellingPrice'], 2) ?>
+                                            <?= number_format($Results[$i]['FinalSellingPrice'], 2) ?>
                                         </td>
                                         <td class="text-success fw-bold">
-                                            <?= number_format($Results[$i]['TotalDistProfit'], 2) ?>
+                                            <?= number_format($Results[$i]['Profit'], 2) ?>
+                                        </td>
+                                        <td class="text-success fw-bold">
+                                            <?= number_format($Results[$i]['Profit'] * $Results[$i]['Quantity'], 2) ?>
                                         </td>
                                     <?php endif; ?>
                                 </tr>
@@ -266,7 +302,7 @@ $ActionFilePath = "../../actions/search_action.php";
                     <ul class="pagination justify-content-center gap-1">
                         
                         <li class="page-item <?= ($PageNumber<= 1) ? 'disabled' : '' ?>">
-                            <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                            <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                                 <input type="hidden" name="search_page_number" value="<?= max(1, $PageNumber- 1) ?>">
                                 <button type="submit" class="page-link btn shadow-none <?= ($PageNumber<= 1) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber<= 1) ? 'disabled' : '' ?>>
                                     السابق
@@ -276,7 +312,7 @@ $ActionFilePath = "../../actions/search_action.php";
 
                         <?php for ($p = 1; $p <= $TotalPages; $p++): ?>
                             <li class="page-item <?= ($p == $PageNumber) ? 'active' : '' ?>">
-                                <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                                <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                                     <input type="hidden" name="search_page_number" value="<?= $p ?>">
                                     <button type="submit" class="page-link btn shadow-none <?= ($p == $PageNumber) ? 'bg-light text-danger fw-bold border-danger' : 'bg-danger text-white border-danger' ?>">
                                         <?= $p ?>
@@ -286,7 +322,7 @@ $ActionFilePath = "../../actions/search_action.php";
                         <?php endfor; ?>
 
                         <li class="page-item <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>">
-                            <form method="POST" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
+                            <form method="GET" action="<?=$ActionFilePath?>" class="d-inline m-0 p-0">
                                 <input type="hidden" name="search_page_number" value="<?= min($TotalPages, $PageNumber+ 1) ?>">
                                 <button type="submit" class="page-link btn shadow-none <?= ($PageNumber>= $TotalPages) ? 'bg-secondary border-secondary text-white' : 'bg-danger border-danger text-white' ?>" <?= ($PageNumber>= $TotalPages) ? 'disabled' : '' ?>>
                                     التالي

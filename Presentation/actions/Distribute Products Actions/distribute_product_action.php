@@ -81,6 +81,7 @@ function DistributeProduct($ExportToBranchDateTime, $ExportQuantity, $FinalSelli
     }
     else 
     {
+        $DistributionProductDetails['CreatedUserId'] = $_SESSION['CurrentUser']['UserId'];
         $DistributionProductDetails['PurchasedProductId'] = $_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct']['PurchasedProductId'];
         $DistributionProductDetails['ExportToBranchDateTime'] = $ExportToBranchDateTime;
         $DistributionProductDetails['Quantity'] = $ExportQuantity;
@@ -100,6 +101,7 @@ function DistributeProduct($ExportToBranchDateTime, $ExportQuantity, $FinalSelli
         }
         else 
         {
+            StoreTempDistributeProductValues($ExportToBranchDateTime, $ExportQuantity, $FinalSellingPrice);
             $_SESSION['DistributeProductPageVars']['AddNewDistributionProductStatus'] = false;
         }
     }
