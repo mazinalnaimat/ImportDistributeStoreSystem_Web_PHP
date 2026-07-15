@@ -158,6 +158,78 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
 
         <?php $Branches = $_SESSION['BranchesPageVars']['Branches'] ?? [];?>
 
+        <!-- Branch Details Modal -->
+        <?php if(isset($_SESSION['BranchesPageVars']['BranchDetails'])): ?>
+            <?php 
+
+                $Branch = $_SESSION['BranchesPageVars']['BranchDetails'];
+                $BranchId = $Branch['BranchId'];
+                $BranchImg = $Branch['BranchImgName']?? null;
+                $ImgPath = (!empty($Branch['BranchImgName'])) ? "../../../../../uploads/branches/" . $Branch['BranchImgName']
+                                : "../../../../assests/imgs/no-image-available.png"
+                            ;
+            ?>
+            <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content bg-dark text-light border-danger">
+                        <div class="modal-header">
+                            <h5 class="modal-title">تفاصيل الفرع: <strong><?=$Branch['BranchName']?></strong></h5>
+                        </div>
+
+                            <div class="modal-body">
+
+                                <!-- IMAGE PREVIEW -->
+                                <div class="mb-4 text-center">
+                                    <img src="<?= $ImgPath ?>" class="img-fluid rounded border border-danger" style="max-height:350px; object-fit:cover;">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">اسم الفرع</label>
+                                    <div class="form-control branch-detail">
+                                        <?= $Branch['BranchName'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">رقم الهاتف</label>
+                                    <div class="form-control branch-detail">
+                                        <?= $Branch['Phone'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">البريد الإلكتروني</label>
+                                    <div class="form-control branch-detail">
+                                        <?= $Branch['Email'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">العنوان</label>
+                                    <div class="form-control branch-detail address-detail">
+                                        <?= $Branch['Address'] ?? '-' ?>
+                                    </div>
+                                </div>
+
+
+                                <input type="hidden" name="branch_id" value="<?= $BranchId ?>">
+
+                                <div class="modal-footer border-danger">
+                                <form method="GET" action="<?= $ActionFilePath ?>">
+                                    <button type="submit"
+                                            name="close_branch_details_modal"
+                                            class="btn btn-danger"
+                                            formnovalidate>
+                                        إغلاق
+                                    </button>
+                                </form>
+                            </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
 
         <?php if ($ViewMode === 'Cards'): ?>
             <!-- Cards View -->
@@ -177,6 +249,16 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
                                     </div>
                                     <h5 class="card-title text-danger fw-bold mb-2"><?= $BranchName; ?></h5>
 
+                                    <div class="d-flex gap-2 w-100 mt-auto">
+
+                                        <form method="GET" action="<?=$ActionFilePath?>" class="flex-fill">
+                                            <input type="hidden" name="branch_id" value="<?=$BranchId?>">
+                                            <button type="submit" name="show_branch_details_modal" class="btn btn-outline-info w-100 fw-bold">
+                                                تفاصيل
+                                            </button>
+                                        </form>
+
+                                    </div>
                                     <div class="d-flex gap-2 w-100 mt-auto">
 
                                         <form method="GET" action="<?=$ActionFilePath?>" class="flex-fill">
@@ -233,6 +315,14 @@ $ActionFilePath = "../../../../actions/Distribute Products Actions/choose_branch
                                     <td><?= $BranchName; ?></td>
 
 
+                                    <td>
+                                        <form method="GET" action="<?=$ActionFilePath?>">
+                                            <input name="branch_id" value="<?=$BranchId?>" hidden>
+                                            <button type="submit" name="show_branch_details_modal" class="btn btn-outline-info w-100 fw-bold">
+                                                تفاصيل
+                                            </button>
+                                        </form>
+                                    </td>
                                     <td>
                                         <form method="GET" action="<?=$ActionFilePath?>">
                                             <input name="branch_id" value="<?=$BranchId?>" hidden>

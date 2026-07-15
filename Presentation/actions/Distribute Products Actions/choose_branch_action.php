@@ -25,6 +25,15 @@ function SetViewMode(string $ViewMode)
     }
 }
 
+function ShowBranchDetailsModal(int $BranchId)
+{
+    $_SESSION['BranchesPageVars']['BranchDetails'] = GetBranchByBranchId_Business($BranchId);
+}
+function CloseBranchDetailsModal()
+{
+    unset($_SESSION['BranchesPageVars']['BranchDetails']);
+}
+
 function SearchBranchesByBranchName(string $TextSearch)
 {   
     $NumberOfItemsPerPage= $_SESSION['BranchesPageVars']['NumberOfItemsPerPage']??8;
@@ -132,7 +141,16 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
     {
         SetViewMode($_GET['view_mode']);
     }
-
+    else if(isset($_GET['show_branch_details_modal']))
+    {
+        $BranchId = (int)$_GET['branch_id'];
+        ShowBranchDetailsModal($BranchId);
+    }
+    
+    else if(isset($_GET['close_branch_details_modal']))
+    {
+        CloseBranchDetailsModal();
+    }
     else if(isset($_GET['search_branch_name']))
     {
         $SearchText = trim($_GET['search_text']);
