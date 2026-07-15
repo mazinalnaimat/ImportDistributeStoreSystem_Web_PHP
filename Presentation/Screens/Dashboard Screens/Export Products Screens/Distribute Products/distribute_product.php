@@ -185,7 +185,7 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                         </div>
                     </div>
 
-                                        <!-- Branch Details Modal -->
+                    <!-- Branch Details Modal -->
                     <?php if(isset($_SESSION['DistributeProductPageVars']['ShowBranchDetailsModal'])): ?>
                     <?php 
 
@@ -261,7 +261,7 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                         $SupplierName         = $Product['SupplierName'];
                         $Quantity             = $Product['Quantity'];
                         $RemainingQuantity    = $Product['RemainingQuantity'];
-                        $ArrivalDate          = $Product['ImportArrivalDate'];
+                        $ArrivalDateTime          = $Product['ImportArrivalDateTime'];
                         $PurchasePrice = number_format($Product['PurchasePrice'], 2);
                         $BaseSellingPrice  = number_format($Product['BaseSellingPrice'],2);
                         $Profit        = number_format($BaseSellingPrice - $PurchasePrice, 2);
@@ -330,8 +330,8 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                                                 </li>
 
                                                 <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                                    <span class="fw-bold ms-2">تاريخ الوصول:</span>
-                                                    <span class="flex-fill text-start"><?= $ArrivalDate ?></span>
+                                                    <span class="fw-bold ms-2">تاريخ ووقت الوصول:</span>
+                                                    <span class="flex-fill text-start"><?= $ArrivalDateTime ?></span>
                                                 </li>
 
                                                 <li class="list-group-item bg-dark text-light d-flex justify-content-between">
@@ -420,6 +420,80 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
 
                         </div>
                     </div>
+
+                    <!-- Distribution Product Profit Modal -->
+                    <?php if(isset($_SESSION['DistributeProductPageVars']['DistributeProductProfit'] )): ?>
+
+                    <?php 
+                        $Product = $_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct'];
+                        $PurchasedProductName = $Product['PurchasedProductName'];                        
+                        $PurchasePrice = number_format($Product['PurchasePrice'], 2);
+                        $ExportQuantity = $_SESSION['DistributeProductPageVars']['ExportQuantity'] ;
+                        $FinalSellingPrice = $_SESSION['DistributeProductPageVars']['FinalSellingPrice'];
+                        $Profit = $_SESSION['DistributeProductPageVars']['DistributeProductProfit'];
+                    ?>
+
+                    <div class="modal fade show d-block" id="productModal" tabindex="-1" aria-modal="true" role="dialog" style="background: rgba(0,0,0,0.5);">
+                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content bg-dark text-light">
+
+                                <!-- HEADER -->
+                                <div class="modal-header border-0">
+                                    <h5 class="modal-title w-100 text-center"><?= $PurchasedProductName ?></h5>
+                                </div>
+
+                                <!-- BODY -->
+                                <div class="modal-body">
+
+                                    <table class="table table-dark table-bordered text-center align-middle mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:40%;">اسم المنتج</th>
+                                                <td><?= htmlspecialchars($PurchasedProductName) ?></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>سعر الشراء</th>
+                                                <td><?= $PurchasePrice ?></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>الكمية المصدرة</th>
+                                                <td><?= $ExportQuantity ?></td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>سعر البيع النهائي</th>
+                                                <td><?= number_format($FinalSellingPrice, 2) ?></td>
+                                            </tr>
+
+                                            <tr class="table-success">
+                                                <th>الربح</th>
+                                                <td class="fw-bold text-success">
+                                                    <?= number_format($Profit, 2) ?>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <!-- FOOTER -->
+                                <div class="modal-footer border-0">
+                                    <form method="GET" action="<?= $ActionFilePath ?>">
+                                        <button type="submit" name="close_distribute_product_profit_modal" 
+                                                class="btn btn-outline-danger w-100 fw-bold">
+                                            إغلاق
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php endif; ?>
+
                     <form method="POST" action="<?= $ActionFilePath ?>">
 
                         <?php if(isset($_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct'])):?>
@@ -442,11 +516,23 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                                     readonly>
                             </div>
 
+                            <!-- Distribute DateTime -->
+                            <div class="mb-3">
+                                <label class="form-label text-light">تاريخ ووقت التصدير</label>
+                                <input type="datetime-local"
+                                    name="export_date_time"
+                                    class="modern-input active-input"
+                                    <?php echo isset($_SESSION['DistributeProductPageVars']['ExportToBranchDateTime']) 
+                                            ? 'value="' . $_SESSION['DistributeProductPageVars']['ExportToBranchDateTime'] . '"' 
+                                            : ''; ?>
+                                    required>
+                            </div>
+
                             <!-- Final Selling Price -->
                             <div class="mb-3">
                                 <label class="form-label text-light">سعر البيع النهائي</label>
                                 <input type="number"
-                                    name="FinalSellingPrice"
+                                    name="final_selling_price"
                                     class="modern-input active-input"
                                     min="1"
                                     step="0.01"
@@ -460,7 +546,7 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
                             <div class="mb-3">
                                 <label class="form-label text-light">الكمية المراد تصديرها</label>
                                 <input type="number"
-                                    name="ExportQuantity"
+                                    name="export_quantity"
                                     class="modern-input active-input"
                                     min="1"
                                     <?php echo isset($_SESSION['DistributeProductPageVars']['ExportQuantity']) 
@@ -471,12 +557,23 @@ $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_pro
 
                         <?php endif;?>
 
-                        <!-- Submit -->
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" name="distribute_product" class="submit-btn">
-                                تصدير المنتج
-                            </button>
-                        </div>
+                        <?php if(isset($_SESSION['DistributeProductPageVars']['SelectedPurchasedProduct'])): ?>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" name="show_distribute_product_profit_modal" class="submit-btn">
+                                    الربح من تصدير المنتج
+                                </button>
+
+                                <button type="submit" name="distribute_product" class="submit-btn">
+                                    تصدير المنتج
+                                </button>
+                            </div>
+                        <?php else: ?>
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" name="distribute_product" class="submit-btn">
+                                    تصدير المنتج
+                                </button>
+                            </div>
+                        <?php endif; ?>
 
                     </form>
                 </div>
