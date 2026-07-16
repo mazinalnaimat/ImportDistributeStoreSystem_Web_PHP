@@ -21,6 +21,8 @@ $UserImgPath = isset($_SESSION['PageVars']['TmpUserImg'])
 
 $ActionPathFile = "/Project%20Files/Basic%20Version/Presentation/actions/edit_user_info_action.php";
 
+
+
 ?>
 
 <!DOCTYPE html>

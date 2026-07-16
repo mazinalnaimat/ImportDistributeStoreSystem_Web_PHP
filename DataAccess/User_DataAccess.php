@@ -76,9 +76,8 @@ require_once __DIR__ . "/Settings.php";
     {
         $User =GetUserByUserName_DataAccess($UserName);
         
-        if($User  != false && $User['Password'] ==  hash('sha256', $Password)) 
+        if($User  != false && $User['Password'] == $Password) 
         {
-            unset($User['Password']);
             return $User;
         }
         return false;
@@ -99,7 +98,7 @@ require_once __DIR__ . "/Settings.php";
 
             $Stmt = $Connection->prepare
             (
-                "SELECT * FROM vw_full_users_info WHERE Email = :Email"
+                "SELECT * FROM  users WHERE Email = :Email"
             );
             $Stmt->bindParam(":Email", $Email);
             $Stmt->execute();
@@ -133,7 +132,7 @@ require_once __DIR__ . "/Settings.php";
 
             $Stmt = $Connection->prepare
             (
-                "SELECT * FROM vw_full_users_info WHERE Phone = :Phone"
+                "SELECT * FROM users WHERE Phone = :Phone"
             );
             $Stmt->bindParam(":Phone", $Phone);
             $Stmt->execute();
@@ -192,7 +191,7 @@ require_once __DIR__ . "/Settings.php";
         }
     }
 
-    function UpdateUserNameAndPersonInfoByUserId_DataAccess(int $UserId, $UpdatedUserInfo, int &$ErrorNum = 0)
+    function UpdateUserInfoByUserId_DataAccess(int $UserId, $UpdatedUserInfo, int &$ErrorNum = 0)
     {
         try 
         {
@@ -205,7 +204,7 @@ require_once __DIR__ . "/Settings.php";
             //  Check if the user exists
             $Stmt = $Connection->prepare
             (
-                " SELECT PersonId FROM users WHERE UserId = :UserId"
+                " SELECT UserId FROM users WHERE UserId = :UserId"
             );
             $Stmt->bindParam(":UserId", $UserId);
             $Stmt->execute();

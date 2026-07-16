@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE)
 }
 function Login($UserName, $Password)
 {
-    $User = GetUserByUserNameAndPass_DataAccess($UserName, $Password);
+    $User = GetUserByUserNameAndPass_Business($UserName, $Password);
 
     if ($User) 
     {

@@ -78,12 +78,12 @@ function SaveUpdatedUserInfo($UpdatedUserInfo)
             if
             (
                 $UpdatedUserInfo['UserName']  == $_SESSION['CurrentUser']['UserName'] &&
-                $UpdatedUserInfo['FirstName'] == $_SESSION['CurrentUser']['PersonInfo']['FirstName'] &&
-                $UpdatedUserInfo['LastName']  == $_SESSION['CurrentUser']['PersonInfo']['LastName'] && 
-                $UpdatedUserInfo['Email']     == $_SESSION['CurrentUser']['PersonInfo']['Email'] && 
-                $UpdatedUserInfo['Phone']     == $_SESSION['CurrentUser']['PersonInfo']['Phone'] && 
-                $UpdatedUserInfo['Address']   == $_SESSION['CurrentUser']['PersonInfo']['Address'] && 
-                $UpdatedUserInfo['DoB']       == $_SESSION['CurrentUser']['PersonInfo']['DoB'] && 
+                $UpdatedUserInfo['FirstName'] == $_SESSION['CurrentUser']['FirstName'] &&
+                $UpdatedUserInfo['LastName']  == $_SESSION['CurrentUser']['LastName'] && 
+                $UpdatedUserInfo['Email']     == $_SESSION['CurrentUser']['Email'] && 
+                $UpdatedUserInfo['Phone']     == $_SESSION['CurrentUser']['Phone'] && 
+                $UpdatedUserInfo['Address']   == $_SESSION['CurrentUser']['Address'] && 
+                $UpdatedUserInfo['DoB']       == $_SESSION['CurrentUser']['DoB'] && 
                 !isset($_SESSION['PageVars']['TmpUserImg'])
             )
             {
@@ -100,11 +100,10 @@ function SaveUpdatedUserInfo($UpdatedUserInfo)
             }
 
             // Update DB
-            if (UpdateUserNameAndPersonInfoByUserId_Business($_SESSION['CurrentUser']['UserId'], $UpdatedUserInfo))
+            if (UpdateUserInfoByUserId_Business($_SESSION['CurrentUser']['UserId'], $UpdatedUserInfo))
             {
                 $_SESSION['CurrentUser'] = GetUserById_Business($_SESSION['CurrentUser']['UserId']);
-                $_SESSION['CurrentUser']['PersonInfo'] = GetPersonInfoForUserByPersonId_Business($_SESSION['CurrentUser']['PersonId']);
-                $userImgName = $_SESSION['CurrentUser']['PersonInfo']['PersonalImgName'] ?? '';
+                $userImgName = $_SESSION['CurrentUser']['PersonalImgName'] ?? '';
 
                 $_SESSION['CurrentUser']['UserImgPath'] = $userImgName
                     ? "/Project%20Files/Basic%20Version/uploads/users/" . rawurlencode($userImgName)
@@ -146,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $UpdatedUserInfo['Phone']     = trim($_POST['phone']);
         $UpdatedUserInfo['Address']   = trim($_POST['address']);
         $UpdatedUserInfo['DoB']       = trim($_POST['dob']);
-        $UpdatedUserInfo['PersonalImgName'] = $_SESSION['CurrentUser']['PersonInfo']['PersonalImgName'];
+        $UpdatedUserInfo['PersonalImgName'] = $_SESSION['CurrentUser']['PersonalImgName'];
         SaveUpdatedUserInfo($UpdatedUserInfo);
     }
 

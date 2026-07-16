@@ -26,14 +26,6 @@ require_once __DIR__ . "/../DataAccess/User_DataAccess.php";
     }
 
 
-    function GetPeronIdOfUserByUserId_Business(int $UserId)
-    {
-        $User = GetUserByUserId_DataAccess($UserId); 
-        if($User)
-            return  $User['PersonId'];
-        return $User;
-    }
-
     function GetUserByUserName_Business(string $UserName)
     {         
         
@@ -45,28 +37,12 @@ require_once __DIR__ . "/../DataAccess/User_DataAccess.php";
 
     function GetUserByUserNameAndPass_Business(string $UserName, string $Password)
     {
+        $Password =hash("sha256", $Password);
         $User = GetUserByUserNameAndPass_DataAccess($UserName, $Password);
         if($User)
             return  GetCustomUserInfo_Business($User);
         return $User;
     }
-
-    function GetUserByEmail_Business(string $Email)
-    {
-        $User = GetUserByEmail_DataAccess($Email);
-        if($User)
-            return  GetCustomUserInfo_Business($User);
-        return $User;
-    }
-
-    function GetUserByPhone_Business(string $Phone)
-    {
-         $User = GetUserByPhone_DataAccess($Phone);
-        if($User)
-            return  GetCustomUserInfo_Business($User);
-        return $User;
-    }
-
 
     function UpdateUserPasswordById_Business(int $UserId, string $NewPassword)
     {
@@ -76,11 +52,10 @@ require_once __DIR__ . "/../DataAccess/User_DataAccess.php";
         return false;
     }
     
-    function UpdateUserNameAndPersonInfoByUserId_Business(int $UserId, $UpdatedUserInfo, int &$ErrorNum)
+    function UpdateUserInfoByUserId_Business(int $UserId, $UpdatedUserInfo, int &$ErrorNum=0)
     {
-        return UpdateUserNameAndPersonInfoByUserId_DataAccess($UserId, $UpdatedUserInfo, $ErrorNum);
+        return UpdateUserInfoByUserId_DataAccess($UserId, $UpdatedUserInfo, $ErrorNum);
     }
 
-   
 
 ?>
