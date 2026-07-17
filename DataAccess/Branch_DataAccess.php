@@ -155,9 +155,15 @@ require_once __DIR__ . "/Settings.php";
 
             $SearchText = trim($SearchText);
             $SearchTerm = "%$SearchText%";
+            
+            if($ColName != "UserName")
+            {
+                $ColName = 'branches.' .$ColName;
+            }
 
             if($SearchText == "")
             {
+
                 $Sql = "SELECT branches.*, users.UserName AS UserName
                         FROM branches
                         LEFT JOIN users
