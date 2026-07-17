@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . "/../../includes/auth.php";
-require_once __DIR__ . "/../../includes/Presentation_Utils.php";
 
 
 if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF']) 
@@ -48,27 +47,27 @@ $ActionPathFile = "/Project%20Files/Basic%20Version/Presentation/actions/edit_us
 
     <main class="container py-5">
         
-        <div class="row align-items-center mb-5">
-            <div class="col-4 d-flex justify-content-start">
+        <div class="row align-items-center mb-5 profile-page-heading">
+            <div class="col-4 d-flex justify-content-start profile-back-slot">
                 <?php if (!empty($_SESSION['page_stack']) && count($_SESSION['page_stack']) > 1): ?>
                     <form method="POST" action="<?= $ActionPathFile ?>">
-                        <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                        <button type="submit" name="go_back" class="btn app-back-button">
                             <i class="bi bi-arrow-right-short"></i> رجوع
                         </button>
                     </form>
                 <?php endif; ?>
             </div>
 
-            <div class="col-4 text-center">
+            <div class="col-4 text-center profile-heading-content">
                 <div class="d-inline-block position-relative mb-2">
                     <i class="bi bi-person-gear display-5 text-danger"></i>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.4em;">EDIT</span>
                 </div>
                 <h2 class="fw-bold text-white mb-0">تعديل الملف الشخصي</h2>
-                <div class="mt-2 mx-auto" style="width: 40px; height: 4px; background: #ff4d4d; border-radius: 10px;"></div>
+                <div class="title-underline" aria-hidden="true"></div>
             </div>
             
-            <div class="col-4"></div>
+            <div class="col-4 profile-back-slot"></div>
         </div>
 
         <!-- Show Save User Info Status Alert-->

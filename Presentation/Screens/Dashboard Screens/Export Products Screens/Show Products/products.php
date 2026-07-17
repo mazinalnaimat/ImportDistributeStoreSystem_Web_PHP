@@ -40,9 +40,9 @@ $ActionFilePath = "../../../../actions/products_action.php";
         </div>
 
         <!-- Back Button + Toggle View Mode-->
-        <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center">
+        <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center responsive-action-bar">
             <form action="<?=$ActionFilePath?>" method="GET" class="d-inline">
-                <button type="submit" name="back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                <button type="submit" name="back" class="btn app-back-button">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </button>
             </form>
@@ -66,7 +66,7 @@ $ActionFilePath = "../../../../actions/products_action.php";
             <div class="d-flex flex-wrap justify-content-between justify-content-md-start align-items-center gap-3">
 
                 <!-- Search Card -->
-                <div class="flex-grow-1" style="min-width: 250px;">
+                <div class="flex-grow-1 responsive-control-block">
                     <div class="card bg-dark border-secondary text-light shadow-sm p-3" style="border-radius: 14px;">
                         <form method="GET" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
 
@@ -89,7 +89,7 @@ $ActionFilePath = "../../../../actions/products_action.php";
                 </div>
 
                 <!-- Right Side Filters -->
-                <div class="d-flex flex-wrap gap-3 align-items-center justify-content-end justify-content-md-start" style="min-width: 250px;">
+                <div class="d-flex flex-wrap gap-3 align-items-center justify-content-end justify-content-md-start responsive-filter-group">
                     <?php $NumberOfItemsPerPage = $_SESSION["PageVars"]['NumberOfItemsPerPage'] ?? 8;
                         $PageNumber = $_SESSION["PageVars"]['PurchasedProductsPageNumber'] ?? 1;
                         $TotalResults = $_SESSION["PageVars"]['TotalSearchResultNumber'] ?? 0;
@@ -224,49 +224,49 @@ $ActionFilePath = "../../../../actions/products_action.php";
                             <div class="col-md-6">
                                 <ul class="list-group list-group-flush bg-dark">
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">الاسم:</span>
-                                        <span class="flex-fill text-start"><?= $PurchasedProductName ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">الاسم:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $PurchasedProductName ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">المورد:</span>
-                                        <span class="flex-fill text-start"><?= $SupplierName ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">المورد:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $SupplierName ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">الكمية:</span>
-                                        <span class="flex-fill text-start"><?= $Quantity ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">الكمية:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $Quantity ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">المتبقي:</span>
-                                        <span class="flex-fill text-start"><?= $RemainingQuantity ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">المتبقي:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $RemainingQuantity ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2"> تاريخ ووقت الوصول:</span>
-                                        <span class="flex-fill text-start"><?= $ArrivalDate ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap"> تاريخ ووقت الوصول:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $ArrivalDate ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">سعر الشراء:</span>
-                                        <span class="flex-fill text-start"><?= $PurchasePrice ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">سعر الشراء:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $PurchasePrice ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">سعر البيع الأساسي:</span>
-                                        <span class="flex-fill text-start"><?= $BaseSellingPrice ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">سعر البيع الأساسي:</span>
+                                        <span class="flex-grow-1 text-start text-break" style="min-width: 0;"><?= $BaseSellingPrice ?></span>
                                     </li>
                                     
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2">الربح:</span>
-                                        <span class="flex-fill text-start <?= $ProfitClass ?>"><?= $Profit ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">الربح:</span>
+                                        <span class="flex-grow-1 text-start text-break <?= $ProfitClass ?>" style="min-width: 0;"><?= $Profit ?></span>
                                     </li>
 
-                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                        <span class="fw-bold ms-2 ">الربح الإجمالي:</span>
-                                        <span class="flex-fill text-start <?= $ProfitClass ?>"><?= $Profit * $Quantity ?></span>
+                                    <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-start gap-2">
+                                        <span class="fw-bold ms-2 flex-shrink-0 text-nowrap">الربح الإجمالي:</span>
+                                        <span class="flex-grow-1 text-start text-break <?= $ProfitClass ?>" style="min-width: 0;"><?= $Profit * $Quantity ?></span>
                                     </li>
 
                                 </ul>

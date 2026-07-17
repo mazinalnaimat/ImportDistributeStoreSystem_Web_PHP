@@ -1,34 +1,168 @@
+main.container {
+    max-width: 1240px;
+}
 
-/* Page title */
-.page-title 
-{
-    color: #ff4d4d;
-    font-weight: bold;
-    margin-bottom: 30px;
+.big-card-responsive {
+    position: relative;
+    min-height: 330px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 34px !important;
+    color: #fff;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,63,70,.18), transparent 44%),
+        linear-gradient(155deg, #1b1b1f, #111113) !important;
+    border: 1px solid rgba(255,63,70,.26) !important;
+    border-radius: 25px !important;
+    box-shadow: var(--app-shadow-soft) !important;
+    transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+}
+
+.big-card-responsive::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 32px;
+    width: 90px;
+    height: 3px;
+    border-radius: 0 0 999px 999px;
+    background: var(--app-red);
+    box-shadow: 0 0 18px rgba(255,63,70,.62);
+}
+
+.big-card-responsive:hover {
+    transform: translateY(-9px);
+    border-color: rgba(255,63,70,.63) !important;
+    box-shadow: 0 26px 62px rgba(0,0,0,.43), 0 0 30px rgba(255,45,55,.10) !important;
+}
+
+.big-card-responsive .icon-circle {
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    padding: 0 !important;
+    background: linear-gradient(145deg, rgba(255,63,70,.17), rgba(255,63,70,.035)) !important;
+    border: 1px solid rgba(255,63,70,.34);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 17px 38px rgba(255,35,45,.10);
+}
+
+.big-card-responsive i {
+    font-size: 2.65rem !important;
+}
+
+.big-card-responsive h2 {
+    margin-bottom: 10px;
+    font-size: clamp(1.8rem, 4vw, 2.55rem) !important;
+}
+
+.big-card-responsive span {
+    max-width: 270px;
+    line-height: 1.75;
+}
+
+main.container > .card.bg-dark,
+main.container > form + .card,
+main.container .card.bg-dark.text-light.border-secondary {
+    padding: clamp(18px, 3vw, 28px) !important;
+    background: linear-gradient(150deg, rgba(28,28,31,.97), rgba(17,17,19,.98)) !important;
+    border: 1px solid rgba(255,63,70,.20) !important;
+    border-radius: 21px;
+}
+
+main.container .table-responsive {
+    margin-top: 18px;
+}
+
+main.container .badge.bg-danger {
+    background: rgba(255,63,70,.15) !important;
+    color: #ff8b90 !important;
+    border: 1px solid rgba(255,63,70,.28);
+}
+
+main.container .badge.bg-secondary {
+    background: rgba(255,255,255,.08) !important;
+    color: #d7d7dc !important;
+    border: 1px solid rgba(255,255,255,.08);
+}
+
+@media (max-width: 767.98px) {
+    .big-card-responsive {
+        min-height: 265px;
+    }
+}
+
+/* Responsive consistency fixes */
+.search-mode-grid {
+    align-items: stretch !important;
+}
+
+.search-mode-grid > [class*="col-"] {
+    display: flex;
+}
+
+.search-mode-grid form,
+.search-mode-grid .big-card-responsive {
+    width: 100%;
+    height: 100%;
+}
+
+.big-card-responsive {
+    min-height: 340px;
+}
+
+.big-card-responsive h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.45em;
+    margin-inline: auto;
+    line-height: 1.25;
+}
+
+.big-card-responsive span {
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 3.5em;
     text-align: center;
 }
 
-/* Custom sizing to make cards feel "Large" but fluid */
-.big-card-responsive 
-{
-    min-height: 40vh; /* Takes 40% of the screen height */
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border-radius: 20px !important;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+main.container .table-responsive > .table {
+    min-width: 1180px;
 }
 
-/* Bigger icon scaling */
-.big-card-responsive i 
-{
-    font-size: calc(4rem + 2vw); /* Icon size grows with screen width */
-}
+@media (max-width: 767.98px) {
+    .big-card-responsive {
+        min-height: 280px;
+        padding: 26px 20px !important;
+    }
 
-/* Hover effect: lift and glow */
-.big-card-responsive:hover 
-{
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(220, 53, 69, 0.4) !important;
+    .big-card-responsive h2 {
+        min-height: auto;
+        font-size: clamp(1.55rem, 8vw, 2rem) !important;
+    }
+
+    .big-card-responsive span {
+        min-height: auto;
+        font-size: .96rem !important;
+    }
+
+    .responsive-action-bar .col-auto,
+    .responsive-action-bar .col-auto form {
+        width: 100%;
+    }
+
+    .responsive-action-bar .col-auto.d-flex,
+    .responsive-action-bar .col-auto.d-flex form {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .responsive-action-bar .col-auto.d-flex .btn {
+        flex: 1 1 160px;
+    }
 }

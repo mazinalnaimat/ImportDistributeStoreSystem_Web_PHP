@@ -1,12 +1,88 @@
-
-/* Page title */
-.page-title 
-{
-    color: #ff4d4d;
-    font-weight: bold;
-    margin-bottom: 30px;
-    text-align: center;
+main.container {
+    max-width: 1220px;
 }
 
+main.container > .row {
+    margin-top: 22px;
+}
 
+.hover-card.card {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(255,63,70,.13), transparent 44%),
+        linear-gradient(155deg, #1b1b1f, #111113) !important;
+    border: 1px solid rgba(255,63,70,.21) !important;
+    border-radius: 22px !important;
+}
 
+.hover-card.card::after {
+    content: "";
+    position: absolute;
+    right: 24px;
+    bottom: 0;
+    width: 74px;
+    height: 3px;
+    border-radius: 999px 999px 0 0;
+    background: var(--app-red);
+    box-shadow: 0 0 17px rgba(255,63,70,.55);
+}
+
+.hover-card .ratio {
+    overflow: hidden;
+    background: #0c0c0e;
+}
+
+.hover-card .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .48s ease;
+}
+
+.hover-card:hover .card-img-top {
+    transform: scale(1.045);
+}
+
+.hover-card .card-body {
+    padding: 23px 20px 26px;
+}
+
+.hover-card .fs-3,
+.hover-card .fs-4 {
+    color: var(--app-red) !important;
+}
+
+.hover-card .text-uppercase {
+    letter-spacing: .03em;
+}
+
+/* Responsive consistency fixes */
+main.container > .row > [class*="col-"] {
+    display: flex;
+}
+
+.hover-card.card {
+    width: 100%;
+    height: 100%;
+}
+
+.hover-card .card-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.hover-card .card-title,
+.hover-card h5,
+.hover-card h4 {
+    min-height: 2.5em;
+}
+
+@media (max-width: 575.98px) {
+    .hover-card .card-title,
+    .hover-card h5,
+    .hover-card h4 {
+        min-height: auto;
+    }
+}

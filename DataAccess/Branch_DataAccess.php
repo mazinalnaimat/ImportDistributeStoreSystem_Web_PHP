@@ -212,7 +212,6 @@ require_once __DIR__ . "/Settings.php";
         }
         catch(PDOException $e)
         {
-            var_dump($e);
             return [];
         }
         finally

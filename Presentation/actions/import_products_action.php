@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/../includes/auth.php";
 
-require_once __DIR__ . "/../includes/Presentation_Utils.php";
 require_once __DIR__ . "/../../Business/Business_Utils.php";
 require_once __DIR__ . "/../../Business/PurchasedProduct.php";
 

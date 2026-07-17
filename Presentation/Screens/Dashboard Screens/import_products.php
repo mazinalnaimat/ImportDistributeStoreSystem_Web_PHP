@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . "/../../includes/auth.php";
 
-require_once __DIR__ . "/../../includes/Presentation_Utils.php";
 
 
 
@@ -45,9 +44,9 @@ $ActionFilePath = "/Project%20Files/Basic%20Version/Presentation/actions/import_
 
             <?php if(!isset($_SESSION['PageVars']['NewPurchasedProductId']) || $_SESSION['PageVars']['NewPurchasedProductId']== null || $_SESSION['PageVars']['NewPurchasedProductId']== 0):?>
                 <!--Back Button  -->
-                <div class="d-flex justify-content-between mb-4">
+                <div class="d-flex justify-content-between mb-4 responsive-action-bar">
                     <form method="POST" action="<?=$ActionFilePath?>">
-                        <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                        <button type="submit" name="go_back" class="btn app-back-button">
                             <i class="bi bi-arrow-right me-2"></i> رجوع
                         </button>
                     </form>

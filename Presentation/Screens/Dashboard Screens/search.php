@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . "/../../includes/auth.php";
-require_once __DIR__ . "/../../includes/Presentation_Utils.php";
 
 
 
@@ -12,7 +11,6 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
 
 $ActionFilePath = "../../actions/search_action.php";
 
-// var_dump($_SESSION['PageVars'] );
 ?>
 
 <!DOCTYPE html>
@@ -43,11 +41,11 @@ $ActionFilePath = "../../actions/search_action.php";
         </div>
         
         <!-- Back Button & Change Search Mode -->
-        <div class="row g-3 mb-4 align-items-center">
+        <div class="row g-3 mb-4 align-items-center responsive-action-bar">
             <!--Back Button   -->
             <div class="col-auto">
                 <form method="GET" action="<?= $ActionFilePath ?>">
-                    <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                    <button type="submit" name="go_back" class="btn app-back-button">
                         <i class="bi bi-arrow-right me-2"></i> رجوع
                     </button>
                 </form>
@@ -72,12 +70,12 @@ $ActionFilePath = "../../actions/search_action.php";
 
         <!-- Choose the search mode when entering the page for the first time -->
         <?php if (!isset($_SESSION['PageVars']['SearchMode'])): ?>
-            <div class="row mt-5  g-4 justify-content-center align-items-center">
+            <div class="row mt-5 g-4 justify-content-center align-items-stretch search-mode-grid">
                 
-                <div class="col-11 col-sm-10 col-md-6 col-lg-4">
-                    <form method="GET" action="<?= $ActionFilePath ?>">
+                <div class="col-12 col-sm-10 col-md-6 col-lg-5 d-flex">
+                    <form method="GET" class="w-100 h-100" action="<?= $ActionFilePath ?>">
                         <button type="submit" name="set_search_mode" value="branches" 
-                                class="btn btn-dark border-danger w-100 shadow-lg big-card-responsive p-3">
+                                class="btn btn-dark border-danger w-100 h-100 shadow-lg big-card-responsive p-3">
                             
                             <div class="icon-circle mb-4 bg-danger bg-opacity-10 p-3 rounded-circle">
                                 <i class="bi bi-house-gear text-danger"></i>
@@ -89,10 +87,10 @@ $ActionFilePath = "../../actions/search_action.php";
                     </form>
                 </div>
 
-                <div class="col-11 col-sm-10 col-md-6 col-lg-4">
-                    <form method="GET" action="<?= $ActionFilePath ?>">
+                <div class="col-12 col-sm-10 col-md-6 col-lg-5 d-flex">
+                    <form method="GET" class="w-100 h-100" action="<?= $ActionFilePath ?>">
                         <button type="submit" name="set_search_mode" value="distributions" 
-                                class="btn btn-dark border-danger w-100 shadow-lg big-card-responsive p-3">
+                                class="btn btn-dark border-danger w-100 h-100 shadow-lg big-card-responsive p-3">
                             
                             <div class="icon-circle mb-4 bg-danger bg-opacity-10 p-3 rounded-circle">
                                 <i class="bi bi-truck text-danger"></i>

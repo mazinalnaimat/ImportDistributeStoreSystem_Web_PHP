@@ -28,23 +28,23 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
     <?php include_once __DIR__ . "/../../includes/header.php"; ?>
 
     <main class="container py-5">
-        <div class="row align-items-center mb-5">
-            <div class="col-4">
+        <div class="row align-items-center mb-5 profile-page-heading">
+            <div class="col-4 profile-back-slot">
                 <?php if (!empty($_SESSION['page_stack']) && count($_SESSION['page_stack']) > 1): ?>
                     <form method="POST" action="/Project%20Files/Basic%20Version/Presentation/actions/user_info_action.php">
-                        <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                        <button type="submit" name="go_back" class="btn app-back-button">
                             <i class="bi bi-arrow-right me-2"></i> رجوع
                         </button>
                     </form>
                 <?php endif; ?>
             </div>
 
-            <div class="col-4 text-center">
+            <div class="col-4 text-center profile-heading-content">
                 <i class="bi bi-person-badge-fill display-5 text-danger"></i>
                 <h2 class="fw-bold text-white mb-0">الملف الشخصي</h2>
                 <div class="title-underline"></div>
             </div>
-            <div class="col-4"></div>
+            <div class="col-4 profile-heading-spacer"></div>
         </div>
 
         <div class="profile-card shadow-lg border-0">

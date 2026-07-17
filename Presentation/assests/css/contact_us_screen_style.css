@@ -1,55 +1,129 @@
-.page-title
-{
-    color: #ff4d4d;
-    font-weight: bold;
+main.container {
+    max-width: 1120px;
 }
 
-.contact-card
-{
-    background: #1c1c1c;
-    border-radius: 15px;
-    padding: 30px;
-    border: 1px solid #333;
-    color: white;
+main.container > .row.mt-4 {
+    margin-top: 34px !important;
+    --bs-gutter-x: 1.5rem;
 }
 
-.contact-item
-{
+.contact-card {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    padding: clamp(24px, 4vw, 38px);
+    background:
+        radial-gradient(circle at 100% 0%, rgba(255,63,70,.10), transparent 34%),
+        linear-gradient(155deg, #1b1b1f, #111113);
+    border: 1px solid rgba(255,63,70,.22);
+    border-radius: 24px;
+    box-shadow: var(--app-shadow-soft);
+}
+
+.contact-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 28px;
+    width: 84px;
+    height: 3px;
+    border-radius: 0 0 999px 999px;
+    background: var(--app-red);
+    box-shadow: 0 0 17px rgba(255,63,70,.55);
+}
+
+.contact-card h4 {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
-    font-size: 18px;
+    gap: 12px;
+    margin-bottom: 30px !important;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 850;
 }
 
-.contact-item i
-{
-    color: #ff4d4d;
-    font-size: 24px;
-    margin-left: 15px;
+.contact-card h4 i {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: var(--app-red) !important;
+    background: rgba(255,63,70,.09);
+    border: 1px solid rgba(255,63,70,.28);
+    border-radius: 14px;
 }
 
-.form-control
-{
-    background: #2b2b2b;
-    color: white;
-    border: 1px solid #444;
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 66px;
+    margin-bottom: 13px;
+    padding: 13px 15px;
+    color: #dedee3;
+    background: rgba(255,255,255,.025);
+    border: 1px solid rgba(255,255,255,.065);
+    border-radius: 15px;
+    font-size: 1rem;
+    transition: transform .22s ease, border-color .22s ease, background .22s ease;
 }
 
-.form-control:focus
-{
-    background: #2b2b2b;
-    color: white;
-    border-color: #ff4d4d;
-    box-shadow: none;
+.contact-item:hover {
+    transform: translateX(-4px);
+    background: rgba(255,63,70,.045);
+    border-color: rgba(255,63,70,.30);
 }
 
-textarea
-{
-    resize: none;
+.contact-item i {
+    display: grid;
+    place-items: center;
+    width: 39px;
+    height: 39px;
+    flex: 0 0 39px;
+    margin: 0;
+    color: var(--app-red);
+    background: rgba(255,63,70,.075);
+    border-radius: 12px;
+    font-size: 1.05rem;
 }
 
-.btn-danger
-{
-    border-radius: 30px;
-    padding: 10px 40px;
+.contact-card textarea {
+    min-height: 175px;
+}
+
+.contact-card .btn-danger {
+    min-height: 48px;
+    padding-inline: 34px !important;
+    border-radius: 999px;
+}
+
+@media (max-width: 991.98px) {
+    .contact-card {
+        height: auto;
+    }
+}
+
+/* Responsive consistency fixes */
+main.container > .row.mt-4 > [class*="col-"] {
+    display: flex;
+}
+
+.contact-card {
+    width: 100%;
+}
+
+.contact-item > div,
+.contact-item > span,
+.contact-item > a {
+    min-width: 0;
+}
+
+@media (max-width: 575.98px) {
+    .contact-card {
+        padding: 22px 18px;
+    }
+
+    .contact-item {
+        align-items: flex-start;
+    }
 }

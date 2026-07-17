@@ -44,9 +44,9 @@ $ActionFileName = "../../actions/statistics_action.php";
         </div>
 
         <!-- Button to back to previous page -->
-        <div class="d-flex justify-content-between mb-4">
+        <div class="d-flex justify-content-between mb-4 responsive-action-bar">
             <form method="GET" action=<?=$ActionFileName?>>
-                <button type="submit" name="go_back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                <button type="submit" name="go_back" class="btn app-back-button">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </button>
             </form>

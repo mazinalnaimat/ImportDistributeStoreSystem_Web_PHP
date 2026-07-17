@@ -34,7 +34,7 @@ $ActionFilePath = "../actions/about_us_action.php";
 
             <section class="about-heading" aria-labelledby="about-page-title">
                 <form method="GET" action="<?= htmlspecialchars($ActionFilePath, ENT_QUOTES, 'UTF-8') ?>" class="back-form">
-                    <button type="submit" name="go_back" class="back-button">
+                    <button type="submit" name="go_back" class="back-button app-back-button">
                         <i class="bi bi-arrow-right" aria-hidden="true"></i>
                         <span>رجوع</span>
                     </button>
@@ -103,7 +103,7 @@ $ActionFilePath = "../actions/about_us_action.php";
                             <img
                                 src="../assests/imgs/about/laptops.png"
                                 class="category-image"
-                                alt="حواسيب محمولة حديثة"
+                                alt="حاسوبات محمولة حديثة"
                             >
                             <span class="category-number">01</span>
                         </div>
@@ -112,7 +112,7 @@ $ActionFilePath = "../actions/about_us_action.php";
                                 <i class="bi bi-laptop"></i>
                             </div>
                             <div>
-                                <h3>حواسيب محمولة</h3>
+                                <h3>حاسوبات محمولة</h3>
                                 <p>خيارات متنوعة للعمل والدراسة والترفيه بأداء قوي وتصميمات حديثة.</p>
                             </div>
                             <span class="category-arrow" aria-hidden="true">

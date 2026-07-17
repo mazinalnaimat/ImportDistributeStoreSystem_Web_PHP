@@ -200,7 +200,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
     else if(isset($_GET['view_mode']))
     {
         SetViewMode($_GET['view_mode']);
-        var_dump($_SESSION["ProductsPageVars"]["ViewMode"]);
 
     }
 

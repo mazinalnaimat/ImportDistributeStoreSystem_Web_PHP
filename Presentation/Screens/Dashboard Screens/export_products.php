@@ -37,17 +37,17 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
             </div>
 
             <!-- Back Button  -->
-            <div class="d-flex justify-content-between mb-4">
-                <a href="dashboard.php" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+            <div class="d-flex justify-content-between mb-4 responsive-action-bar">
+                <a href="dashboard.php" class="btn app-back-button">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </a>
             </div>
 
-            <div class="row justify-content-center g-4">
+            <div class="row justify-content-center align-items-stretch g-4 export-options-grid">
 
                 <!-- Card 1: Products -->
-                <div class="col-md-4">
-                    <a href="Export Products Screens/Show Products/products.php" class="text-decoration-none">
+                <div class="col-12 col-md-6 col-lg-5 d-flex">
+                    <a href="Export Products Screens/Show Products/products.php" class="text-decoration-none w-100 h-100">
                         <div class="card text-center h-100 shadow-sm hover-scale">
                             <div class="card-body">
                                 <i class="bi bi-box-seam text-danger display-4 mb-3"></i>
@@ -59,8 +59,8 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
                 </div>
 
                 <!-- Card 2: Distribution place -->
-                <div class="col-md-4">
-                    <a href="Export Products Screens/Distribute Products/distribute_product.php" class="text-decoration-none">
+                <div class="col-12 col-md-6 col-lg-5 d-flex">
+                    <a href="Export Products Screens/Distribute Products/distribute_product.php" class="text-decoration-none w-100 h-100">
                         <div class="card text-center h-100 shadow-sm hover-scale">
                             <div class="card-body">
                                 <i class="bi bi-truck text-danger display-4 mb-3"></i>

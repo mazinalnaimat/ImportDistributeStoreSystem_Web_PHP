@@ -29,6 +29,7 @@ $ActionPath = "/Project%20Files/Basic%20Version/Presentation/actions/login_actio
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة متجر ALOFOQ - تسجيل الدخول</title>
     <link rel="icon" type="image/png" href="/Project%20Files/Basic%20Version/Presentation/assests/imgs/ALOFOQ%20logo%20without%20text.png">
 

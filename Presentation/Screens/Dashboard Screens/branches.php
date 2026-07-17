@@ -97,10 +97,10 @@ $ActionFilePath = "../../actions/branches_action.php";
         <?php endif; ?>
 
         <!-- Back Button + Toggle View Mode + Add New Branch -->
-        <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center">
+        <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center responsive-action-bar">
             <!-- Back Button -->
             <form method="GET" action="<?=$ActionFilePath?>"  class="d-inline">
-                <button type="submit" name="back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                <button type="submit" name="back" class="btn app-back-button">
                     <i class="bi bi-arrow-right me-2"></i> رجوع
                 </button>
             </form>
@@ -142,7 +142,7 @@ $ActionFilePath = "../../actions/branches_action.php";
             ?>
                 
             <div class="modal show" tabindex="-1" style="display:block; background:rgba(0,0,0,0.6);">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content bg-dark text-light border-danger">
 
                         <div class="modal-header border-danger">
@@ -252,7 +252,7 @@ $ActionFilePath = "../../actions/branches_action.php";
             <div class="d-flex flex-wrap justify-content-between justify-content-md-start align-items-center gap-3">
 
                 <!-- Search Card -->
-                <div class="flex-grow-1" style="min-width: 250px;">
+                <div class="flex-grow-1 responsive-control-block">
                     <div class="card bg-dark border-secondary text-light shadow-sm p-3" style="border-radius: 14px;">
                         <form method="GET" action="<?= $ActionFilePath ?>" class="d-flex align-items-center gap-3">
 
@@ -275,7 +275,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                 </div>
 
                 <!-- Right Side Filters -->
-                <div class="d-flex flex-wrap gap-3 align-items-center justify-content-end justify-content-md-start" style="min-width: 250px;">
+                <div class="d-flex flex-wrap gap-3 align-items-center justify-content-end justify-content-md-start responsive-filter-group">
                     <?php $NumberOfItemsPerPage = $_SESSION['PageVars']['NumberOfItemsPerPage'] ?? 8;
                         $PageNumber = $_SESSION['PageVars']['BranchesPageNumber'] ?? 1;
                         $TotalResults = $_SESSION['PageVars']['TotalSearchResultNumber'] ?? 0;
@@ -333,7 +333,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                             ;
             ?>
             <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content bg-dark text-light border-danger">
                         <div class="modal-header">
                             <h5 class="modal-title">تفاصيل الفرع: <strong><?=$Branch['BranchName']?></strong></h5>
@@ -343,7 +343,7 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                                 <!-- IMAGE PREVIEW -->
                                 <div class="mb-4 text-center">
-                                    <img src="<?= $ImgPath ?>" class="img-fluid rounded border border-danger" style="max-height:350px; object-fit:cover;">
+                                    <img src="<?= $ImgPath ?>" class="img-fluid rounded border border-danger modal-feature-image">
                                 </div>
 
                                 <div class="mb-3">
@@ -405,7 +405,6 @@ $ActionFilePath = "../../actions/branches_action.php";
                 $TempBranchEmail = ($Branch['Email'] ?? '-');
                 $TempBranchAddress = ($Branch['Address'] ?? '-');
                 $TempBranchImg = $_SESSION['PageVars']['EditBranchInfo']['TempBranchImg']?? null;
-                var_dump($TempBranchImg);
                 $ImgPath = (!empty($TempBranchImg))? "../../../uploads/temp/" . $TempBranchImg :
                             ( 
                                 (!empty($Branch['BranchImgName'])) ? "../../../uploads/branches/" . $Branch['BranchImgName']
@@ -413,7 +412,7 @@ $ActionFilePath = "../../actions/branches_action.php";
                             );
             ?>
             <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content bg-dark text-light border-danger">
                         <div class="modal-header">
                             <h5 class="modal-title">تعديل الفرع: <strong><?=$Branch['BranchName']?></strong></h5>
@@ -425,7 +424,7 @@ $ActionFilePath = "../../actions/branches_action.php";
 
                             <!-- IMAGE PREVIEW -->
                             <div class="mb-3 text-center">
-                                <img src="<?= $ImgPath ?>" class="w-100 mb-3" style="height:400px; object-fit:cover;">
+                                <img src="<?= $ImgPath ?>" class="w-100 mb-3 modal-feature-image">
                             </div>
 
                             <?php if (isset($_SESSION['PageVars']['EditBranchInfo']['BranchImgUploadError'])): ?>
@@ -501,7 +500,7 @@ $ActionFilePath = "../../actions/branches_action.php";
        <!-- Delete Branch Modal  -->
         <?php if(isset($_SESSION['PageVars']['DeleteBranch'])): ?>
             <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.6);">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content bg-dark text-light border border-2 border-danger rounded-3 shadow-lg">
 
                         <!-- HEADER -->

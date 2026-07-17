@@ -23,7 +23,6 @@ if (empty($_SESSION['PrePage']) || $_SESSION['PrePage'] != $_SERVER['PHP_SELF'])
 
 $ActionFilePath= "../../../../actions/Distribute Products Actions/distribute_product_action.php";
 
-var_dump($_SESSION['DistributeProductPageVars']);
 ?>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -53,9 +52,9 @@ var_dump($_SESSION['DistributeProductPageVars']);
             </div>
 
             <!-- Back Button -->
-            <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center">
+            <div class="d-flex flex-wrap justify-content-between mb-4 gap-2 align-items-center responsive-action-bar">
                 <form action="<?=$ActionFilePath?>" method="GET" class="d-inline">
-                    <button type="submit" name="back" class="btn btn-outline-light rounded-pill px-4 btn-sm">
+                    <button type="submit" name="back" class="btn app-back-button">
                         <i class="bi bi-arrow-right me-2"></i> رجوع
                     </button>
                 </form>
@@ -197,7 +196,7 @@ var_dump($_SESSION['DistributeProductPageVars']);
                                     ;
                     ?>
                     <div class="modal show" tabindex="-1" style="display:block; background-color: rgba(0,0,0,0.5);">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content bg-dark text-light border-danger">
                                 <div class="modal-header">
                                     <h5 class="modal-title"><strong><?=$Branch['BranchName']?></strong></h5>
@@ -207,7 +206,7 @@ var_dump($_SESSION['DistributeProductPageVars']);
 
                                     <!-- IMAGE PREVIEW -->
                                     <div class="mb-3 text-center">
-                                        <img src="<?= $ImgPath ?>" class="w-100 mb-3" style="height:400px; object-fit:cover;">
+                                        <img src="<?= $ImgPath ?>" class="w-100 mb-3 modal-feature-image">
                                     </div>
 
                                     <div class="mb-3">
@@ -310,7 +309,7 @@ var_dump($_SESSION['DistributeProductPageVars']);
                                             <ul class="list-group list-group-flush bg-dark">
 
                                                 <li class="list-group-item bg-dark text-light d-flex justify-content-between">
-                                                    <span class="fw-bold ms-2">الاسم:</span>
+                                                    <span class="fw-bold ms-2 text-nowrap">الاسم:</span>
                                                     <span class="flex-fill text-start"><?= $PurchasedProductName ?></span>
                                                 </li>
 

@@ -1,72 +1,148 @@
+body {
+    background:
+        radial-gradient(circle at 82% 15%, rgba(255,45,55,.14), transparent 31%),
+        radial-gradient(circle at 18% 78%, rgba(255,45,55,.06), transparent 26%),
+        #0b0b0c;
+}
 
+body > .container.min-vh-100 {
+    min-height: calc(100vh - 200px) !important;
+    padding-top: 34px;
+    padding-bottom: 60px;
+}
 
+body > .container.min-vh-100 > .card {
+    position: relative;
+    overflow: hidden;
+    width: min(100%, 560px);
+    background:
+        radial-gradient(circle at 100% 0%, rgba(255,63,70,.12), transparent 37%),
+        linear-gradient(155deg, #1b1b1f, #111113) !important;
+    border: 1px solid rgba(255,63,70,.25) !important;
+    border-radius: 28px !important;
+    box-shadow: 0 32px 90px rgba(0,0,0,.52), 0 0 46px rgba(255,45,55,.045) !important;
+}
 
-/* Vertically center content */
-.card-body 
-{
+body > .container.min-vh-100 > .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 112px;
+    height: 3px;
+    transform: translateX(50%);
+    border-radius: 0 0 999px 999px;
+    background: var(--app-red);
+    box-shadow: 0 0 22px rgba(255,63,70,.70);
+}
+
+body > .container.min-vh-100 > .card .card-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: clamp(28px, 5vw, 52px) !important;
 }
 
-/* Better spacing */
-.card .mb-4
-{
-    margin-bottom: 1.8rem !important;
+body > .container.min-vh-100 > .card h2,
+body > .container.min-vh-100 > .card h3 {
+    color: #fff !important;
+    font-size: clamp(1.75rem, 4vw, 2.35rem);
+    font-weight: 900;
 }
 
-
-/* Card Inputs */
-.card input.form-control 
-{
-   background-color: #1e1e1e;
-    color: #fff;
-    border: 1px solid #333;
-}
-.card input.form-control::placeholder 
-{
-    color: #bbb;
-}
-.card input.form-control:focus 
-{
-    border-color: #ff4d4d;
-    box-shadow: none;
-    background-color: #1e1e1e;
-    color: #fff;
+body > .container.min-vh-100 > .card h2::after,
+body > .container.min-vh-100 > .card h3::after {
+    content: "";
+    display: block;
+    width: 56px;
+    height: 3px;
+    margin: 13px auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, var(--app-red), transparent);
+    box-shadow: 0 0 14px rgba(255,63,70,.6);
 }
 
+.card .mb-4 {
+    margin-bottom: 1.55rem !important;
+}
 
+.card input.form-control {
+    min-height: 52px;
+    padding-inline: 16px;
+}
 
-/* Apply same styles to <a> and <button> inside .auth-links */
+.card .btn-lg {
+    min-height: 52px;
+    border-radius: 14px;
+}
+
+.auth-links {
+    color: #73737d;
+}
+
 .auth-links a,
-.auth-links button 
-{
-    font-weight: 600;
-    color: #ff4d4d;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    background: none;   /* remove button background */
-    border: none;       /* remove button border */
+.auth-links button {
     padding: 0;
-    margin: 0;
+    color: var(--app-red-light);
+    background: none;
+    border: none;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: 720;
     cursor: pointer;
-    font-family: inherit; /* match surrounding text */
 }
 
 .auth-links a:hover,
-.auth-links button:hover 
-{
-    color: #ff1a1a;
+.auth-links button:hover {
+    color: #fff;
 }
 
-/* Alert animation */
-.alert 
-{
-    animation: slideDown 0.5s ease;
+@media (max-width: 575.98px) {
+    body > .container.min-vh-100 {
+        align-items: flex-start !important;
+        padding-top: 26px;
+    }
+
+    body > .container.min-vh-100 > .card {
+        border-radius: 22px !important;
+    }
 }
 
-@keyframes slideDown 
-{
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Responsive consistency fixes */
+@media (max-height: 700px) {
+    body > .container.min-vh-100 {
+        align-items: flex-start !important;
+        min-height: auto !important;
+        padding-top: 18px;
+        padding-bottom: 30px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body > .container.min-vh-100 {
+        padding-inline: 12px;
+    }
+
+    body > .container.min-vh-100 > .card .card-body {
+        padding: 28px 20px !important;
+    }
+}
+
+.password-reset-card {
+    width: min(100%, 600px);
+}
+
+.password-actions {
+    gap: 12px;
+}
+
+@media (max-width: 479.98px) {
+    .password-actions {
+        align-items: stretch;
+        flex-direction: column !important;
+    }
+
+    .password-actions .btn {
+        width: 100%;
+    }
 }

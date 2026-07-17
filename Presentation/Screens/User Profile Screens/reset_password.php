@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ ."/../../includes/Presentation_Utils.php";
 
 
 
@@ -24,15 +23,15 @@ $ActionFilePath = "/Project%20Files/Basic%20Version/Presentation/actions/reset_p
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../assests/css/login_screen_style.css">
     <link rel="stylesheet" href="../../assests/css/share_style.css">
+    <link rel="stylesheet" href="../../assests/css/login_screen_style.css">
 </head>
 <body>
 
 <?php include __DIR__ . "/../../includes/header.php"; ?>
 
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card shadow-lg border-0 rounded-4 bg-dark text-light" style="width:600px;">
+    <div class="card shadow-lg border-0 rounded-4 bg-dark text-light password-reset-card">
         <div class="card-body p-4 p-md-5">
             <h3 class="text-center text-danger mb-3">إعادة تعيين كلمة المرور</h3>
 
@@ -58,7 +57,7 @@ $ActionFilePath = "/Project%20Files/Basic%20Version/Presentation/actions/reset_p
                     <label class="form-label">كلمة المرور الحالية</label>
                     <input name="CurrentPassword" type="password" class="form-control mb-3" required>
 
-                    <div class="d-flex justify-content-between mt-3 flex-row-reverse">
+                    <div class="d-flex justify-content-between mt-3 flex-row-reverse password-actions">
 
                         <!-- NEXT button (ENTER triggers this) -->
                         <button type="submit" name="check_user" class="btn btn-danger">
@@ -85,7 +84,7 @@ $ActionFilePath = "/Project%20Files/Basic%20Version/Presentation/actions/reset_p
                     <label class="form-label">تأكيد كلمة المرور</label>
                     <input name="ConfirmNewPassword" type="password" class="form-control mb-3" required>
 
-                    <div class="d-flex justify-content-between mt-3 flex-row-reverse">
+                    <div class="d-flex justify-content-between mt-3 flex-row-reverse password-actions">
 
                         <!-- NEXT button -->
                         <button type="submit" name="change_password" class="btn btn-danger">
@@ -109,8 +108,8 @@ $ActionFilePath = "/Project%20Files/Basic%20Version/Presentation/actions/reset_p
                     <div class="alert alert-success">تم تغيير كلمة المرور بنجاح!</div>
 
                     <form method="POST" action="<?=$ActionFilePath?>">
-                        <button type="submit" name="go_back" class="btn btn-danger w-50">
-                            العودة للصفحة السابقة
+                        <button type="submit" name="go_back" class="btn app-back-button">
+                            <i class="bi bi-arrow-right"></i> العودة للصفحة السابقة
                         </button>
                     </form>
 
