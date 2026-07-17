@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 17, 2026 at 11:31 AM
+-- Generation Time: Jul 17, 2026 at 12:30 PM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `distribution_products` (
   `Quantity` int NOT NULL,
   `FinalSellingPrice` decimal(10,2) NOT NULL,
   PRIMARY KEY (`DistributionProductId`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `distribution_products`
@@ -89,7 +89,8 @@ INSERT INTO `distribution_products` (`DistributionProductId`, `PurchasedProductI
 (20, 7, 10, 1, '2026-07-16 14:25:58', '2026-07-16 14:19:00', 10, 620.00),
 (21, 23, 18, 1, '2026-07-16 14:27:41', '2026-07-15 14:27:00', 10, 35.00),
 (22, 16, 2, 1, '2026-07-17 00:40:39', '2026-07-17 02:40:00', 40, 100.00),
-(23, 23, 3, 1, '2026-07-17 14:05:23', '2026-07-17 16:05:00', 5, 40.00);
+(23, 23, 3, 1, '2026-07-17 14:05:23', '2026-07-17 16:05:00', 5, 40.00),
+(24, 17, 18, 3, '2026-07-17 15:30:22', '2026-07-17 17:30:00', 25, 850.00);
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,7 @@ INSERT INTO `purchased_products` (`PurchasedProductId`, `PurchasedProductName`, 
 (14, 'Laptop ASUS ROG Strix G16 13th Gen Intel® Core™ i5-13', 60, 0, '0000-00-00 00:00:00', '2026-02-01 00:00:00', 750.00, 900.00, 'لابتوب ASUS ROG Strix G16 مزود بمعالج Intel Core i5-13th Gen وأداء قوي يناسب الألعاب والتصميم. يتميز بشاشة 16 بوصة بدقة عالية ومعدل تحديث سريع لتجربة لعب سلسة. يحتوي على بطاقة رسومية قوية لتشغيل الألعاب الحديثة بكفاءة. تصميمه أنيق مع نظام تبريد متطور لتفا', 'c56eac15-6d20-42f8-bbcc-2117600fc0dc.png', 'Samix - بيجين - الصين'),
 (15, 'Dell Monitor P2425H (2024) 24 IPS Full HD 100Hz', 80, 0, '0000-00-00 00:00:00', '2026-01-12 00:00:00', 120.00, 145.00, 'شاشة Dell P2425H مقاس 24 بوصة بتقنية IPS ودقة Full HD تقدم ألوانًا واضحة وزوايا رؤية واسعة. تتميز بمعدل تحديث 100 هرتز لعرض سلس وخالٍ من التقطيع. لها تصميم أنيق مع حواف رفيعة لتجربة مشاهدة مريحة. مناسبة للاستخدام المكتبي، الترفيهي، والعمل الإبداعي. توفر م', '370c7b1b-3896-4b6c-af6f-09a5b152875a.jpg', 'Samix - بيجين - الصين'),
 (16, 'Dell Pro E2225HM 22 Full HD (1920x1080) Monitor', 40, 0, '0000-00-00 00:00:00', '2026-02-02 00:00:00', 80.00, 95.00, 'شاشة Dell Pro E2225HM مقاس 22 بوصة بدقة Full HD (1920×1080) تقدم وضوحًا جيدًا وألوانًا متوازنة للمستخدمين اليوميين. تتميز بتقنية IPS لزوايا رؤية واسعة وتجربة مشاهدة مريحة. تصميمها عملي وأنيق مع حواف رفيعة تناسب المكاتب والمنزل. مناسبة للاستخدام المكتبي، ا', '2b28995e-e4b0-4204-af31-a50c3d2faa33.png', 'البرق - عمان'),
-(17, 'Laptop Dell Alienware 16 Aurora, Intel Core 5 Processor 210H', 45, 45, '0000-00-00 00:00:00', '2026-02-01 00:00:00', 650.00, 860.00, 'لابتوب Dell Alienware 16 Aurora مزوَّد بمعالج Intel Core i5-210H وأداء قوي مناسب للألعاب والتطبيقات الثقيلة. يأتي بشاشة 16 بوصة بجودة عرض ممتازة وتجربة لعب سلسة. يمتاز بنظام تبريد متقدّم لتقليل الحرارة أثناء الاستخدام الطويل. تصميمه أنيق ومتين مع إضاءة RG', '657bfe15-df34-4d4e-884a-1180b92de018.jpg', 'Samix - بيجين - الصين'),
+(17, 'Laptop Dell Alienware 16 Aurora, Intel Core 5 Processor 210H', 45, 20, '0000-00-00 00:00:00', '2026-02-01 00:00:00', 650.00, 860.00, 'لابتوب Dell Alienware 16 Aurora مزوَّد بمعالج Intel Core i5-210H وأداء قوي مناسب للألعاب والتطبيقات الثقيلة. يأتي بشاشة 16 بوصة بجودة عرض ممتازة وتجربة لعب سلسة. يمتاز بنظام تبريد متقدّم لتقليل الحرارة أثناء الاستخدام الطويل. تصميمه أنيق ومتين مع إضاءة RG', '657bfe15-df34-4d4e-884a-1180b92de018.jpg', 'Samix - بيجين - الصين'),
 (18, 'simone 12000 btu mini split air conditioner and heater', 80, 80, '0000-00-00 00:00:00', '2026-02-02 00:00:00', 500.00, 650.00, 'مكيف هواء وسخان Simone 12000 وحدة حرارية بريطانية يعمل بتقنية الإنفرتر لتوفير الطاقة.\r\nيغطي مساحة تقريبية 600–750 قدم مربع ويعمل على التبريد والتدفئة.\r\nمزود بعدة أوضاع: تبريد، تدفئة، مروحة، إزالة الرطوبة، ووضع النوم.\r\nيأتي مع وحدة داخلية وخارجية، جهاز تحك', '5bb8f5a9-b740-4530-a533-52eb7dbdc55a.webp', 'Samix - بيجين - الصين'),
 (19, 'TURBRO 12,000 BTU Ductless Mini Split Inverter AC with Heat Pump', 20, 20, '0000-00-00 00:00:00', '2026-02-01 00:00:00', 500.00, 650.00, 'مكيف وتدفئة TURBRO 12,000 BTU Ductless Mini Split Inverter يعمل بتقنية الإنفرتر لتوفير الطاقة.\r\nيوفر تبريدًا وتدفئة لمساحات تصل إلى حوالي 750 قدم مربع.\r\nيأتي مع وحدة داخلية وخارجية وجهاز تحكم عن بُعد للتحكم السهل.\r\nيدعم تشغيل هادئ وكفاءة عالية طوال العام.', '79b7a02f-b637-4325-a99f-4095a77cf15a.jpg', 'Samix - بيجين - الصين'),
 (20, 'Samsung 647 Liter Double Door Refrigerator with Digital Inverter Technology', 40, 40, '0000-00-00 00:00:00', '2026-02-01 00:00:00', 1200.00, 1300.00, 'ثلاجة سامسونج بسعة 647 لتر مع بابين مزدوجين وتقنية الإنفرتر الرقمي لتوفير الطاقة وكفاءة عالية.\r\nتوفر تبريدًا وتجميدًا متوازنًا لحفظ الطعام طازجًا لفترة أطول.\r\nتتميز بتصميم واسع ومنظم لتخزين كميات كبيرة بسهولة.\r\nتشمل رفوف قابلة للتعديل وصناديق حفظ متنوعة ل', 'f97f0b24-efa6-435b-b8ae-30c014af7172.webp', 'Samix - بيجين - الصين'),
@@ -192,9 +193,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`UserId`, `UserName`, `Password`, `FirstName`, `LastName`, `Gender`, `DoB`, `Phone`, `Email`, `Address`, `PersonalImgName`) VALUES
-(1, 'Ahmed26', 'e9cee71ab932fde863338d08be4de9dfe39ea049bdafb342ce659ec5450b69ae', 'أحمد', 'عمران', '', '2001-09-21', '54486468', 'ahmed3em@example.com', 'عمان', 'e8527951-d4e4-4ce5-a324-1d95688d0a4a.jpg'),
-(2, 'Hamed26', 'e9cee71ab932fde863338d08be4de9dfe39ea049bdafb342ce659ec5450b69ae', 'حامد', 'خالد', '', '2000-07-01', '234235324', 'Hamed_Kh1.5@example.com', 'Amman', '840b2813-cbbd-4af5-a5b4-0046e40a93cf.jpg'),
-(3, 'Omar25', 'e9cee71ab932fde863338d08be4de9dfe39ea049bdafb342ce659ec5450b69ae', 'Omar', 'Mohammad', 'm', '2003-09-01', '5648648468', 'OmarMoham32.3@example.com', 'Ma\'an', 'sdafasdfa');
+(1, 'Ahmed26', 'b3bc0b2e5df346687220e8cc2fec3ed1695ba66dcc98eed5ccfbacf5bb625fdd', 'أحمد', 'عمران', '', '2001-09-21', '54486468', 'ahmed3em@example.com', 'عمان', 'e8527951-d4e4-4ce5-a324-1d95688d0a4a.jpg'),
+(2, 'Hamed26', 'b3bc0b2e5df346687220e8cc2fec3ed1695ba66dcc98eed5ccfbacf5bb625fdd', 'حامد', 'خالد', '', '2000-07-01', '234235324', 'Hamed_Kh1.5@example.com', 'Amman', '840b2813-cbbd-4af5-a5b4-0046e40a93cf.jpg'),
+(3, 'Omar25', 'b3bc0b2e5df346687220e8cc2fec3ed1695ba66dcc98eed5ccfbacf5bb625fdd', 'عمر', 'محمد', '', '2003-09-01', '5648648468', 'OmarMoham32.3@example.com', 'Ma\'an', '1ed1a40c-91b6-4d72-aaf3-556d0f8714ee.jpg');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

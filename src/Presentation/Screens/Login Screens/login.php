@@ -100,11 +100,16 @@ $ActionPath = "/Project%20Files/Basic%20Version/Presentation/actions/login_actio
                             <i class="bi bi-question-circle"></i> نسيت كلمة المرور
                         </button>
                     </form>
-
+                    
                     <span class="text-secondary d-none d-sm-inline">|</span>
-                    <a href="/Project%20Files/Basic%20Version/Presentation/Screens/User Profile Screens/reset_password.php" class="ms-2">
-                        <i class="bi bi-arrow-repeat"></i> إعادة تعيين كلمة المرور
-                    </a>
+
+                    <form method="GET" action=<?=$ActionPath?> class="d-inline auth-links">
+                        <input type="hidden" name="reset_password">
+                        <button type="submit" class="align-baseline">
+                            <i class="bi bi-arrow-repeat"></i> إعادة تعيين كلمة المرور
+                        </button>
+                    </form>
+
                 </div>
             </div>
         </div>

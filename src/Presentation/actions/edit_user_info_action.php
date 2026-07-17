@@ -7,16 +7,7 @@ require_once __DIR__ . "/../../Business/User.php";
 
 
 
-function GoBack()
-{
-    if(isset( $_SESSION['PageVars']['TmpUserImg']))
-    {
-        DeleteImageFromFolder_Business( $_SESSION['PageVars']['TmpUserImg'], "temp");
-    }
-    unset($_SESSION['PageVars']);
-    GoBackPage();
-    exit;
-}
+
 function UploadProductImgToTempFolder($InputName)
 {
     
@@ -118,17 +109,19 @@ function SaveUpdatedUserInfo($UpdatedUserInfo)
         }
 }
 
+function GoToResetPage()
+{
+   
+    header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/User Profile Screens/reset_password.php?PrePageName=edit_user_info");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-    // back button
-    if (isset($_POST['go_back']))
-    {
-        GoBack();
- 
-    }
+
 
     // temp imge upload
-    else if (isset($_FILES['temp_image']) && !empty($_FILES['temp_image']['name']))
+     if (isset($_FILES['temp_image']) && !empty($_FILES['temp_image']['name']))
     {
         UploadProductImgToTempFolder("temp_image");
   
@@ -146,6 +139,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         $UpdatedUserInfo['DoB']       = trim($_POST['dob']);
         $UpdatedUserInfo['PersonalImgName'] = $_SESSION['CurrentUser']['PersonalImgName'];
         SaveUpdatedUserInfo($UpdatedUserInfo);
+    }
+    else if(isset($_POST['reset_password']))
+    {
+        GoToResetPage();
+        
     }
 
     header("Location: ../Screens/User Profile Screens/edit_user_info.php");

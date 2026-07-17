@@ -38,6 +38,12 @@ function ForgotPassword()
     exit;
 }
 
+function GoToResetPage()
+{
+   
+    header("Location: /Project%20Files/Basic%20Version/Presentation/Screens/User Profile Screens/reset_password.php?PrePageName=login");
+    exit;
+}
 
 
 
@@ -51,10 +57,14 @@ if ($_SERVER["REQUEST_METHOD"] === "GET")
 
     }
 
-    // Forgot password
     else if (isset($_GET['forgot'])) 
     {
         ForgotPassword();
+    }
+
+    else if (isset($_GET['reset_password'])) 
+    {
+        GoToResetPage();
     }
 
 

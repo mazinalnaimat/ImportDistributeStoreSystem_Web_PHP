@@ -192,9 +192,9 @@ $ActionPathFile = "/Project%20Files/Basic%20Version/Presentation/actions/edit_us
                                     <button type="submit" name="save_info" class="btn btn-save btn-lg rounded-pill px-5 flex-grow-1 text-white">
                                         <i class="bi bi-cloud-arrow-up-fill me-2"></i> حفظ التغييرات
                                     </button>
-                                    <a href="/Project%20Files/Basic%20Version/Presentation/Screens/User Profile Screens/reset_password.php" class="btn btn-outline-warning btn-lg rounded-pill px-4 shadow-sm border-2">
+                                    <button type="submit" name="reset_password" class="btn btn-outline-warning btn-lg rounded-pill px-5 flex-grow-1 text-white">
                                         <i class="bi bi-key-fill me-2"></i> كلمة المرور
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
